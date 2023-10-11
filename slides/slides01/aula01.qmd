@@ -1,0 +1,498 @@
+---
+title: "Análise Multivariada - Aula 1"
+title-slide-attributes:
+    data-background-image: logo.jpeg
+    data-background-size: contain
+    data-background-opacity: "0.2"
+subtitle: "Mestrado Profissional em Administração"
+author: "Prof. Washington Santos da Silva"
+institute: "IFMG - Campus Formiga"
+date: today
+date-format: long
+lang: "pt"
+format: 
+  revealjs:
+    progress: true
+    code-link: true
+    self-contained: false
+    preview-links: true
+    transition: slide
+    slide-number: true
+    logo: logo.jpeg
+editor: source
+crossref:
+  fig-title: '**Fig.**'
+  fig-labels: arabic
+  title-delim: "**.**"
+execute: 
+  echo: true
+bibliography: referencias.bib
+csl: associacao-brasileira-de-normas-tecnicas.csl
+---
+
+# Informações sobre a Disciplina
+
+
+## Ambiente Virtual de Aprendizagem
+
+
+## Ementa
+
+
+## Objetivos
+
+
+## Avaliações 
+
+
+# Softwares necessários
+
+## Programas
+
+- [Linguagem R 4.3.1](https://cloud.r-project.org/)
+- [IDE RStudio](https://posit.co/download/rstudio-desktop/)
+- [Quarto](https://quarto.org/docs/download/)
+
+
+## Instalando a Linguagem R 4.3.1
+
+1. Acesse [https://cloud.r-project.org/](https://cloud.r-project.org/)
+
+2. Selecione o sistema operacional, clicando em **Download R for Windows** por exemplo.
+
+3. Na página seguinte clique em **base**
+
+4. Clique em **Download R-4.3.1 for Windows**
+
+5. Feito o download basta ir clicando em próximo/next até a 
+instalação ser concluída.
+
+
+## Instalando o IDE RStudio
+
+1. Acesse [https://posit.co/download/rstudio-desktop/](https://posit.co/download/rstudio-desktop/)
+
+2. Em geral, o site detecta seu sistema operacional e disponibiliza o 
+instalador adequado loga abaixo de `2: Install RStudio`. 
+
+3. Clique em `Download RStudio Desktop for Windows` caso seu sistema 
+operacional seja Windows.
+
+4. Todos os instaladores são disponibilizados na página anterior, após a 
+seção `All Installers and Tarballs`
+
+   
+## Instalando o Sistema de Publicação Quarto
+
+1. Acesse [https://quarto.org/docs/download/](https://quarto.org/docs/download/)
+
+2. Percorra a página, encontre o executável para Windows: `quarto-1.3.450-win.msi` e, finalizado o download, instale clicando no 
+arquivo. 
+
+
+# A Linguagem R 
+
+## Por que aprender a linguagem R? {.smaller}
+
+- R é uma linguagem de programação de domínio específico, foi criada para analisar dados.
+
+- A linguagem R não envolve cliques, e isso é uma coisa boa
+
+- Analisar dados com a linguagem R é ótimo para reprodutibilidade
+
+- A linguagem R é interdisciplinar e extensível
+
+- A linguagem R é capaz de analisar dados de todas as formas e tamanhos
+
+- A linguagem R produz gráficos de alta qualidade.
+
+- A linguagem R tem uma comunidade grande e acolhedora ([Cross Validated](https://stats.stackexchange.com/), 
+  [Posit Community](https://community.rstudio.com))
+  
+- A linguagem R não é apenas gratuita, mas também é de código aberto e multiplataforma.
+
+
+## Popularidade da Linguagem R
+
+```{r fig00, out.width = "80%", echo = FALSE, fig.align = 'center', fig.cap="Fonte: PYPL index — April 2023 update"}
+knitr::include_graphics("https://miro.medium.com/v2/resize:fit:1400/format:webp/1*njNtGUiBoR0YinK64yrxgA.png")
+```
+
+
+# Conhecendo o RStudio
+
+## RStudio IDE x Linguagem R
+
+```{r fig01, out.width = "60%", echo = FALSE, fig.align = 'center', fig.cap="Analogia da diferença entre R e RStudio"}
+knitr::include_graphics("https://d33wubrfki0l68.cloudfront.net/0b4d0569b2ddf6147da90b110fbb2a17653c8b08/f06f3/images/shutterstock/r_vs_rstudio_1.png")
+```
+
+- R é uma **linguagem de programação**, enquanto o RStudio é um **Integrated Development Environment** que contém recursos que facilitam o uso da 
+linguagem R.
+
+
+## Configurações Iniciais do RStudio
+
+Para acessar as configurações do Rstudio, você precisa clicar em:
+
+- `RStudio > Tools > Global Options` ou pelo atalho `Ctrl + ,` (Windows)
+
+- `RStudio > Tools > Global Options` ou pelo atalho `Cmd + ,` (Macintosh).
+
+
+## Configurações: `General: Basic`
+
+::: {.panel-tabset}
+
+### Janela de Configuração
+
+```{r fig02, out.width = "45%", echo = FALSE, fig.align = 'center'}
+knitr::include_graphics("img/aba_general.jpeg")
+```
+
+### Desmarque:
+
+- `Restore most recently opened project at startup`
+
+- `Restore previsouly open source documents at startup`
+
+- `Restore .Rdata into workspace at startup`
+
+- Em `Workspace`, escolha `Never` em `Save workspace to .RData on exit`. 
+
+- Finalizadas as operações, clique em `Apply` -> `Ok`.
+
+:::
+
+
+## Configurações: `Code: Editing`
+
+::: {.panel-tabset}
+
+### Janela de Configuração
+
+```{r fig03, out.width = "90%", echo = FALSE, fig.align = 'center'}
+knitr::include_graphics("https://bookdown.org/daniel_dauber_io/r4np_book/images/chapter_03_img/rstudio_preferences/01_rstudio_preferences_editing.png")
+```
+
+### Marque:
+
+Verifique se as seguintes opções estão selecionadas:
+
+- `Auto-indent code after paste`
+- `Insert matching parens/quotes`
+- `Enable code snippets`
+
+:::
+
+
+## Configurações: `Code: Display`
+
+::: {.panel-tabset}
+
+### Janela de Configuração
+
+```{r fig04, out.width = "90%", echo = FALSE, fig.align = 'center'}
+knitr::include_graphics("https://bookdown.org/daniel_dauber_io/r4np_book/images/chapter_03_img/rstudio_preferences/02_rstudio_preferences_display.png")
+```
+
+### Marque:
+
+Verifique se as três primeiras opções estão selecionadas:
+
+- `Highlight selected word`
+- `Highlight selected line`
+- `show line numbers`
+- Finalizadas as operações, clique em `Apply` -> `Ok`.
+
+:::
+
+
+## Interface do RStudio
+
+```{r fig05, out.width = "80%", echo = FALSE, fig.align = 'center'}
+knitr::include_graphics("https://docs.posit.co/ide/user/ide/guide/ui/images/rstudio-panes-labeled.jpeg")
+```
+
+
+## Painel: `Source`
+
+- O painel `Source` permite que a visualização e edição de vários arquivos 
+relacionados a diversas linguagens, tais como: `.R`, `.qmd`,`.rmd` `.py`, 
+ou arquivos de texto gerais como `.txt` ou `.md.` 
+
+- Por padrão, é o painel superior esquerdo e pode ser iniciado abrindo 
+qualquer arquivo editável no RStudio. 
+
+- Cada arquivo adicional que for aberto  será adicionado como uma nova guia 
+no painel.
+
+- Essa guia exibe também estruturas de dados ativas na sessão.
+
+
+## Painel: `Console` {.smaller}
+
+- Por padrão, o painel `Console` é o painel inferior esquerdo. Esse painel 
+fornece uma área para executar o código interativamente. Por padrão, 
+está vinculado a linguagem R ele também pode fornecer um console Python.
+
+- O painel Console também inclui uma guia `Terminal` integrada para executar 
+comandos do sistema.
+
+- A guia `Jobs` em segundo plano fornece a capacidade de enviar scripts R de 
+longa duração para trabalhos em segundo plano locais e remotos. Essa 
+funcionalidade pode melhorar drasticamente a produtividade dos cientistas e 
+analistas de dados usando o R.
+
+- Atalhos: 
+    - `Ctrl+1`: Move o foco para o painel `Source` 
+    - `Ctrl+2`: — Move o foco para o `Console` 
+    - `Ctrl+L`: Limpa o Console 
+    - `Esc`: Interromper R
+
+    
+## Painel: `Environment` {.smaller}
+
+- Por padrão, o painel `Environment` está localizado no canto superior direito 
+e inclui as guias:
+
+- Guia `Environment`:
+
+    - Essa guia exibe objetos R e Python ativos na sessão atual.
+
+    - O ícone R pode ser alternado entre objetos R ou Python.
+
+    - A barra de menus de `Environment` fornece carregamento ou salvamento de 
+      R workspaces, importação interativa de conjuntos de dados de arquivos de 
+      texto, Excel ou SPSS/SAS/Stata. 
+
+    - Ela também exibe a memória usada pela sessão R ativa e um ícone 
+      de uma vassoura para remover todos os objetos ativos.
+
+- Guia `History`:
+
+    - Essa guia exibe os comandos que foram executados na sessão atual 
+      e as pesquisas. 
+      
+    - Existem botões para carregar/salvar o histórico de comandos em um arquivo, 
+      além de enviar o comando selecionado para o console ou inseri-lo no 
+      documento de trabalho atual.
+
+
+## Painel: `Environment` {.smaller}
+
+- Guia `Connections`:
+
+    - Essa guia exibe conexões ativas para bancos de dados locais ou remotos. 
+    
+    - Conexões adicionais possíveis podem ser adicionadas instalando drivers 
+      de banco de dados ou pacotes R específicos. 
+      
+- Guia `Build`:
+
+     - A guia Build estará disponível em projetos R específicos, 
+       tais como no desenvolvimento de pacotes R e projetos Quarto/R Markdown.
+       
+- Guia `VCS (Version Control System)`:
+
+     - A guia VCS será ativada caso se adote um sistema de controle de versão, 
+       o mais usado é o sistema Git.
+       
+- Guia `Tutorial`
+
+    - Disponibiliza tutoriais interativos sobre a linguagem R, pacotes, SQL, 
+      entre outros. 
+    - Instale o pacote `learnr` para usar os tutoriais.
+
+
+## Painel: `Output` {.smaller}
+
+- Por padrão, o painel `Output` é o painel inferior direito e exibe várias 
+saídas, como gráficos, conteúdo HTML ou arquivos em disco. Contém as guias: 
+
+- Guia `Files`:
+
+    - Esta guia fornece uma exploração interativa da pasta de arquivos do 
+      Projeto R da sessão. Existem opções para adicionar 
+      novos arquivos e pastas, exclusão/renomeação de arquivos, entre outras.
+
+
+- Guia `Plots`:
+
+    - Esta guia exibe imagens estáticas produzidas nba sessão. Há setas para 
+      navegar entre gráficos mais antigos e mais recentes, Zoom, um botão de 
+      exportação para salvar as imagens, um botão de exclusão  imagem exibida e 
+      um ícone de vassoura que limpará TODOS os gráficos temporários desta guia.
+
+
+- Guia `Packages`:
+
+    - Esta guia  permite visualizar os pacotes R instalados, e há uma 
+      barra para pesquisar a biblioteca atual de pacotes. Há 
+      também um botão para instalação e atualização de pacotes.
+
+
+## Painel: `Output` {.smaller}
+
+- Guia `Help`:
+
+    - Esta guia exibe a documentação e as vinhetas dos pacotes. 
+    - O ícone `Home` exibe a página de ajuda geral, com links para 
+      Recursos, Manuais, Referências e Suporte Posit.
+
+
+- Guia `Viewer`:
+
+    - Esta guia exibe usada conteúdos interativos tais como: gráficos 
+    interativos, aplicativos Shiny, páginas html geradas pelo Quarto, 
+    entre outros.
+    
+- Guia `Presentation`:
+
+    - Esta guia é usada para exibir slides HTML gerados pelo sistema Quarto.
+
+
+## Gerenciamento de Arquivos
+
+O RStudio suporta realce de sintaxe e outros recursos especializados de edição 
+de código para tipos de arquivos específicos:
+
+- Scripts em R, Python, SQL
+
+- Documentos computacionais e científicos em Quarto, R Markdown e LaTeX.
+
+- Conteúdo da Web, como HTML, CSS
+
+- E muitos mais.
+
+
+## Menu `Files`
+
+- É possível criar um novo arquivo com `File -> New File`:
+
+```{r fig06, out.width = "70%", echo = FALSE, fig.align = 'center'}
+knitr::include_graphics("https://docs.posit.co/ide/user/ide/guide/ui/images/system-files-menu.png")
+```
+
+
+## Criando arquivos
+
+- Uma alternativa é usar os elementos visuais no menu:
+
+```{r fig07, out.width = "70%", echo = FALSE, fig.align = 'center'}
+knitr::include_graphics("https://docs.posit.co/ide/user/ide/guide/ui/images/files-menu.png")
+```
+
+
+## RStudio Projects
+
+- Cientistas e Analistas de dados mantêm todos os arquivos associados a um determinado projeto juntos e organizados em pastas — dados, scripts, 
+relatórios etc. 
+
+- Esta é uma prática tão sábia e comum que o RStudio tem suporte integrado 
+para isso por meio dos `Projects`. 
+
+- Os RStudio Projects tornam simples organizar seu trabalho em vários contextos, cada um com seu próprio diretório de trabalho e documentos de origem.
+
+
+## Criando Projects
+
+Os RStudio Projects estão associados a diretórios de trabalho.
+
+Projetos RStudio podem ser criados:
+
+- Em um novo diretório
+
+- Em um diretório existente onde você já tem código R e dados
+
+- Clonando um repositório de controle de versão (Git ou Subversion)
+
+
+## Criando Projects {.smaller}
+
+- Para criar um novo projeto no RStudio, use `File > New Project`.
+
+- Ou use o botão `New Project`, disponível na barra de ferramentas `Projects` no canto superior direito:
+
+- Isso abrirá o pop-up  `New Project Wizard`, clique em `New Directory`:
+
+```{r fig08, out.width = "50%", echo = FALSE, fig.align = 'center'}
+knitr::include_graphics("img/new_proj01.png")
+```
+
+
+## Criando Projects
+
+Na janela seguinte selecione `New Project`:
+
+```{r new_proj2a, echo=FALSE, out.width="60%", fig.align="center"}
+knitr::include_graphics(path = "img/new_proj2.png")
+```
+
+
+## Criando Projects {.smaller}
+
+```{r new_proj2b, echo=FALSE, out.width="70%", fig.align="center"}
+knitr::include_graphics(path = "img/new_proj04.jpeg")
+```
+
+## Criando Projects 
+
+- Nesta janela digite o nome do diretório que você deseja criar no campo 
+`Directory name:` (vamos nomeá-lo `analise_multivariada_2023`). 
+
+- Se voce desejar mudar a localização do diretório, clique no 
+botão `Browse...` e navegue para o local no qual deseja criar o 
+diretório. 
+
+- É recomendável marcar a caixa `Open in new session`. 
+
+- Por fim, clique em  `Create Project` para criar o novo projeto.
+
+
+## Criando Projects 
+
+Quando um novo projeto é criado, o RStudio:
+
+- Cria um arquivo de projeto (com extensão `.Rproj`) dentro do diretório do projeto. Este arquivo contém várias opções de projeto e também pode ser usado como um atalho para abrir o projeto diretamente do sistema de arquivos.
+
+- Cria um diretório oculto (.Rproj.user) onde arquivos temporários específicos do projeto são armazenados. 
+
+- Carrega o projeto no RStudio e exibe seu nome na barra de ferramentas 
+Projects.
+
+
+## Project Configurado
+
+
+```{r new_proj5, echo=FALSE, out.width="60%", fig.align="center"}
+knitr::include_graphics(path = "img/new_proj05.jpeg")
+```
+
+
+## Project Criado
+
+- Agora que você tem um RStudio Project configurado.
+
+- Você pode começar a criar scripts R e documentos computacionais como 
+notebooks, quarto, R markdown etc.) ou o que for necessário para concluir seu projeto. 
+
+- Todos os arquivos de um projeto agora estarão contidos no projeto 
+RStudio e salvos na pasta do projeto.
+
+- As configurações que fizemos no Slides 18 afetam o comportamento 
+dos projetos.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

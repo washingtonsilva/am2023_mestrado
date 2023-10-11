@@ -1,0 +1,527 @@
+---
+title: "Introdução à Ciência dos Dados - Aula 1"
+subtitle: "Mestrado Profissional em Administração"
+author: "Prof. Washington Santos da Silva"
+institute: "IFMG - Campus Formiga"
+date: 03/09/2023
+date-format: long
+lang: "pt"
+format: 
+  revealjs:
+    self-contained: true
+    incremental: true
+    transition: slide
+    slide-number: true
+    logo: logo.jpg
+bibliography: referencias.bib
+csl: associacao-brasileira-de-normas-tecnicas.csl
+---
+
+
+# The Data Deluge
+
+## The Economist: 2010
+
+```{r fig1, out.width = "40%", echo = FALSE, fig.align = 'center'}
+knitr::include_graphics("img/deluge.jpg")
+```
+
+
+## Harvard Business Review: 2012
+
+```{r fig2, out.width = "40%", echo = FALSE, fig.align = 'center'}
+knitr::include_graphics("img/hbr.jpg")
+```
+
+
+## The New York Times: 2009
+
+```{r figa, out.width = "80%", echo = FALSE, fig.align = 'center'}
+knitr::include_graphics("img/nytimes.png")
+```
+
+
+# Informações sobre o Curso
+
+## Ciência dos Dados
+
+```{r figb, out.width = "60%", echo = FALSE, fig.align = 'center'}
+knitr::include_graphics("img/ds.png")
+```
+
+
+## Objetivo Geral {.scrollable}
+
+- Capacitar os mestrandos na aplicação de modelos econométricos a 
+problemas de áreas de finanças. 
+
+- O conteúdo principal do curso concentra-se na aquisição e estruturação de 
+dados, análise exploratória de dados, visualizaçãode dados, modelagem 
+econométrica e comunicação eficaz de resultados, utilizando-se a linguagem R. 
+
+- Trata-se de um curso do tipo "hands-on". 
+
+- O objetivo do curso é levar os mestrandos do zero à capacidade de trabalhar 
+em um projeto econométrico-computacional reproduzível usando a linguagem R, 
+analisando um conjunto de dados e respondendo a questões de interesse.
+
+
+## Objetivos Especificos
+
+1. Tornar o mestrando em um usuário da linguagem R para a importação, 
+   organização, visualização e modelagem econométrica de dados;
+
+3. Introduzir o mestrando na aplicação de modelos econométricos na área de 
+   finanças;
+
+2. Tornar o mestrando capacitado para o desenvolvimento de pesquisas 
+   empíricas **reproduzíveis** na área de finanças;
+
+
+## Pré-Requisitos {.scrollable}
+
+- Não há pré-requisitos formais. 
+
+- Será importante rever conceitos matemáticos, de estatística básica conforme necessário. 
+
+- É importante que os mestrandos se envolvam no domínio de conceitos básicos ativamente. 
+
+- Algum letramento computacional também será importante.
+
+- Curiosidade, pensamento analítico e determinação são habilidades fundamentais    para a disciplina, e para qualquer aspirante a pesquisador.
+
+
+## Avaliações {.scrollable}
+
+Os pontos referentes à avaliação foram distribuídos da seguinte forma:
+
+- Ensaio sobre 4 artigos = 10 pontos
+    - @harkness2021p01
+    - @harkness2021p02
+    - @harkness2021p03
+    - @harkness2021p04
+- Lista de Exercícios 2 = 10 pontos
+- Lista de Exercícios 3 = 10 pontos
+- Exame 1 = 35 pontos
+- Exame 2 = 35 pontos
+
+**Obs.** para aprovação é necessário a obtenção de pelo menos 60 pontos.
+
+
+## Recomendações
+
+- Espero que vocês estudem as leituras indicadas, preferencialmente 
+  antes das aulas. 
+
+- Isso não significa apenas ler superficialmente, mas envolver-se praticamente e 
+  criticamente com o estudo
+
+- Busquem fazer todos os exercícios e utilizar efetivamente a linguagem R.
+
+
+## Referências Básicas
+
+```{r fig_brooks, out.width = "40%", echo = FALSE, fig.align = 'center'}
+knitr::include_graphics("img/brooks.png")
+```
+
+@brooks4e
+
+
+## Referências Básicas
+
+![](https://d33wubrfki0l68.cloudfront.net/b88ef926a004b0fce72b2526b0b5c4413666a4cb/24a30/cover.png){width=300, style="float:right"}
+
+
+@r4ds: Versão digital (2 edição) gratuita disponível em: 
+[https://r4ds.hadley.nz](https://r4ds.hadley.nz)
+
+
+## Referências Complementares
+
+```{r fig_islr, out.width = "40%", echo = FALSE, fig.align = 'center'}
+knitr::include_graphics("img/islr2.png")
+```
+
+@islr2
+
+
+## O Modelo de Projeto de Ciência dos Dados
+
+![](https://r4ds.hadley.nz/diagrams/data-science/whole-game.png){width=90%}
+
+[*-- Wickham & Grolemund, Ch. 1.1*]{style="float:right"}
+
+&nbsp;
+&nbsp;
+
+**Import** -- Importar os dados.
+
+
+## O Modelo de Projeto de Ciência dos Dados
+
+![](https://r4ds.hadley.nz/diagrams/data-science/whole-game.png){width=90%}
+
+[*-- Wickham & Grolemund, Ch. 1.1*]{style="float:right"}
+
+&nbsp;
+&nbsp;
+
+**Tidy** -- Estruturar seus dados em um formato consistente para a análise.
+
+
+## O Modelo de Projeto de Ciência dos Dados
+
+![](https://r4ds.hadley.nz/diagrams/data-science/whole-game.png){width=90%}
+
+[*-- Wickham & Grolemund, Ch. 1.1*]{style="float:right"}
+
+&nbsp;
+&nbsp;
+
+**Transform** -- Sumarizar as observações de interesse e criar novas 
+variáveis a partir das já existentes 
+
+
+## O Modelo de Projeto de Ciência dos Dados
+
+![](https://r4ds.hadley.nz/diagrams/data-science/whole-game.png){width=90%}
+
+[*-- Wickham & Grolemund, Ch. 1.1*]{style="float:right"}
+
+&nbsp;
+&nbsp;
+
+**Visualize** -- Representar visualmente seus dados
+
+
+## O Modelo de Projeto de Ciência dos Dados
+
+![](https://r4ds.hadley.nz/diagrams/data-science/whole-game.png){width=90%}
+
+[*-- Wickham & Grolemund, Ch. 1.1*]{style="float:right"}
+
+&nbsp;
+&nbsp;
+
+**Model** - Usar seus dados para responder à questões de interesse.
+
+
+## O Modelo de Projeto de Ciência dos Dados
+
+![](https://r4ds.hadley.nz/diagrams/data-science/whole-game.png){width=90%}
+
+[*-- Wickham & Grolemund, Ch. 1.1*]{style="float:right"}
+
+&nbsp;
+&nbsp;
+
+**Communicate** - Transmitir suas descobertas para outras pessoas.
+
+
+## O Modelo de Projeto de Ciência dos Dados
+
+> "You don't need to be an expert programmer to be a data 
+> scientist, but becoming a better programmer allows you to
+> automate common tasks, and solve new problems with greater
+> ease."
+
+[*-- Wickham & Grolemund, Ch. 1.1*]{style="float:right"}
+
+
+## A Regra 80/20
+
+> "You can tackle about 80% of every project using the tools that
+> you'll learn in this book, but you'll need other tools to tackle the
+> remaining 20%."
+
+[*-- Wickham & Grolemund, Ch. 1.1*]{style="float:right"}
+
+&nbsp;
+&nbsp;
+
+Esses 20% restantes variam de acordo com o projeto, com os dados que você está 
+explorando e com as perguntas que você espera responder. 
+
+
+## Uma Sábia Palavra dos Autores
+
+> "While it's tempting to skip the exercises, there's no better
+> way to learn than practicing on real problems."
+
+&nbsp;
+&nbsp;
+
+É sério ... você aprenderá mais se pelo menos tentar resolvê-los por conta 
+própria. 
+
+
+## Teve problemas? Você não está sozinho 
+
+Confuso por uma mensagem de erro? 
+
+>> "*Pesquise sobre a mensagem de erro no Google*"
+
+&nbsp;
+
+Outros lugares para buscar ajuda:
+
+- [Stack Overflow](https://stackoverflow.com/)
+
+- [Cross Validated](https://stats.stackexchange.com/)
+
+- [RSeek](https://rseek.org/)
+
+
+## Softwares Básico para o curso
+
+Para instalar o R 4.2.2 basta
+
+1. Acesse [https://cloud.r-project.org/](https://cloud.r-project.org/)
+
+2. Selecione o sistema operacional, clicando em R for Windows por exemplo.
+
+3. Na página seguinte clique em **base**
+
+4. Clique em Download R for Windows 4.2.2
+
+5. Feito o download basta ir clicando em próximo/next até a 
+instalação ser concluída.
+
+
+## Softwares Básico para o curso
+
+Para instalar a versão gratuita atual do RStudio:
+
+1. Acesse [https://posit.co/products/open-source/rstudio/](https://posit.co/products/open-source/rstudio/)
+
+2. No canto superior direito da página, clique em **DOWNLOAD RSTUDIO**. Role 
+a página para baixo até chegar à opção RStudio Desktop **Free**, logo abaixo, clique na opção **Download** 
+
+3. Na página seguinte clique no botão em azul **DOWNLOAD RSTUDIO FOR WINDOWS**. 
+
+5. Feito o download basta ir clicando em próximo/next até a instalação ser 
+   concluída.
+
+  
+# Econometria Financeira
+
+## Natureza e Objetivo da Econometria
+
+- O que é Econometria?
+ 
+    - O significado literal é "*medição em economia*"
+
+- Definição de Econometria Financeira:
+
+    - A aplicação de técnicas estatísticas e matemáticas a problemas em finanças. 
+
+
+## Problemas que podem ser resolvidos por um econometrista {.scrollable}
+
+- Testar se os mercados financeiros são eficientes em termos de informação.
+
+- Testar se CAPM ou APT representam modelos superiores para a determinação de 
+  retornos sobre ativos de risco.
+
+- Medir e prever a volatilidade dos retornos dos títulos.
+
+- Explicar os determinantes dos ratings de crédito de títulos atribuídos pelas 
+  agências de rating.
+
+- Modelagem de relações de longo prazo entre preços e taxas de câmbio.
+
+- Determinar a razão ótima de hedge para uma posição à vista em petróleo.
+
+
+## Problemas que podem ser resolvidos por um econometrista
+
+- Testar regras técnicas de negociação para determinar a mais rentável.
+
+- Testar a hipótese de que os anúncios de lucros ou dividendos não têm efeito 
+  sobre os  preços das ações.
+
+- Testar se os mercados spot ou futuros reagem mais rapidamente às notícias.
+
+- Previsão da correlação entre os retornos dos índices de ações de dois países. 
+
+
+## Características Especiais de Dados Financeiros
+
+- **Frequência & Quantidade de dados**
+
+    - Os preços do mercado de ações são medidos sempre que há uma negociação ou 
+      alguém publica uma nova cotação.
+
+- **Qualidade**
+
+    - Os preços dos ativos registrados são geralmente aqueles em que a 
+      transação ocorreu. Não há possibilidade de erro de medição, mas os dados 
+      financeiros possuem muito "ruído". 
+
+
+## Passos Envolvidos na Elaboração de um Modelo Econométrico
+
+```{r fig3_steps, out.width = "60%", echo = FALSE, fig.align = 'center'}
+knitr::include_graphics("img/steps.png")
+```
+
+
+## Pontos Importanes na Leitura de Artigos da Literatura Financeira Acadêmica {.scrollable}
+
+- O trabalho envolve o desenvolvimento de um modelo teórico ou é apenas uma 
+  técnica em busca de uma aplicação, ou um exercício de mineração de dados?
+
+- Os dados são de "boa qualidade"? São de uma fonte confiável? O tamanho da 
+  amostra é suficientemente grande para que a teoria assintótica seja 
+  utilizada?
+
+- As técnicas foram validamente aplicadas? Foram realizados testes de 
+  diagnóstico para violações de quaisquer suposições feitas na estimativa do 
+  modelo?
+  
+  
+## Pontos Importanes (cont.)
+
+- Os resultados foram interpretados de forma sensata? A força dos resultados é    
+  exagerada? Os resultados realmente abordam as questões colocadas pelos 
+  autores?
+
+- As conclusões tiradas são apropriadas em função dos resultados, ou a 
+  importância dos resultados do artigo foi exagerada? 
+
+
+# A Linguagem R
+
+## o que é R?
+
+```{r fig3, out.width = "50%", echo = FALSE, fig.align = 'center'}
+knitr::include_graphics("img/rlogo.png")
+```
+
+- É uma **linguagem de programação**, **interpretada** e **livre**
+
+- R é um dialeto da linguagem **S**
+
+
+## o que é R? {.scrollable}
+
+- S é uma linguagem que foi desenvolvida por John Chambers e equipe no Bell 
+  Labs.
+  
+- S foi iniciada em 1976 como uma linguagem para análise estatística 
+  originalmente implementada como um conjunto de bibliotecas Fortran.
+  
+- Em 1988, a linguagem foi reescrita em C e começou a se parecer com o sistema
+	que temos hoje (S3). 
+	
+- Versão 4 (S4) da linguagem S foi lançada em 1998 e é a versão que nós
+	usamos hoje.
+		
+- Em 1998, John Chambers ganhou o *Association for Computing Machinery’s Software System Award* pela linguagem S.
+
+
+## Filosofia da Linguagem S
+
+Em *Stages in the Evolution of S*, John Chambers escreveu
+
+>> *Queríamos que os usuários fossem capazes de começar em um ambiente 
+interativo, onde não pensassem conscientemente como programadores. Então, 
+com suas necessidades tornando-se mais claras e sua sofisticação aumentando, 
+eles deveriam ser capazes de tornarem-se gradualmente  programadores, quando os 
+aspectos da linguagem e do sistema tornariam-se mais importantes.*
+
+(tradução livre)
+
+
+## R: Histórico
+
+- 1991: R é criada na Nova Zelândia por Ross Ihaka e Robert Gentleman.
+
+- 1993: Primeiro anúnico do R ao Público.
+
+- 1995: Martin Machler convence Ross e Robert a usarem licença GNU para
+        tornar o R um software Livre.
+        
+- 1997: The *R Core Group* é criado. Este grupo controla o código fonte da
+        linguagem.
+
+- 2000: A versão R 1.0.0 é lançada.
+
+- 2022: R version 4.1.3 é lançada.
+
+
+## R: criadores planejando dominar o Mundo
+
+```{r fig4, out.width = "60%", echo = FALSE, fig.align = 'center'}
+knitr::include_graphics("img/inicio.png")
+```
+
+
+## R: 06/01/2009 Mundo Dominado
+
+```{r fig5, out.width = "90%", echo = FALSE, fig.align = 'center'}
+knitr::include_graphics("img/nytimesr.png")
+```
+
+
+## Características da Linguagem R
+
+- Tem um conjunto abrangente de funcionalidades para:
+
+    - Acesso a dados
+    - Manipulação de dados
+    - Análise/Modelagem
+    - Comunicação de dados e análises
+
+- Tem ótimos ambientes de desenvolvimento de integrado
+
+- Tem um ecossistema incrível de desenvolvedores
+
+- Os pacotes/bibliotecas estendem as funcionalidades
+
+
+
+# RStudio
+
+## RStudio: Visão Geral
+
+```{r fig6, out.width = "90%", echo = FALSE, fig.align = 'center'}
+knitr::include_graphics("img/rst01.png")
+```
+
+
+## RStudio: Criando um Script
+
+```{r fig7, out.width = "90%", echo = FALSE, fig.align = 'center'}
+knitr::include_graphics("img/rst02.png")
+```
+
+
+## RStudio: Help
+
+```{r fig8, out.width = "90%", echo = FALSE, fig.align = 'center'}
+knitr::include_graphics("img/rst03.png")
+```
+
+
+## RStudio: Recursos
+
+- [Esta página contém diversas folhas de referência](https://posit.co/resources/cheatsheets/) muito úteis sobre 
+diversos aspectos da linguagem R/Pacotes/RStudio
+
+
+# Introdução ao R
+
+## Aula 1: Hands-on
+
+- Descompactar os arquivos e organizá-los em pastas apropriadas.
+- Vamos conhecer os arquivos.
+
+
+
+# Referências
+
+::: {#refs}
+:::
+

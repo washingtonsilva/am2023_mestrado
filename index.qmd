@@ -1,0 +1,45 @@
+---
+title: "Análise Multivariada - 2023"
+subtitle: "Disciplina Optativa do Mestrado Profissional em Adminstração"
+lang: "pt"
+---
+
+<a href = "https://washingtonsilva.github.io" target="_blank">Prof. Dr. 
+Washington Santos da Silva</a>
+
+::: {.callout-note}
+# Logística
+
+|    Dia           |  Horário          |
+|:----------------:|:-----------------:|
+| **Segunda-Feira**| **18:30 - 22:30** |
+
+Disciplina ofertada de forma remota e síncrona.
+:::
+
+# Bem vindo!
+
+O objetivo geral desta disciplina é capacitar os mestrandos na aplicação de 
+métodos de estatística multivariada
+
+Os objetivos específicos são:
+
+- Capacitar os estudantes para a aplicação das metodologias de análise de 
+agrupamento, análise de componentes principais, análise fatorial e análise 
+discriminante a problemas da área de administração. 
+
+- Capacitar os estudantes no uso da linguagem R para a aplicação dos métodos 
+de análise multivariada.
+
+
+# Plano de Aula
+
+::: callout-tip
+## Materiais 
+
+:::
+
+|    Dia     |                       Tópico                                  |
+|:----------:|:-------------------------------------------------------------:|
+|    16/10   | [Aula 1: Análise de Componentes Principais](week/week01/part_1_prep.qmd) |  
+|    23/10   | [Aula 2: Análise de Componentes Principais](week/week02/part_2_eda.qmd) | 
