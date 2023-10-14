@@ -11,7 +11,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.3.450">
 <meta name="author" content="Prof.&nbsp;Washington Santos da Silva">
-<title>Análise Multivariada 2023 - Análise Multivariada - Aula 1</title>
+<title>Análise Multivariada 2023 - Análise Multivariada - Aula 1 - Parte II</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -390,7 +390,7 @@
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" data-background-image="logo.jpeg" data-background-opacity="0.2" data-background-size="contain" class="quarto-title-block center"><h1 class="title">Análise Multivariada - Aula 1</h1>
+<section id="title-slide" data-background-image="logo.jpeg" data-background-opacity="0.2" data-background-size="contain" class="quarto-title-block center"><h1 class="title">Análise Multivariada - Aula 1 - Parte II</h1>
   <p class="subtitle">Mestrado Profissional em Administração</p>
 
 <div class="quarto-title-authors">
@@ -405,372 +405,56 @@ Prof.&nbsp;Washington Santos da Silva
 </div>
 
   <p class="date">13 de outubro de 2023</p>
-</section><section><section id="informações-sobre-a-disciplina" class="title-slide slide level1 center"><h1>Informações sobre a Disciplina</h1>
+</section><section><section id="introdução-à-linguagem-r" class="title-slide slide level1 center"><h1>Introdução à Linguagem R</h1>
 
-</section><section id="ambiente-virtual-de-aprendizagem" class="slide level2"><h2>Ambiente Virtual de Aprendizagem</h2>
-</section><section id="ementa" class="slide level2"><h2>Ementa</h2>
-</section><section id="objetivos" class="slide level2"><h2>Objetivos</h2>
-</section><section id="avaliações" class="slide level2"><h2>Avaliações</h2>
-</section><section id="recomendações" class="slide level2"><h2>Recomendações</h2>
+</section><section id="linguagem-r" class="slide level2"><h2>Linguagem R</h2>
 <ul>
-<li><p>Espero que vocês estudem as leituras indicadas, preferencialmente antes das aulas.</p></li>
-<li><p>Isso não significa apenas ler superficialmente, mas envolver-se praticamente e criticamente com o estudo</p></li>
-<li><p>Busquem fazer todos os exercícios e utilizar efetivamente a linguagem R.</p></li>
-</ul></section></section><section><section id="softwares-necessários" class="title-slide slide level1 center"><h1>Softwares necessários</h1>
-
-</section><section id="programas" class="slide level2"><h2>Programas</h2>
-<ul>
-<li><a href="https://cloud.r-project.org/">Linguagem R 4.3.1</a></li>
-<li><a href="https://posit.co/download/rstudio-desktop/">IDE RStudio</a></li>
-<li><a href="https://quarto.org/docs/download/">Quarto</a></li>
-</ul></section><section id="instalando-a-linguagem-r-4.3.1" class="slide level2"><h2>Instalando a Linguagem R 4.3.1</h2>
+<li><p>R é uma linguagem de programação de domínio específico, seu domínio são os métodos estatísticos para análise e visualização de dados.</p></li>
+<li><p>R tem uma comunidade online vibrante e próspera (<em>e.g.</em>, <a href="https://stackoverflow.com/questions/tagged/r">Stack Overflow</a>).</p></li>
+<li><p>R é muito <strong>flexível e poderosa</strong>—adaptável a praticamente qualquer tarefa, <em>por exemplo</em>, ’econometria, análise de dados espaciais, aprendizado de máquina, raspagem de web, limpeza de dados, construção de sites…</p></li>
+<li><p>Além disso é <strong>free</strong> and <strong>open source</strong>.</p></li>
+</ul></section><section id="fundamentos" class="slide level2"><h2>Fundamentos</h2>
 <ol type="1">
-<li><p>Acesse <a href="https://cloud.r-project.org/">https://cloud.r-project.org/</a></p></li>
-<li><p>Selecione o sistema operacional, clicando em <strong>Download R for Windows</strong> por exemplo.</p></li>
-<li><p>Na página seguinte clique em <strong>base</strong></p></li>
-<li><p>Clique em <strong>Download R-4.3.1 for Windows</strong></p></li>
-<li><p>Feito o download basta ir clicando em próximo/next até a instalação ser concluída.</p></li>
-</ol></section><section id="instalando-o-ide-rstudio" class="slide level2"><h2>Instalando o IDE RStudio</h2>
-<ol type="1">
-<li><p>Acesse <a href="https://posit.co/download/rstudio-desktop/">https://posit.co/download/rstudio-desktop/</a></p></li>
-<li><p>Em geral, o site detecta seu sistema operacional e disponibiliza o instalador adequado loga abaixo de <code>2: Install RStudio</code>.</p></li>
-<li><p>Clique em <code>Download RStudio Desktop for Windows</code> caso seu sistema operacional seja Windows.</p></li>
-<li><p>Todos os instaladores são disponibilizados na página anterior, após a seção <code>All Installers and Tarballs</code></p></li>
-</ol></section><section id="instalando-o-sistema-de-publicação-quarto" class="slide level2"><h2>Instalando o Sistema de Publicação Quarto</h2>
-<ol type="1">
-<li><p>Acesse <a href="https://quarto.org/docs/download/">https://quarto.org/docs/download/</a></p></li>
-<li><p>Percorra a página, encontre o executável para Windows: <code>quarto-1.3.450-win.msi</code> e, finalizado o download, instale clicando no arquivo.</p></li>
-</ol></section></section><section><section id="a-linguagem-r" class="title-slide slide level1 center"><h1>A Linguagem R</h1>
-
-</section><section id="sec-aprenr" class="slide level2"><h2>Por que aprender a linguagem R?</h2>
-<ul>
-<li><p>R é uma linguagem de programação de domínio específico, foi criada para analisar dados.</p></li>
-<li><p>A linguagem R não envolve cliques, e isso é uma coisa boa</p></li>
-<li><p>Analisar dados com a linguagem R é ótimo para reprodutibilidade</p></li>
-<li><p>A linguagem R é interdisciplinar e extensível</p></li>
-<li><p>A linguagem R é capaz de analisar dados de todas as formas e tamanhos</p></li>
-<li><p>A linguagem R produz gráficos de alta qualidade.</p></li>
-<li><p>A linguagem R tem uma comunidade grande e acolhedora (<a href="https://stats.stackexchange.com/">Cross Validated</a>, <a href="https://community.rstudio.com">Posit Community</a>)</p></li>
-<li><p>A linguagem R não é apenas gratuita, mas também é de código aberto e multiplataforma.</p></li>
-</ul></section><section id="popularidade-da-linguagem-r" class="slide level2"><h2>Popularidade da Linguagem R</h2>
-
-<img data-src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*njNtGUiBoR0YinK64yrxgA.png" style="width:80.0%" class="r-stretch quarto-figure-center"><p class="caption">Fonte: PYPL index — April 2023 update</p></section></section><section><section id="conhecendo-o-rstudio" class="title-slide slide level1 center"><h1>Conhecendo o RStudio</h1>
-
-</section><section id="rstudio-ide-x-linguagem-r" class="slide level2"><h2>RStudio IDE x Linguagem R</h2>
-
-<img data-src="https://d33wubrfki0l68.cloudfront.net/0b4d0569b2ddf6147da90b110fbb2a17653c8b08/f06f3/images/shutterstock/r_vs_rstudio_1.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption">Analogia da diferença entre R e RStudio</p><ul>
-<li>R é uma <strong>linguagem de programação</strong>, enquanto o RStudio é um <strong>Integrated Development Environment</strong> que contém recursos que facilitam o uso da linguagem R.</li>
-</ul></section><section id="configurações-iniciais-do-rstudio" class="slide level2"><h2>Configurações Iniciais do RStudio</h2>
-<p>Para acessar as configurações do Rstudio, você precisa clicar em:</p>
-<ul>
-<li><p><code>RStudio &gt; Tools &gt; Global Options</code> ou pelo atalho <code>Ctrl + ,</code> (Windows)</p></li>
-<li><p><code>RStudio &gt; Tools &gt; Global Options</code> ou pelo atalho <code>Cmd + ,</code> (Macintosh).</p></li>
-</ul></section><section id="sec-confbasic" class="slide level2"><h2>Configurações: <code>General: Basic</code>
-</h2>
-<div class="panel-tabset">
-<ul id="tabset-1" class="panel-tabset-tabby">
-<li><a data-tabby-default="" href="#tabset-1-1">Janela de Configuração</a></li>
-<li><a href="#tabset-1-2">Desmarque:</a></li>
-</ul>
-<div class="tab-content">
-<div id="tabset-1-1">
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure><p><img data-src="img/aba_general.jpeg" style="width:45.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<div id="tabset-1-2">
-<ul>
-<li><p><code>Restore most recently opened project at startup</code></p></li>
-<li><p><code>Restore previsouly open source documents at startup</code></p></li>
-<li><p><code>Restore .Rdata into workspace at startup</code></p></li>
-<li><p>Em <code>Workspace</code>, escolha <code>Never</code> em <code>Save workspace to .RData on exit</code>.</p></li>
-<li><p>Finalizadas as operações, clique em <code>Apply</code> -&gt; <code>Ok</code>.</p></li>
-</ul>
-</div>
-</div>
-</div>
-</section><section id="configurações-code-editing" class="slide level2"><h2>Configurações: <code>Code: Editing</code>
-</h2>
-<div class="panel-tabset">
-<ul id="tabset-2" class="panel-tabset-tabby">
-<li><a data-tabby-default="" href="#tabset-2-1">Janela de Configuração</a></li>
-<li><a href="#tabset-2-2">Marque:</a></li>
-</ul>
-<div class="tab-content">
-<div id="tabset-2-1">
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure><p><img data-src="https://bookdown.org/daniel_dauber_io/r4np_book/images/chapter_03_img/rstudio_preferences/01_rstudio_preferences_editing.png" style="width:90.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<div id="tabset-2-2">
-<p>Verifique se as seguintes opções estão selecionadas:</p>
-<ul>
-<li><code>Auto-indent code after paste</code></li>
-<li><code>Insert matching parens/quotes</code></li>
-<li><code>Enable code snippets</code></li>
-</ul>
-</div>
-</div>
-</div>
-</section><section id="configurações-code-display" class="slide level2"><h2>Configurações: <code>Code: Display</code>
-</h2>
-<div class="panel-tabset">
-<ul id="tabset-3" class="panel-tabset-tabby">
-<li><a data-tabby-default="" href="#tabset-3-1">Janela de Configuração</a></li>
-<li><a href="#tabset-3-2">Marque:</a></li>
-</ul>
-<div class="tab-content">
-<div id="tabset-3-1">
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure><p><img data-src="https://bookdown.org/daniel_dauber_io/r4np_book/images/chapter_03_img/rstudio_preferences/02_rstudio_preferences_display.png" style="width:90.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<div id="tabset-3-2">
-<p>Verifique se as três primeiras opções estão selecionadas:</p>
-<ul>
-<li><code>Highlight selected word</code></li>
-<li><code>Highlight selected line</code></li>
-<li><code>show line numbers</code></li>
-<li>Finalizadas as operações, clique em <code>Apply</code> -&gt; <code>Ok</code>.</li>
-</ul>
-</div>
-</div>
-</div>
-</section><section id="interface-do-rstudio" class="slide level2"><h2>Interface do RStudio</h2>
-
-<img data-src="https://docs.posit.co/ide/user/ide/guide/ui/images/rstudio-panes-labeled.jpeg" style="width:80.0%" class="r-stretch quarto-figure-center"></section><section id="painel-source" class="slide level2"><h2>Painel: <code>Source</code>
-</h2>
-<ul>
-<li><p>O painel <code>Source</code> permite que a visualização e edição de vários arquivos relacionados a diversas linguagens, tais como: <code>.R</code>, <code>.qmd</code>,<code>.rmd</code> <code>.py</code>, ou arquivos de texto gerais como <code>.txt</code> ou <code>.md.</code></p></li>
-<li><p>Por padrão, é o painel superior esquerdo e pode ser iniciado abrindo qualquer arquivo editável no RStudio.</p></li>
-<li><p>Cada arquivo adicional que for aberto será adicionado como uma nova guia no painel.</p></li>
-<li><p>Essa guia exibe também estruturas de dados ativas na sessão.</p></li>
-</ul></section><section id="painel-console" class="slide level2 smaller"><h2>Painel: <code>Console</code>
-</h2>
-<ul>
-<li><p>Por padrão, o painel <code>Console</code> é o painel inferior esquerdo. Esse painel fornece uma área para executar o código interativamente. Por padrão, está vinculado a linguagem R ele também pode fornecer um console Python.</p></li>
-<li><p>O painel Console também inclui uma guia <code>Terminal</code> integrada para executar comandos do sistema.</p></li>
-<li><p>A guia <code>Jobs</code> em segundo plano fornece a capacidade de enviar scripts R de longa duração para trabalhos em segundo plano locais e remotos. Essa funcionalidade pode melhorar drasticamente a produtividade dos cientistas e analistas de dados usando o R.</p></li>
-<li>
-<p>Atalhos:</p>
-<ul>
-<li>
-<code>Ctrl+1</code>: Move o foco para o painel <code>Source</code>
+<li>Tudo é um <strong>objeto</strong>
 </li>
-<li>
-<code>Ctrl+2</code>: — Move o foco para o <code>Console</code>
-</li>
-<li>
-<code>Ctrl+L</code>: Limpa o Console</li>
-<li>
-<code>Esc</code>: Interromper R</li>
-</ul>
-</li>
-</ul></section><section id="painel-environment" class="slide level2 smaller"><h2>Painel: <code>Environment</code>
-</h2>
-<ul>
-<li><p>Por padrão, o painel <code>Environment</code> está localizado no canto superior direito e inclui as guias:</p></li>
-<li>
-<p>Guia <code>Environment</code>:</p>
-<ul>
-<li><p>Essa guia exibe objetos R e Python ativos na sessão atual.</p></li>
-<li><p>O ícone R pode ser alternado entre objetos R ou Python.</p></li>
-<li><p>A barra de menus de <code>Environment</code> fornece carregamento ou salvamento de R workspaces, importação interativa de conjuntos de dados de arquivos de texto, Excel ou SPSS/SAS/Stata.</p></li>
-<li><p>Ela também exibe a memória usada pela sessão R ativa e um ícone de uma vassoura para remover todos os objetos ativos.</p></li>
-</ul>
-</li>
-<li>
-<p>Guia <code>History</code>:</p>
-<ul>
-<li><p>Essa guia exibe os comandos que foram executados na sessão atual e as pesquisas.</p></li>
-<li><p>Existem botões para carregar/salvar o histórico de comandos em um arquivo, além de enviar o comando selecionado para o console ou inseri-lo no documento de trabalho atual.</p></li>
-</ul>
-</li>
-</ul></section><section id="painel-environment-1" class="slide level2 smaller"><h2>Painel: <code>Environment</code>
-</h2>
-<ul>
-<li>
-<p>Guia <code>Connections</code>:</p>
-<ul>
-<li><p>Essa guia exibe conexões ativas para bancos de dados locais ou remotos.</p></li>
-<li><p>Conexões adicionais possíveis podem ser adicionadas instalando drivers de banco de dados ou pacotes R específicos.</p></li>
-</ul>
-</li>
-<li>
-<p>Guia <code>Build</code>:</p>
-<ul>
-<li>A guia Build estará disponível em projetos R específicos, tais como no desenvolvimento de pacotes R e projetos Quarto/R Markdown.</li>
-</ul>
-</li>
-<li>
-<p>Guia <code>VCS (Version Control System)</code>:</p>
-<ul>
-<li>A guia VCS será ativada caso se adote um sistema de controle de versão, o mais usado é o sistema Git.</li>
-</ul>
-</li>
-<li>
-<p>Guia <code>Tutorial</code></p>
-<ul>
-<li>Disponibiliza tutoriais interativos sobre a linguagem R, pacotes, SQL, entre outros.</li>
-<li>Instale o pacote <code>learnr</code> para usar os tutoriais.</li>
-</ul>
-</li>
-</ul></section><section id="painel-output" class="slide level2 smaller"><h2>Painel: <code>Output</code>
-</h2>
-<ul>
-<li><p>Por padrão, o painel <code>Output</code> é o painel inferior direito e exibe várias saídas, como gráficos, conteúdo HTML ou arquivos em disco. Contém as guias:</p></li>
-<li>
-<p>Guia <code>Files</code>:</p>
-<ul>
-<li>Esta guia fornece uma exploração interativa da pasta de arquivos do Projeto R da sessão. Existem opções para adicionar novos arquivos e pastas, exclusão/renomeação de arquivos, entre outras.</li>
-</ul>
-</li>
-<li>
-<p>Guia <code>Plots</code>:</p>
-<ul>
-<li>Esta guia exibe imagens estáticas produzidas nba sessão. Há setas para navegar entre gráficos mais antigos e mais recentes, Zoom, um botão de exportação para salvar as imagens, um botão de exclusão imagem exibida e um ícone de vassoura que limpará TODOS os gráficos temporários desta guia.</li>
-</ul>
-</li>
-<li>
-<p>Guia <code>Packages</code>:</p>
-<ul>
-<li>Esta guia permite visualizar os pacotes R instalados, e há uma barra para pesquisar a biblioteca atual de pacotes. Há também um botão para instalação e atualização de pacotes.</li>
-</ul>
-</li>
-</ul></section><section id="painel-output-1" class="slide level2 smaller"><h2>Painel: <code>Output</code>
-</h2>
-<ul>
-<li>
-<p>Guia <code>Help</code>:</p>
-<ul>
-<li>Esta guia exibe a documentação e as vinhetas dos pacotes.</li>
-<li>O ícone <code>Home</code> exibe a página de ajuda geral, com links para Recursos, Manuais, Referências e Suporte Posit.</li>
-</ul>
-</li>
-<li>
-<p>Guia <code>Viewer</code>:</p>
-<ul>
-<li>Esta guia exibe usada conteúdos interativos tais como: gráficos interativos, aplicativos Shiny, páginas html geradas pelo Quarto, entre outros.</li>
-</ul>
-</li>
-<li>
-<p>Guia <code>Presentation</code>:</p>
-<ul>
-<li>Esta guia é usada para exibir slides HTML gerados pelo sistema Quarto.</li>
-</ul>
-</li>
-</ul></section><section id="gerenciamento-de-arquivos" class="slide level2"><h2>Gerenciamento de Arquivos</h2>
-<p>O RStudio suporta realce de sintaxe e outros recursos especializados de edição de código para tipos de arquivos específicos:</p>
-<ul>
-<li><p>Scripts em R, Python, SQL</p></li>
-<li><p>Documentos computacionais e científicos em Quarto, R Markdown e LaTeX.</p></li>
-<li><p>Conteúdo da Web, como HTML, CSS</p></li>
-<li><p>E muitos mais.</p></li>
-</ul></section><section id="menu-files" class="slide level2"><h2>Menu <code>Files</code>
-</h2>
-<ul>
-<li>É possível criar um novo arquivo com <code>File -&gt; New File</code>:</li>
-</ul>
-
-<img data-src="https://docs.posit.co/ide/user/ide/guide/ui/images/system-files-menu.png" style="width:70.0%" class="r-stretch quarto-figure-center"></section><section id="criando-arquivos" class="slide level2"><h2>Criando arquivos</h2>
-<ul>
-<li>Uma alternativa é usar os elementos visuais no menu:</li>
-</ul>
-
-<img data-src="https://docs.posit.co/ide/user/ide/guide/ui/images/files-menu.png" style="width:70.0%" class="r-stretch quarto-figure-center"></section><section id="rstudio-projects" class="slide level2"><h2>RStudio Projects</h2>
-<ul>
-<li><p>Cientistas e Analistas de dados mantêm todos os arquivos associados a um determinado projeto juntos e organizados em pastas — dados, scripts, relatórios etc.</p></li>
-<li><p>Esta é uma prática tão sábia e comum que o RStudio tem suporte integrado para isso por meio dos <code>Projects</code>.</p></li>
-<li><p>Os RStudio Projects tornam simples organizar seu trabalho em vários contextos, cada um com seu próprio diretório de trabalho e documentos de origem.</p></li>
-</ul></section><section id="criando-projects" class="slide level2"><h2>Criando Projects</h2>
-<p>Os RStudio Projects estão associados a diretórios de trabalho.</p>
-<p>Projetos RStudio podem ser criados:</p>
-<ul>
-<li><p>Em um novo diretório</p></li>
-<li><p>Em um diretório existente onde você já tem código R e dados</p></li>
-<li><p>Clonando um repositório de controle de versão (Git ou Subversion)</p></li>
-</ul></section><section id="criando-projects-1" class="slide level2 smaller"><h2>Criando Projects</h2>
-<ul>
-<li><p>Para criar um novo projeto no RStudio, use <code>File &gt; New Project</code>.</p></li>
-<li><p>Ou use o botão <code>New Project</code>, disponível na barra de ferramentas <code>Projects</code> no canto superior direito:</p></li>
-<li><p>Isso abrirá o pop-up <code>New Project Wizard</code>, clique em <code>New Directory</code>:</p></li>
-</ul>
-
-<img data-src="img/new_proj01.png" style="width:50.0%" class="r-stretch quarto-figure-center"></section><section id="criando-projects-2" class="slide level2"><h2>Criando Projects</h2>
-<p>Na janela seguinte selecione <code>New Project</code>:</p>
-
-<img data-src="img/new_proj2.png" style="width:60.0%" class="r-stretch quarto-figure-center"></section><section id="criando-projects-3" class="slide level2"><h2>Criando Projects</h2>
-
-<img data-src="img/new_proj04.jpeg" style="width:70.0%" class="r-stretch quarto-figure-center"></section><section id="criando-projects-4" class="slide level2"><h2>Criando Projects</h2>
-<ul>
-<li><p>Nesta janela digite o nome do diretório que você deseja criar no campo <code>Directory name:</code> (vamos nomeá-lo <code>analise_multivariada_2023</code>).</p></li>
-<li><p>Se voce desejar mudar a localização do diretório, clique no botão <code>Browse...</code> e navegue para o local no qual deseja criar o diretório.</p></li>
-<li><p>É recomendável marcar a caixa <code>Open in new session</code>.</p></li>
-<li><p>Por fim, clique em <code>Create Project</code> para criar o novo projeto.</p></li>
-</ul></section><section id="criando-projects-5" class="slide level2"><h2>Criando Projects</h2>
-<p>Quando um novo projeto é criado, o RStudio:</p>
-<ul>
-<li><p>Cria um arquivo de projeto (com extensão <code>.Rproj</code>) dentro do diretório do projeto. Este arquivo contém várias opções de projeto e também pode ser usado como um atalho para abrir o projeto diretamente do sistema de arquivos.</p></li>
-<li><p>Cria um diretório oculto (.Rproj.user) onde arquivos temporários específicos do projeto são armazenados.</p></li>
-<li><p>Carrega o projeto no RStudio e exibe seu nome na barra de ferramentas Projects.</p></li>
-</ul></section><section id="project-configurado" class="slide level2"><h2>Project Configurado</h2>
-
-<img data-src="img/new_proj05.jpeg" style="width:60.0%" class="r-stretch quarto-figure-center"></section><section id="project-criado" class="slide level2"><h2>Project Criado</h2>
-<ul>
-<li><p>Agora que você tem um RStudio Project configurado.</p></li>
-<li><p>Você pode começar a criar scripts R e documentos computacionais como notebooks, quarto projects, R markdown…, ou o que for necessário para concluir seu projeto.</p></li>
-<li><p>Todos os arquivos de um projeto agora estarão contidos no<br>
-RStudio Project e salvos na pasta do projeto.</p></li>
-<li><p>As configurações que fizemos na <a href="#/sec-confbasic">Seção&nbsp;4.3</a> afetam o comportamento dos projetos.</p></li>
-</ul></section><section id="wokflow-dentro-do-rstudio" class="slide level2"><h2>Wokflow dentro do RStudio</h2>
-<p>Existem duas maneiras principais de trabalhar dentro do RStudio:</p>
-<ol type="1">
-<li>Teste o código diretamente no console R interativo e copie o código para um arquivo .R que pode ser executado posteriormente.</li>
 </ol>
-<ul>
-<li><p>Isso funciona bem ao fazer pequenos testes.</p></li>
-<li><p>Entretanto, rapidamente se torna ineficaz e trabalhoso.</p></li>
-</ul>
+<p><code>foo</code></p>
 <ol start="2" type="1">
-<li>Comece a escrever código em um <code>script.R</code> e use as teclas de atalho do RStudio para enviar a(s) linha(s) selecionada(s) para o console R.</li>
+<li>Todo objeto possui um <strong>nome</strong> e <strong>valor</strong>.</li>
 </ol>
-<ul>
-<li><p>Esta é uma <strong>ótima</strong> maneira de começar; todo o seu código estará salvo para uso posterior.</p></li>
-<li><p>Você poderá executar o arquivo criado a partir dos menus do RStudio ou usando a função <code><a href="https://rdrr.io/r/base/source.html">source()</a></code>.</p></li>
-</ul></section><section id="executando-segmentos-do-seu-código" class="slide level2"><h2>Executando segmentos do seu código</h2>
-<p>O RStudio oferece grande flexibilidade na execução de código. Existem botões, opções de menu e atalhos de teclado. Para executar uma linha de código, você pode:</p>
-<ol type="1">
-<li><p>clicar no botão <code>Run</code> acima do editor, ou;</p></li>
-<li><p>selecionar <code>Run Selected Lines</code> a partir do menu <code>Code</code>, ou;</p></li>
-<li><p>Digigar <kbd><strong>Ctrl</strong></kbd>+<kbd><strong>Enter</strong></kbd> no Windows ou Linux ou <kbd>Cmd</kbd>+<kbd>Return</kbd> no OS X.</p></li>
-</ol></section></section><section><section id="introdução-à-linguagem-r" class="title-slide slide level1 center"><h1>Introdução à Linguagem R</h1>
-
+<p><code>foo = 2</code></p>
+<ol start="3" type="1">
+<li>Usamos <strong>functions</strong> nesses objetos.</li>
+</ol>
+<p><code>mean(foo)</code></p>
+<ol start="4" type="1">
+<li>Muitas funções estão em <strong>libraries</strong> (<strong>packages</strong>)</li>
+</ol>
+<p><code><a href="https://dplyr.tidyverse.org">library(dplyr)</a></code></p>
+<ol start="5" type="1">
+<li>R tentará ajudá-lo <strong>help</strong>
+</li>
+</ol>
+<p><code>?dplyr</code></p>
+<ol start="6" type="1">
+<li>R possui <strong>peculiaridades</strong>
+</li>
+</ol>
+<p><code>NA; error; warning</code></p>
 </section><section id="usando-r-como-uma-calculadora" class="slide level2"><h2>Usando R como uma calculadora</h2>
-</section><section id="dica-cancelando-comandos" class="slide level2"><h2>Dica: Cancelando comandos</h2>
+<ul>
+<li>verificar aula02 de icd2023 e 2022.</li>
+</ul></section><section id="dica-cancelando-comandos" class="slide level2"><h2>Dica: Cancelando comandos</h2>
 <ul>
 <li><p>Caso voce tenha enviado código para execução a partir do painel <code>Source</code> e por alguma razão você desejar cancelar a execução, basta apertar a tecla <strong>ESC</strong>.</p></li>
 <li><p>Se você estiver executando código no console interativo, Você precisa usar <kbd><strong>Ctrl</strong></kbd>+<kbd><strong>C</strong></kbd> em vez de <kbd><strong>Esc</strong></kbd> para cancelar o comando.</p></li>
 <li><p>Cancelar um comando não é útil apenas para finalizar comandos incompletos.</p></li>
 <li><p>Você também pode usá-lo para dizer ao R para parar de executar o código (por exemplo, se o código estiver levando muito tempo para ser executado).</p></li>
-</ul></section><section id="funções-matemáticas" class="slide level2"><h2>Funções Matemáticas</h2>
+</ul></section><section id="funções-matemáticas-e-estatísticas" class="slide level2"><h2>Funções Matemáticas e Estatísticas</h2>
 </section><section id="comparando-objetos" class="slide level2"><h2>Comparando objetos</h2>
 </section><section id="dica-comparando-números" class="slide level2"><h2>Dica: Comparando números</h2>
 </section><section id="variáveis-e-atribuição" class="slide level2"><h2>Variáveis e Atribuição</h2>
+</section><section id="funções" class="slide level2"><h2>Funções</h2>
 </section><section id="vetorização" class="slide level2"><h2>Vetorização</h2>
 </section><section id="gerenciando-seu-environment" class="slide level2"><h2>Gerenciando seu Environment</h2>
 </section><section id="dica-warnings-vs-errors" class="slide level2"><h2>Dica: Warnings vs Errors</h2>
@@ -781,8 +465,8 @@ RStudio Project e salvos na pasta do projeto.</p></li>
 <li><p>Em ambos os casos, a mensagem que R exibe pelo mnenos tenta lhe dar pistas sobre o problema.</p></li>
 </ul></section><section id="r-packages" class="slide level2"><h2>R packages</h2>
 <ul>
-<li><p>Como exposto na <a href="#/sec-aprenr">Seção&nbsp;3.1</a>, uma das vantagens da linguagem R é sua extensibilidade. E a forma usual de extender a linguagem é a programação de pacotes ou biliotecas.</p></li>
-<li><p>Até o momento em que escrevo, há Há mais de 20.000 pacotes disponíveis no <a href="https://cran.r-project.org/web/packages/available_packages_by_date.html">CRAN</a>.</p></li>
+<li><p>Como exposto na parte I, uma das vantagens da linguagem R é sua extensibilidade. E a forma usual de extender a linguagem é a programação de pacotes ou biliotecas.</p></li>
+<li><p>Até este momento, há Há mais de 20.000 pacotes disponíveis no <a href="https://cran.r-project.org/web/packages/available_packages_by_date.html">CRAN</a>.</p></li>
 <li><p>R e o RStudio possuem funcionalidades para o gerenciamento de pacotes:</p></li>
 </ul></section><section id="r-packages-1" class="slide level2"><h2>R packages</h2>
 <p>A linguagem R possui diversos comandos para o gerenciamento de pacotes:</p>

@@ -11,7 +11,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.3.450">
 <meta name="author" content="Prof.&nbsp;Washington Santos da Silva">
-<title>Análise Multivariada 2023 - Análise Multivariada - Aula 1</title>
+<title>Análise Multivariada 2023 - Análise Multivariada - Aula 1 - Parte I</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -29,71 +29,6 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
-    /* CSS for syntax highlighting */
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      { color: #003b4f; background-color: #f1f3f5; }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span { color: #003b4f; } /* Normal */
-    code span.al { color: #ad0000; } /* Alert */
-    code span.an { color: #5e5e5e; } /* Annotation */
-    code span.at { color: #657422; } /* Attribute */
-    code span.bn { color: #ad0000; } /* BaseN */
-    code span.bu { } /* BuiltIn */
-    code span.cf { color: #003b4f; } /* ControlFlow */
-    code span.ch { color: #20794d; } /* Char */
-    code span.cn { color: #8f5902; } /* Constant */
-    code span.co { color: #5e5e5e; } /* Comment */
-    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
-    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
-    code span.dt { color: #ad0000; } /* DataType */
-    code span.dv { color: #ad0000; } /* DecVal */
-    code span.er { color: #ad0000; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #ad0000; } /* Float */
-    code span.fu { color: #4758ab; } /* Function */
-    code span.im { color: #00769e; } /* Import */
-    code span.in { color: #5e5e5e; } /* Information */
-    code span.kw { color: #003b4f; } /* Keyword */
-    code span.op { color: #5e5e5e; } /* Operator */
-    code span.ot { color: #003b4f; } /* Other */
-    code span.pp { color: #ad0000; } /* Preprocessor */
-    code span.sc { color: #5e5e5e; } /* SpecialChar */
-    code span.ss { color: #20794d; } /* SpecialString */
-    code span.st { color: #20794d; } /* String */
-    code span.va { color: #111111; } /* Variable */
-    code span.vs { color: #20794d; } /* VerbatimString */
-    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
 <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto.css">
 <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -390,7 +325,7 @@
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" data-background-image="logo.jpeg" data-background-opacity="0.2" data-background-size="contain" class="quarto-title-block center"><h1 class="title">Análise Multivariada - Aula 1</h1>
+<section id="title-slide" data-background-image="logo.jpeg" data-background-opacity="0.2" data-background-size="contain" class="quarto-title-block center"><h1 class="title">Análise Multivariada - Aula 1 - Parte I</h1>
   <p class="subtitle">Mestrado Profissional em Administração</p>
 
 <div class="quarto-title-authors">
@@ -412,10 +347,13 @@ Prof.&nbsp;Washington Santos da Silva
 </section><section id="objetivos" class="slide level2"><h2>Objetivos</h2>
 </section><section id="avaliações" class="slide level2"><h2>Avaliações</h2>
 </section><section id="recomendações" class="slide level2"><h2>Recomendações</h2>
+<p>Assuma a responsabilidade pela sua aprendizagem:</p>
 <ul>
-<li><p>Espero que vocês estudem as leituras indicadas, preferencialmente antes das aulas.</p></li>
-<li><p>Isso não significa apenas ler superficialmente, mas envolver-se praticamente e criticamente com o estudo</p></li>
-<li><p>Busquem fazer todos os exercícios e utilizar efetivamente a linguagem R.</p></li>
+<li><p>Investa o tempo necessário.</p></li>
+<li><p>Seja proativo e curioso.</p></li>
+<li><p>Desça buracos de coelho.</p></li>
+<li><p>Faça perguntas.</p></li>
+<li><p>Aprenda a aprender (sofisticação técnica).</p></li>
 </ul></section></section><section><section id="softwares-necessários" class="title-slide slide level1 center"><h1>Softwares necessários</h1>
 
 </section><section id="programas" class="slide level2"><h2>Programas</h2>
@@ -694,9 +632,9 @@ Prof.&nbsp;Washington Santos da Silva
 
 <img data-src="https://docs.posit.co/ide/user/ide/guide/ui/images/files-menu.png" style="width:70.0%" class="r-stretch quarto-figure-center"></section><section id="rstudio-projects" class="slide level2"><h2>RStudio Projects</h2>
 <ul>
-<li><p>Cientistas e Analistas de dados mantêm todos os arquivos associados a um determinado projeto juntos e organizados em pastas — dados, scripts, relatórios etc.</p></li>
+<li><p>Cientistas e Analistas de dados mantêm todos os arquivos associados a um determinado projeto juntos e organizados em pastas/diretórios — dados, scripts, relatórios etc.</p></li>
 <li><p>Esta é uma prática tão sábia e comum que o RStudio tem suporte integrado para isso por meio dos <code>Projects</code>.</p></li>
-<li><p>Os RStudio Projects tornam simples organizar seu trabalho em vários contextos, cada um com seu próprio diretório de trabalho e documentos de origem.</p></li>
+<li><p>Os RStudio Projects tornam simples organizar seu trabalho em vários contextos, cada um com seu próprio diretório e documentos de origem.</p></li>
 </ul></section><section id="criando-projects" class="slide level2"><h2>Criando Projects</h2>
 <p>Os RStudio Projects estão associados a diretórios de trabalho.</p>
 <p>Projetos RStudio podem ser criados:</p>
@@ -747,7 +685,8 @@ RStudio Project e salvos na pasta do projeto.</p></li>
 <li><p>Entretanto, rapidamente se torna ineficaz e trabalhoso.</p></li>
 </ul>
 <ol start="2" type="1">
-<li>Comece a escrever código em um <code>script.R</code> e use as teclas de atalho do RStudio para enviar a(s) linha(s) selecionada(s) para o console R.</li>
+<li>
+<strong>Escreva código em um <code>script.R</code></strong> e use as teclas de atalho do RStudio para enviar a(s) linha(s) selecionada(s) para o console.</li>
 </ol>
 <ul>
 <li><p>Esta é uma <strong>ótima</strong> maneira de começar; todo o seu código estará salvo para uso posterior.</p></li>
@@ -758,79 +697,10 @@ RStudio Project e salvos na pasta do projeto.</p></li>
 <li><p>clicar no botão <code>Run</code> acima do editor, ou;</p></li>
 <li><p>selecionar <code>Run Selected Lines</code> a partir do menu <code>Code</code>, ou;</p></li>
 <li><p>Digigar <kbd><strong>Ctrl</strong></kbd>+<kbd><strong>Enter</strong></kbd> no Windows ou Linux ou <kbd>Cmd</kbd>+<kbd>Return</kbd> no OS X.</p></li>
-</ol></section></section><section><section id="introdução-à-linguagem-r" class="title-slide slide level1 center"><h1>Introdução à Linguagem R</h1>
+</ol>
 
-</section><section id="usando-r-como-uma-calculadora" class="slide level2"><h2>Usando R como uma calculadora</h2>
-</section><section id="dica-cancelando-comandos" class="slide level2"><h2>Dica: Cancelando comandos</h2>
-<ul>
-<li><p>Caso voce tenha enviado código para execução a partir do painel <code>Source</code> e por alguma razão você desejar cancelar a execução, basta apertar a tecla <strong>ESC</strong>.</p></li>
-<li><p>Se você estiver executando código no console interativo, Você precisa usar <kbd><strong>Ctrl</strong></kbd>+<kbd><strong>C</strong></kbd> em vez de <kbd><strong>Esc</strong></kbd> para cancelar o comando.</p></li>
-<li><p>Cancelar um comando não é útil apenas para finalizar comandos incompletos.</p></li>
-<li><p>Você também pode usá-lo para dizer ao R para parar de executar o código (por exemplo, se o código estiver levando muito tempo para ser executado).</p></li>
-</ul></section><section id="funções-matemáticas" class="slide level2"><h2>Funções Matemáticas</h2>
-</section><section id="comparando-objetos" class="slide level2"><h2>Comparando objetos</h2>
-</section><section id="dica-comparando-números" class="slide level2"><h2>Dica: Comparando números</h2>
-</section><section id="variáveis-e-atribuição" class="slide level2"><h2>Variáveis e Atribuição</h2>
-</section><section id="vetorização" class="slide level2"><h2>Vetorização</h2>
-</section><section id="gerenciando-seu-environment" class="slide level2"><h2>Gerenciando seu Environment</h2>
-</section><section id="dica-warnings-vs-errors" class="slide level2"><h2>Dica: Warnings vs Errors</h2>
-<p>Preste atenção quando R fizer algo inesperado.</p>
-<ul>
-<li><p><strong>Errors</strong>: são exibidos quando R não pode prosseguir com uma operação.</p></li>
-<li><p><strong>Warnings</strong>: são exibidas, geralmente, quando uma operação foi executada, mas provavelmente não funcionou como esperado.</p></li>
-<li><p>Em ambos os casos, a mensagem que R exibe pelo mnenos tenta lhe dar pistas sobre o problema.</p></li>
-</ul></section><section id="r-packages" class="slide level2"><h2>R packages</h2>
-<ul>
-<li><p>Como exposto na <a href="#/sec-aprenr">Seção&nbsp;3.1</a>, uma das vantagens da linguagem R é sua extensibilidade. E a forma usual de extender a linguagem é a programação de pacotes ou biliotecas.</p></li>
-<li><p>Até o momento em que escrevo, há Há mais de 20.000 pacotes disponíveis no <a href="https://cran.r-project.org/web/packages/available_packages_by_date.html">CRAN</a>.</p></li>
-<li><p>R e o RStudio possuem funcionalidades para o gerenciamento de pacotes:</p></li>
-</ul></section><section id="r-packages-1" class="slide level2"><h2>R packages</h2>
-<p>A linguagem R possui diversos comandos para o gerenciamento de pacotes:</p>
-<ul>
-<li><p>Você pode ver quais pacotes estão instalados com: <code><a href="https://rdrr.io/r/utils/installed.packages.html">installed.packages()</a></code></p></li>
-<li><p>Você pode instalar pacotes com: <code>install.packages("nome do pacote")</code></p></li>
-<li><p>Você pode atualizar os pacotes instalados com <code><a href="https://rdrr.io/r/utils/update.packages.html">update.packages()</a></code></p></li>
-<li><p>Você pode remover um pacote com <code>remove.packages("nome do pacote")</code></p></li>
-<li><p>Você ativa um pacote instalado para uso com <code><a href="https://rdrr.io/r/base/library.html">library(packagename)</a></code> ou com <code>nome_do_pacote::nome_da_funcao_do_pacote</code></p></li>
-</ul>
-<p>Por exemplo, para instalar o pacote <code>dplyr</code>:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">install.packages</span>(<span class="st">"dplyr"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Podemos instalar diversos pacotes no mesmo comando:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">install.packages</span>(<span class="st">"dplyr"</span>, <span class="st">"ggplot2"</span>, <span class="st">"tidyr"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Para ativar o pacote em uma sessão fazemos:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Uma alternativa ao comando <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> é utilizar:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(mtcars) <span class="co"># o pacote deve ter sido instalado!</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Poderíamos remover o mesmo pacote como:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">remove.packages</span>(<span class="st">"dplyr"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section><section id="r-packages-2" class="slide level2"><h2>R packages</h2>
-<p>O RStudio possui funcionalidades para o gerenciamento de pacotes no painel Output, na guia <code>Packages</code>:</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure><p><img data-src="img/painel_output.png" style="width:60.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-<ul>
-<li><p>Nesta guia, é possível instalar pacotes clicando em <code>Install</code> e, na janela exibida, digitar o nome do pacote ou pacotes a serem instalados, no caso de mais de um pacote, bastar que os nomes sejam separados por vírgula ou espaço.</p></li>
-<li><p>Nesta guia também é possível atualizar pacotes já instalados clicando em <code>Update</code>. É importante sempre atualizar os pacotes.</p></li>
-<li><p>É também possível ativar e desativar pacotes marcando ou desmarcando o quadro referente ao pacote.</p></li>
-</ul>
 
-<p><img src="logo.jpeg" class="slide-logo"></p>
-<div class="footer footer-default">
+<img src="logo.jpeg" class="slide-logo r-stretch"><div class="footer footer-default">
 
 </div>
 </section></section>

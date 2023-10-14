@@ -1,0 +1,217 @@
+---
+title: "Análise Multivariada - Aula 1 - Parte II"
+title-slide-attributes:
+    data-background-image: logo.jpeg
+    data-background-size: contain
+    data-background-opacity: "0.2"
+subtitle: "Mestrado Profissional em Administração"
+author: "Prof. Washington Santos da Silva"
+institute: "IFMG - Campus Formiga"
+date: today
+date-format: long
+lang: "pt"
+format: 
+  revealjs:
+    progress: true
+    code-link: true
+    self-contained: false
+    preview-links: false
+    transition: slide
+    slide-number: true
+    scrollable: true
+    overview: true
+    logo: logo.jpeg
+editor: source
+crossref:
+  fig-title: '**Fig.**'
+  fig-labels: arabic
+  title-delim: "**.**"
+execute: 
+  echo: true
+bibliography: referencias.bib
+csl: associacao-brasileira-de-normas-tecnicas.csl
+---
+
+
+# Introdução à Linguagem R
+
+## Linguagem R
+
+- R é uma linguagem de programação de domínio específico, seu domínio são os métodos estatísticos para análise e visualização de dados.
+
+- R tem uma comunidade online vibrante e próspera (*e.g.*, [Stack Overflow](https://stackoverflow.com/questions/tagged/r)).
+
+- R é muito __flexível e poderosa__—adaptável a praticamente qualquer tarefa, _por exemplo_, 'econometria, análise de dados espaciais, aprendizado de máquina, raspagem de web, limpeza de dados, construção de sites...
+
+- Além disso é __free__ and __open source__.
+
+
+## Fundamentos
+
+1. Tudo é um __objeto__ 
+
+`foo`
+
+
+2. Todo objeto possui um __nome__ e __valor__.
+
+`foo = 2`
+
+3. Usamos __functions__ nesses objetos.
+
+`mean(foo)`
+
+4. Muitas funções estão em __libraries__ (__packages__)
+
+`library(dplyr)`
+
+5. R tentará ajudá-lo __help__
+
+`?dplyr`
+
+6. R possui __peculiaridades__
+
+`NA; error; warning`
+
+
+## Usando R como uma calculadora
+
+- verificar aula02 de icd2023 e 2022.
+
+## Dica: Cancelando comandos
+
+- Caso voce tenha enviado código para execução a partir do painel 
+`Source` e por alguma razão você desejar cancelar a execução, 
+basta apertar a tecla **ESC**.
+
+- Se você estiver executando código no console interativo, Você precisa usar <kbd>**Ctrl**</kbd>\+<kbd>**C**</kbd> em vez de <kbd>**Esc**</kbd> para 
+cancelar o comando.
+
+- Cancelar um comando não é útil apenas para finalizar comandos incompletos. 
+
+- Você também pode usá-lo para dizer ao R para parar de executar o código (por exemplo, se o código estiver levando muito tempo para ser executado).
+
+
+## Funções Matemáticas e Estatísticas
+
+
+## Comparando objetos
+
+
+## Dica: Comparando números
+
+
+## Variáveis e Atribuição
+
+
+## Funções
+
+
+## Vetorização
+
+
+## Gerenciando seu Environment
+
+
+## Dica: Warnings vs Errors
+
+Preste atenção quando R fizer algo inesperado. 
+
+- **Errors**: são exibidos quando R não pode prosseguir com uma 
+operação. 
+
+- **Warnings**: são exibidas, geralmente, quando uma operação foi executada, mas provavelmente não funcionou como esperado.
+
+- Em ambos os casos, a mensagem que R exibe pelo mnenos tenta lhe dar 
+pistas sobre o problema.
+
+
+## R packages
+
+- Como exposto na parte I, uma das vantagens da linguagem R é sua 
+extensibilidade. E a forma usual de extender a linguagem é a programação 
+de pacotes ou biliotecas.
+
+- Até este momento, há Há mais de 20.000 pacotes disponíveis no 
+[CRAN](https://cran.r-project.org/web/packages/available_packages_by_date.html).
+
+- R e o RStudio possuem funcionalidades para o gerenciamento de pacotes:
+
+
+## R packages 
+
+A linguagem R possui diversos comandos para o gerenciamento de 
+pacotes:
+
+- Você pode ver quais pacotes estão instalados com: `installed.packages()`
+
+- Você pode instalar pacotes com: `install.packages("nome do pacote")`
+
+- Você pode atualizar os pacotes instalados com `update.packages()`
+
+- Você pode remover um pacote com `remove.packages("nome do pacote")`
+
+- Você ativa um pacote instalado para uso com `library(packagename)` ou 
+com `nome_do_pacote::nome_da_funcao_do_pacote`
+
+Por exemplo, para instalar o pacote `dplyr`:
+
+```{r}
+#| echo: true
+#| eval: false
+install.packages("dplyr")
+```
+
+Podemos instalar diversos pacotes no mesmo comando:
+
+```{r}
+#| echo: true
+#| eval: false
+install.packages("dplyr", "ggplot2", "tidyr")
+```
+
+Para ativar o pacote em uma sessão fazemos:
+
+```{r}
+#| echo: true
+#| eval: false
+library(dplyr)
+```
+
+Uma alternativa ao comando `library()` é utilizar:
+
+```{r}
+#| echo: true
+#| eval: false
+dplyr::glimpse(mtcars) # o pacote deve ter sido instalado!
+```
+
+
+Poderíamos remover o mesmo pacote como:
+
+```{r}
+#| echo: true
+#| eval: false
+remove.packages("dplyr")
+```
+
+
+## R packages
+
+O RStudio possui funcionalidades para o gerenciamento de pacotes no 
+painel Output, na guia `Packages`:
+
+```{r painel_output, echo=FALSE, out.width="60%", fig.align="center"}
+knitr::include_graphics(path = "img/painel_output.png")
+```
+
+- Nesta guia, é possível instalar pacotes clicando em `Install` e, na janela exibida, digitar o nome do pacote ou pacotes a serem instalados, no caso de 
+mais de um pacote, bastar que os nomes sejam separados por vírgula ou 
+espaço.
+
+- Nesta guia também é possível atualizar pacotes já instalados clicando 
+em `Update`. É importante sempre atualizar os pacotes.
+
+- É também possível ativar e desativar pacotes marcando ou desmarcando 
+o quadro referente ao pacote.
+

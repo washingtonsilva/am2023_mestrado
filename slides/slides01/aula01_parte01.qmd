@@ -1,5 +1,5 @@
 ---
-title: "Análise Multivariada - Aula 1"
+title: "Análise Multivariada - Aula 1 - Parte I"
 title-slide-attributes:
     data-background-image: logo.jpeg
     data-background-size: contain
@@ -15,9 +15,11 @@ format:
     progress: true
     code-link: true
     self-contained: false
-    preview-links: true
+    preview-links: false
     transition: slide
     slide-number: true
+    scrollable: true
+    overview: true
     logo: logo.jpeg
 editor: source
 crossref:
@@ -43,6 +45,21 @@ csl: associacao-brasileira-de-normas-tecnicas.csl
 
 
 ## Avaliações 
+
+
+## Recomendações
+
+Assuma a responsabilidade pela sua aprendizagem:
+
+- Investa o tempo necessário.
+
+- Seja proativo e curioso.
+
+- Desça buracos de coelho.
+
+- Faça perguntas.
+
+- Aprenda a aprender (sofisticação técnica).
 
 
 # Softwares necessários
@@ -92,7 +109,8 @@ arquivo.
 
 # A Linguagem R 
 
-## Por que aprender a linguagem R? {.smaller}
+
+## Por que aprender a linguagem R? {#sec-aprenr}
 
 - R é uma linguagem de programação de domínio específico, foi criada para analisar dados.
 
@@ -121,6 +139,7 @@ knitr::include_graphics("https://miro.medium.com/v2/resize:fit:1400/format:webp/
 
 # Conhecendo o RStudio
 
+
 ## RStudio IDE x Linguagem R
 
 ```{r fig01, out.width = "60%", echo = FALSE, fig.align = 'center', fig.cap="Analogia da diferença entre R e RStudio"}
@@ -140,7 +159,7 @@ Para acessar as configurações do Rstudio, você precisa clicar em:
 - `RStudio > Tools > Global Options` ou pelo atalho `Cmd + ,` (Macintosh).
 
 
-## Configurações: `General: Basic`
+## Configurações: `General: Basic` {#sec-confbasic}
 
 ::: {.panel-tabset}
 
@@ -316,14 +335,12 @@ saídas, como gráficos, conteúdo HTML ou arquivos em disco. Contém as guias:
       Projeto R da sessão. Existem opções para adicionar 
       novos arquivos e pastas, exclusão/renomeação de arquivos, entre outras.
 
-
 - Guia `Plots`:
 
     - Esta guia exibe imagens estáticas produzidas nba sessão. Há setas para 
       navegar entre gráficos mais antigos e mais recentes, Zoom, um botão de 
       exportação para salvar as imagens, um botão de exclusão  imagem exibida e 
       um ícone de vassoura que limpará TODOS os gráficos temporários desta guia.
-
 
 - Guia `Packages`:
 
@@ -339,7 +356,6 @@ saídas, como gráficos, conteúdo HTML ou arquivos em disco. Contém as guias:
     - Esta guia exibe a documentação e as vinhetas dos pacotes. 
     - O ícone `Home` exibe a página de ajuda geral, com links para 
       Recursos, Manuais, Referências e Suporte Posit.
-
 
 - Guia `Viewer`:
 
@@ -386,13 +402,13 @@ knitr::include_graphics("https://docs.posit.co/ide/user/ide/guide/ui/images/file
 
 ## RStudio Projects
 
-- Cientistas e Analistas de dados mantêm todos os arquivos associados a um determinado projeto juntos e organizados em pastas — dados, scripts, 
+- Cientistas e Analistas de dados mantêm todos os arquivos associados a um determinado projeto juntos e organizados em pastas/diretórios — dados, scripts, 
 relatórios etc. 
 
 - Esta é uma prática tão sábia e comum que o RStudio tem suporte integrado 
 para isso por meio dos `Projects`. 
 
-- Os RStudio Projects tornam simples organizar seu trabalho em vários contextos, cada um com seu próprio diretório de trabalho e documentos de origem.
+- Os RStudio Projects tornam simples organizar seu trabalho em vários contextos, cada um com seu próprio diretório e documentos de origem.
 
 
 ## Criando Projects
@@ -430,7 +446,7 @@ knitr::include_graphics(path = "img/new_proj2.png")
 ```
 
 
-## Criando Projects {.smaller}
+## Criando Projects 
 
 ```{r new_proj2b, echo=FALSE, out.width="70%", fig.align="center"}
 knitr::include_graphics(path = "img/new_proj04.jpeg")
@@ -464,7 +480,6 @@ Projects.
 
 ## Project Configurado
 
-
 ```{r new_proj5, echo=FALSE, out.width="60%", fig.align="center"}
 knitr::include_graphics(path = "img/new_proj05.jpeg")
 ```
@@ -475,13 +490,53 @@ knitr::include_graphics(path = "img/new_proj05.jpeg")
 - Agora que você tem um RStudio Project configurado.
 
 - Você pode começar a criar scripts R e documentos computacionais como 
-notebooks, quarto, R markdown etc.) ou o que for necessário para concluir seu projeto. 
+notebooks, quarto projects, R markdown..., ou o que for necessário 
+para concluir seu projeto. 
 
-- Todos os arquivos de um projeto agora estarão contidos no projeto 
-RStudio e salvos na pasta do projeto.
+- Todos os arquivos de um projeto agora estarão contidos no  
+RStudio Project e salvos na pasta do projeto.
 
-- As configurações que fizemos no Slides 18 afetam o comportamento 
-dos projetos.
+- As configurações que fizemos na @sec-confbasic afetam o comportamento dos projetos.
+
+
+## Wokflow dentro do RStudio
+
+Existem duas maneiras principais de trabalhar dentro do RStudio:
+
+1. Teste o código diretamente no console R interativo e copie o código 
+para um arquivo .R que pode ser executado posteriormente.
+
+- Isso funciona bem ao fazer pequenos testes.
+
+- Entretanto, rapidamente se torna ineficaz e trabalhoso.
+
+2. **Escreva código em um `script.R`** e use as teclas de atalho do RStudio 
+para enviar a(s) linha(s) selecionada(s) para o console.
+
+- Esta é uma **ótima** maneira de começar; todo o seu código estará salvo para 
+ uso posterior.
+
+- Você poderá executar o arquivo criado a partir dos menus do RStudio ou 
+usando a função `source()`.
+
+
+## Executando segmentos do seu código
+
+O RStudio oferece grande flexibilidade na execução de código. Existem botões, opções de menu e atalhos de teclado. Para executar uma linha de código, você pode:
+
+1. clicar no botão `Run` acima do editor, ou;
+
+2. selecionar `Run Selected Lines` a partir do menu `Code`, ou;
+
+3. Digigar <kbd>**Ctrl**</kbd>\+<kbd>**Enter**</kbd> no Windows ou Linux
+  ou <kbd>Cmd</kbd>\+<kbd>Return</kbd> no OS X.
+  
+  
+
+
+
+
+
 
 
 
