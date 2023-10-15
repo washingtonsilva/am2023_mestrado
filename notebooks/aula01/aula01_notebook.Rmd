@@ -1,0 +1,1027 @@
+---
+title: 'Aula 1: Introdução à Linguagem R'
+author: "Seu nome"
+subtitle: Introdução à Ciência dos Dados 2023  Mestrado Profissional em Administração
+output:
+  html_document:
+    df_print: paged
+---
+
+## Configurações Globais e Pacotes Necessários
+
+```{r setup, warning = FALSE, message = FALSE}
+knitr::opts_chunk$set(digits = 4, scipen = 999, warning = FALSE, message = FALSE)
+
+# pacotes utilizados
+library(MASS)
+library(dplyr)
+library(skimr)
+library(gapminder)
+```
+
+
+## Usando R como uma calculadora 
+
+Adição:
+
+```{r}
+2 + 18  
+```
+
+Subtração: 
+
+```{r}
+2 - 18
+```
+
+Divisão:
+
+```{r}
+50821/6 
+```
+
+Multiplicação:
+
+```{r}
+21*4  
+```
+
+Exponencial:
+
+```{r}
+exp(10)  # função e^10
+```
+
+Logaritmo natural:
+
+```{r}
+log(10)  # log natural de 10
+```
+
+Combinações:
+
+```{r}
+choose(10, 8) 
+```
+
+Fatorial:
+
+```{r}
+factorial(100)
+```
+
+Coseno:
+
+```{r}
+cos(pi)
+```
+
+Seno:
+
+```{r}
+sin(pi) 
+```
+
+Arredontamento
+```{r}
+round(pi, digits=2) 
+```
+
+
+### Precedência de operações
+
+Divisao tem precedencia, a operação abaixo corresponde a (1/200)*30: 
+
+```{r}
+1/200*30
+```
+
+Deve-se usar parenteses para definir a precedenci:
+
+```{r}
+1/(200*30)
+```
+
+```{r}
+(59 + 73 + 2)/3
+```
+
+
+## Variaveis e Atribuição de valores 
+
+Variáveis não precisam ser declaradas previamente, são definidas e alteradas 
+com as operações realizadas para criá-las (tipagem dinâmica).
+
+É uma boa prática atribuir valores às variáveis criadas usando o operador 
+`<-`. 
+
+No Windows, um atalho para inseri-lo é dado pela seguinte combinação de teclas: 
+`Alt + (-)`:
+
+```{r}
+x <- 3*4 # boa pratica
+x
+```
+
+Não é uma boa prática atribuir valores a uma variável utilizando `=`:
+
+```{r}
+x = 5*9  # pratica ruim
+x
+```
+
+
+## Sintáxe da Linguagem 
+
+```{r}
+(r_rocks <- 2^3)
+```
+
+Qual o problema com os códigos abaixo? 
+
+```{r, eval=FALSE}
+r_rock
+```
+
+```{r, eval=FALSE}
+R_rocks
+```
+
+A linguagem R é sensível ao caso, ou seja, letras minúsculas e maiúsculas 
+representam objetos diferentes. 
+
+Usando o nome correto do objeto:
+
+```{r}
+r_rocks
+```
+
+
+## Operadores Lógicos 
+
+A seguir, são apresentados exemplos de operadores lógicos, ou seja, operadores 
+que retornam `TRUE` ou `FALSE`.
+
+Podemos criar e atribuir valores a diferentes variáveis em uma mesma linha de 
+usando `;` para separar as operações
+
+```{r}
+a <- 5; b <- 7
+```
+
+Se quisermos ver os valores atribuídos às variáveis, basta envolvermos cada 
+uma das expressões com parênteses:
+
+```{r}
+(a <- 5); (b <- 7)
+```
+
+Vejamos alguns exemplos de testes lógicos envolvendo variáveis numéricas:
+
+Exemplo 1: `a` é menor que `b`?
+
+```{r}
+a < b           
+```
+
+Exemplo 2: `a` é menor ou igual a `b`?
+
+```{r}
+a <= b    
+```
+
+Exemplo 3: `a ` é maior que `b`?
+
+```{r}
+a > b    
+```
+
+Exemplo 4: `a` é maior ou igual a `b`?
+
+```{r}
+a >= b
+```
+
+Exemplo 5: `a` é exatamente igual a `b`?
+
+```{r}
+a == b    # exatamente igual          
+```
+
+Exemplo 6: `a` é diferente de `b`?
+
+```{r}
+a != b    # não igual a
+```
+
+Agora, vamos ver alguns exemplos de testes lógicos utilizando variáveis 
+booleanas, isto é, variáveis que assume apenas dois valores `TRUE` ou 
+`FALSE`
+
+Inicialmente, vamos definir duas variáveis lógicas `x` e `y`:
+
+```{r}
+x <- TRUE
+x
+```
+
+```{r}
+y <- FALSE
+y
+```
+
+Qual o complemento lógico ou negação de `x`?
+
+```{r}
+!x        
+```
+
+O operador `&` significa a conjunção "e":
+
+```{r}
+x & y     # x e y               
+```
+
+O operador `|` significa a conjunção "ou":
+
+```{r}
+x | y     # x ou y 
+```
+
+A seguir um exemplo de uso do operador `&` com uma variável numérica:
+
+```{r}
+z <- 12
+z > 5 & z < 15
+```
+
+
+## Tipos Atômicos de Dados 
+
+### double 
+
+```{r}
+a <- 1.23
+```
+
+```{r}
+typeof(a)     # fornece o tipo atomico do objeto
+```
+
+
+### integer 
+
+```{r}
+b <- 2L
+b
+```
+
+```{r}
+typeof(b)
+```
+
+
+### character 
+
+```{r}
+d <- "João" 
+d
+```
+
+```{r}
+typeof(d)
+```
+
+### logical 
+
+```{r}
+e <- TRUE
+e
+```
+
+```{r}
+typeof(e)
+```
+
+Fazendo a coerção de `logical` para `numeric`:
+
+```{r}
+v <- as.numeric(e)
+v
+```
+
+
+### complex 
+
+```{r}
+c <- 1 + 3i
+c
+```
+
+```{r}
+typeof(c)
+```
+
+
+## Tipos Especiais
+
+### NA = Not Available 
+
+Em geral, o símbolo `NA` é reservado para representar dados faltantes:
+
+```{r}
+g <- c(0, NA, 4, 7, NA)
+g
+```
+
+
+### NaN = Not a Number 
+
+```{r}
+h <- c(0/0, 2, 100)
+h
+```
+
+
+### Inf = infinity 
+
+```{r}
+i <- c(1, 100/0, -10/0)
+i
+```
+
+
+## Estruturas de Dados 
+
+### Vector 
+
+Vetores são estruturas de dados que podem armazenar somente elementos do 
+mesmo tipo atômico. 
+
+Podemos criar vetores usando a função `c()`, sendo c uma abreviação de 
+*concatenate*.
+
+Vamos criar um vetor numérico:
+
+```{r}
+vec1 <- c(0.5, 0.6, 0.1, 0.8, 2, 1.5) # numeric
+print(vec1)
+```
+
+um lógico: 
+
+```{r}
+vec2 <- c(TRUE, FALSE)                # logical
+print(vec2)
+```
+
+um contendo caracteres:
+
+```{r}
+vec3 <- c("a", "b", "c")              # character
+print(vec3)
+```
+
+contendo números inteiros:
+
+```{r}
+vec4 <- 9:29                          # integer
+vec4
+```
+
+contendo números complexos:
+
+```{r}
+vec5 <- c(1+0i, 2+4i)                 # complex
+vec5
+```
+
+Podemos verificar a classe de cada um dos vetores criados usando a função 
+`class()`:
+
+```{r}
+class(vec1)
+```
+
+```{r}
+class(vec2) 
+```
+
+```{r}
+class(vec3) 
+```
+
+```{r}
+class(vec4) 
+```
+
+```{r}
+class(vec5) 
+```
+
+## Vetorização
+
+Na linguagem R, um conceito fundamental é o de "vetorização". 
+
+A vetorização refere-se à capacidade de realizar operações em vetores 
+de dados de forma conveniente, sem a necessidade de loops explícitos. 
+
+Isso é essencial para a eficiência e a simplicidade do código em R. 
+
+A vetorização signfica que podemos realizar operações diretamente 
+em vetores (adição, subtração, multiplicação e divisão). 
+
+Ou seja, temos dois vetores, podemos simplesmente efetuar operações 
+aritméticas sem a necessidade de loops ou construções condicionais:
+
+```{r}
+x <- c(1, 2, 3, 4, 5)
+y <- c(2, 3, 4, 5, 6)
+resultado <- mean((x - y)^2)
+resultado
+```
+
+
+## Data Frame 
+
+### Criando uma data frame I 
+
+```{r}
+df1 <- data.frame(x1 = c(7.1, 2.5, 8.4, 3.2, 3.8, 7.3),        
+                  x2 = c("H", "M", "M", "H", "M", "H"),
+                  x3 = c(0, 0, 1, 1, 0, 1)
+                  )
+df1
+```
+
+
+### criando uma data frame II
+
+```{r}
+custo = c(120, 180, 348, 125, 290)
+preco = c(152, 239, 487, 145, 345)
+produto = c("A","B","C","D","E")
+dataf = data.frame(produto, custo, preco)
+class(dataf)
+glimpse(dataf)
+```
+
+
+## Factor 
+
+Considere uma variável que registra meses: 
+
+```{r}
+x1 <- c("Dez", "Abr", "Jan", "Mar")
+```
+
+Usar um vetor de caractres para registrar essa variável tem dois problemas: 
+
+1. Existem apenas doze meses possíveis e possibilidade de **typos** (erros de 
+digitação):
+
+```{r}
+x2 <- c("Dez", "Abr", "Jam", "Mar")
+x2
+```
+
+2. O vetor não é ordenado de forma útil:
+
+```{r}
+sort(x1)
+```
+
+Podemos fixar ambos os problemas usando a estrutura de dados `factor`:
+
+1. definindo os niveis do fator
+
+```{r}
+month_levels <- c(
+  "Jan", "Fev", "Mar", "Abr", "Mai", "Jun", 
+  "Jul", "Ago", "Set", "Out", "Nov", "Dez"
+)
+```
+
+2. criando o fator
+
+```{r}
+y1 <- factor(x1, levels = month_levels)
+y1
+```
+
+3. Ordenação:
+
+```{r}
+sort(y1)
+```
+
+
+```{r}
+y2 <- factor(x2, levels = month_levels)
+y2
+```
+
+
+```{r}
+sort(y2)
+```
+
+acessando os níveis: 
+
+```{r}
+levels(y1)
+```
+
+Quaisquer valores que não estejam no vetor de dados serão silenciosamente 
+convertidos para NA:
+
+```{r}
+x2 <- c("Dez", "Abr", "Jam", "Mar")
+y2 <- factor(x2, levels = month_levels)
+y2
+```
+
+Se omitirmos os níveis, eles serão retirados dos dados em ordem alfabética:
+
+```{r}
+x1 <- c("Dez", "Abr", "Jan", "Mar")
+factor(x1)
+```
+
+
+## Matrix 
+
+### Criando uma Matriz 
+
+```{r}
+m <- matrix(c(0, 2, 1, 0), nrow = 2, ncol = 2, byrow = TRUE)
+m
+dim(m)   # dimensoes da matriz
+```
+
+
+### Algebra Matricial
+
+Adição:
+
+```{r}
+m + m    
+```
+
+Subtração:
+
+```{r}
+m - m 
+```
+
+Multiplicação por escalar:
+
+```{r}
+2*m 
+```
+
+Multiplicação:
+```{r}
+m %*% m  # multiplicacao de matrizes
+```
+
+Multiplicação elemento por elemento:
+
+```{r}
+m * m    # multiplicacao elemento x elemento
+```
+
+Matriz transposta:
+
+```{r}
+t(m)     # transposta
+```
+
+Matriz inversa:
+
+```{r}
+solve(m) # inversa de m1 (se existir)
+```
+
+
+verificando a validade da matriz inversa: $A^(-1) %*% A = I$
+
+```{r}
+solve(m) %*% m == diag(nrow = nrow(m), ncol = ncol(m))
+```
+
+
+### Autovalores e Autovetores
+
+```{r}
+eigen(m)
+```
+
+
+## List 
+
+### criando uma lista 
+
+```{r}
+lista_1 <- list(vec1, df1, m)
+lista_1
+```
+
+
+# Manipulacao de Dados 
+
+## Vetores 
+
+```{r}
+ls() # lista os objetos ativos na secao
+```
+
+### Extracao de elementos de Vetores
+
+Exibindo o vetor vec1
+```{r}
+print(vec1)
+```
+
+eleciona o primeiro elemento:
+
+```{r}
+vec1[1]
+```
+
+seleciona o sexto elemento: 
+
+```{r}
+vec1[6]		     
+```
+
+seleciona todos, exceto o primeiro elemento:
+
+```{r}
+vec1[-1]      
+```
+
+seleciona todos menos o primeiro e o segundo elementos:
+
+```{r}
+vec1[c(-1,-2)]  
+```
+
+seleciona o segundo e quarto elementos:
+
+```{r}
+vec1[c(2,4)]
+```
+
+
+seleciona o segundo até o quarto elementos:
+
+```{r}
+vec1[c(2:4)]
+```
+
+
+### Substituindo um elemento de um vetor
+
+O terceiro elemento passa a ser 500:
+
+```{r}
+vec1[3] <- 500 
+vec1
+```
+
+
+### Funções Matemáticas e Estatísticas para vetores
+
+Calcula o tamanho/numero de elementos do vetor:
+
+```{r}
+length(vec1)   
+```
+
+Há quantos elementos únicos no vetor:
+
+```{r}
+unique(vec1)   #
+```
+
+Ordena os elementos em ordem ascendente:
+
+```{r}
+sort(vec1)     
+```
+
+Ordena os elementos em ordem decrescente:
+
+```{r}
+sort(vec1, decreasing = TRUE)
+```
+
+Calcula a soma dos elementos: 
+
+```{r}
+sum(vec1) 
+```
+
+Calcula o produto dos elementos do vetor:
+
+```{r}
+prod(vec1)     
+```
+
+Fornece o mínimo dos elementos do vetor: 
+
+```{r}
+min(vec1)
+```
+
+Fornece o máximo dos elementos do vetor
+```{r}
+max(vec1)      # máximo dos elementos do vetor
+```
+
+Calcula a média dos elementos:
+
+```{r}
+sum(vec1)/length(vec1)
+```
+
+```{r}
+mean(vec1)     # média dos elementos
+```
+
+Calcula a mediana dos elementos:
+
+```{r}
+median(vec1)   # mediana dos elementos
+```
+
+
+Fornece os valores mínimo e máximo:
+
+```{r}
+range(vec1) 
+```
+
+
+Calcula a variância dos dados:
+
+```{r}
+sum((vec1 - mean(vec1))^2)/(length(vec1) - 1)
+```
+
+```{r}
+var(vec1) 
+```
+
+Calcula o desvio-padrão:
+
+```{r}
+sqrt(var(vec1))
+```
+
+```{r}
+sd(vec1)  
+```
+
+Calcula a covariância entre as duas variáveis:
+
+```{r}
+cov(vec1,vec1) # covariância (cov(x,y))
+```
+
+Calcula a correlação entre as duas variáveis:
+
+```{r}
+cor(vec1,vec1) # correlação (cor(x,y))
+```
+
+Fornece um resumo de estatísticas descritvas:
+
+```{r}
+summary(vec1)  # estatíticas descritivas
+```
+
+
+### Lidando com valores faltantes em estatísticas descritivas
+
+Vamos criar um vetor contendo valores faltantes (missing data):
+
+```{r}
+vetor_na <- c(1, 2, 0, 2, NA, 5, 10, NA)
+```
+
+Se calcularmos a média de `vetor_na` com a função `mean()` sem remover os
+valores ausentes, obtemos a seguinte resultado:
+
+```{r}
+mean(vetor_na)
+```
+
+se houver valores faltantes em uma variável e R não for instruída a
+considerar sua presença ao executar uma função, então a saída dessa 
+função será NA. 
+
+Portanto, precisamos informar a linguagem para ignorar as observações que 
+são `NA`. 
+
+Fazemos isso inserindo a opção `na.rm=TRUE` dentro da função, o que significa 
+que é verdadeiro remover os dados faltantes:
+
+```{r}
+mean(vetor_na, na.rm = TRUE)
+```
+
+Há dados faltantes há no vetor `vetor_na`?
+
+```{r}
+is.na(g)
+```
+
+Quantos dados faltantes há no vetor `vetor_na`?:
+
+```{r}
+sum(is.na(g)) 
+```
+
+Quantos dados completos há no vetor `vetor_na`?
+
+
+## Análise Exploratória de Dados
+
+Dados utilizados
+
+```{r}
+data("gapminder")
+head(gapminder) # exibe as primeiras 6 linhas da data frame
+```
+
+Podemos ter uma visão rápida e geral da estrutura de dados de `gapminder` com 
+a função `glimpse()` do dplyr:
+
+```{r}
+dplyr::glimpse(gapminder)
+```
+
+A função `skim` do pacote `skimr` fornece diversas estatísticas descritivas 
+de uma `data.frame` ou `tibble` (versão modernizada de uma `data.frame`):
+
+```{r}
+skimr::skim(gapminder)
+```
+
+### Pacote dplyr: select()
+
+`select(df, a, b,...)`: seleciona apenas as colunas/variáveis que desejamos.
+
+seleção por inclusão
+
+```{r}
+dados <- select(gapminder, year, country, gdpPercap)
+```
+
+seleção por exclusão
+
+```{r}
+smaller_gapminder_data <- select(gapminder, -continent)
+```
+
+Boa pratica com dplyr
+
+```{r}
+dados <- gapminder %>% select(year, country, gdpPercap)
+```
+
+**Dica:** atalho do RStudio: `Ctrl + Alt + I` insere o operador pipe `%>%`
+
+
+### Pacote dplyr: filter()
+
+Se agora quisermos avançar analisando apenas países europeus, podemos combinar `select()`, que seleciona colunas/variáveis, e `filter()` que seleciona 
+linhas.
+
+```{r}
+dados <- gapminder %>%
+  filter(continent == "Europe") %>%
+  select(year, country, gdpPercap)
+```
+
+Se quisermos analisar a expectativa de vida dos países europeus, mas apenas 
+para um ano específico (por exemplo, 2007), podemos fazer:
+
+```{r}
+dados_lifexp2007 <- gapminder %>%
+  filter(continent == "Europe", year == 2007) %>%
+  select(country, lifeExp)
+```
+
+
+### Pacote dplyr: group_by() e summarise()
+
+Se quisermos estimar a renda média per capita por continente em todos os anos?
+
+Usando a função `group_by()`, dividimos a data frame original em várias partes, então podemos executar funções como `mean()` dentro de `summarise()` 
+
+
+```{r}
+rmp_continente <- gapminder %>%
+  group_by(continent) %>%
+  summarize(gdpPercap_media = mean(gdpPercap))
+rmp_continente
+```
+
+
+### agrupando por mais de uma coluna/variavel
+
+A função `group_by()` nos permite agrupar os dados por múltiplas variáveis.
+
+```{r}
+rmp_continente_ano <- gapminder %>%
+  group_by(continent, year) %>%
+  summarize(gdpPercap_media = mean(gdpPercap))
+rmp_continente_ano
+```
+
+
+### Sumarizando dados por mais de uma estatistica 
+
+Isso já é bastante poderoso, mas fica ainda melhor! Você não está limitado a definir apenas uma estatística em `summarise()`
+
+```{r}
+rmp_continente_pop_ano <- gapminder %>%
+  group_by(continent, year) %>%
+  summarize(gdpPercap_media = mean(gdpPercap),
+            gdpPercap_dp = sd(gdpPercap),
+            pop_media = mean(pop),
+            pop_dp = sd(pop))
+rmp_continente_pop_ano
+```
+
+
+### Pacote dplyr: count() e n()
+
+- Uma operação muito comum é contar o número de observações para cada grupo. 
+
+- O pacote `dplyr` possui duas funções relacionadas que ajudam nisso. 
+
+- `count()`: permite contar os valores únicos de uma ou mais variáveis 
+
+- `n()`: fornece o tamanho do grupo
+
+Por exemplo, se quisermos verificar o número de países, por continente, 
+incluídos no conjunto de dados para o ano de 2002, podemos fazer:
+
+```{r}
+gapminder %>%
+  filter(year == 2002) %>%
+  count(continent, sort = TRUE)
+```
+
+
+### Pacote dplyr: mutate()
+
+Também podemos criar novas variáveis antes (ou mesmo depois) de resumir   
+informações usando `mutate()`:
+
+```{r}
+pib_pop_continente_ano <- gapminder %>%
+  mutate(pib_bilhoes = gdpPercap*pop/10^9) %>%
+  group_by(continent,year) %>%
+  summarize(gdpPercap_media = mean(gdpPercap),
+            gdpPercap_dp = sd(gdpPercap),
+            pop_media = mean(pop),
+            pop_dp = sd(pop),
+            pib_bilhoes_media = mean(pib_bilhoes),
+            pib_bilhoes_dp = sd(pib_bilhoes))
+
+glimpse(pib_pop_continente_ano)
+```
+
+
+### Pacote `dplyr`: `arrange()`
+
+- `arrange()` ordena as linhas/observações/casos de uma `data.frame` (ou 
+`tibble`) pelos valores das colunas/variáveis selecionadas.
+  
+```{r}
+rmp_continente <- gapminder %>%
+    group_by(continent) %>%
+    summarize(gdpPercap_media = mean(gdpPercap)) %>%
+    arrange(gdpPercap_media) 
+
+rmp_continente
+```
+
+- Ordenando em ordem decrescente:
+
+```{r}
+rmp_continente <- gapminder %>%
+    group_by(continent) %>%
+    summarize(gdpPercap_media = mean(gdpPercap)) %>%
+    arrange(desc(gdpPercap_media))
+
+rmp_continente
+```
+
+
+# INCLUIR GRÁFICOS

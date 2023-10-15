@@ -26,8 +26,6 @@ crossref:
   fig-title: '**Fig.**'
   fig-labels: arabic
   title-delim: "**.**"
-execute: 
-  echo: true
 bibliography: referencias.bib
 csl: associacao-brasileira-de-normas-tecnicas.csl
 ---
@@ -35,102 +33,33 @@ csl: associacao-brasileira-de-normas-tecnicas.csl
 
 # Introdução à Linguagem R
 
-## Linguagem R
+## Summário
 
-- R é uma linguagem de programação de domínio específico, seu domínio são os métodos estatísticos para análise e visualização de dados.
+- Introdução à Linguagem R
 
-- R tem uma comunidade online vibrante e próspera (*e.g.*, [Stack Overflow](https://stackoverflow.com/questions/tagged/r)).
+    - Topico 1
+    - Topico 2
+    - Topico 3
+  
+  
+## RStudio Project
 
-- R é muito __flexível e poderosa__—adaptável a praticamente qualquer tarefa, _por exemplo_, 'econometria, análise de dados espaciais, aprendizado de máquina, raspagem de web, limpeza de dados, construção de sites...
+- A estrutura de pastas inicial recomendada para a disciplina:
 
-- Além disso é __free__ and __open source__.
+    - `C:/analise_multivariada_2023`:
 
-
-## Fundamentos
-
-1. Tudo é um __objeto__ 
-
-`foo`
-
-
-2. Todo objeto possui um __nome__ e __valor__.
-
-`foo = 2`
-
-3. Usamos __functions__ nesses objetos.
-
-`mean(foo)`
-
-4. Muitas funções estão em __libraries__ (__packages__)
-
-`library(dplyr)`
-
-5. R tentará ajudá-lo __help__
-
-`?dplyr`
-
-6. R possui __peculiaridades__
-
-`NA; error; warning`
-
-
-## Usando R como uma calculadora
-
-- verificar aula02 de icd2023 e 2022.
-
-## Dica: Cancelando comandos
-
-- Caso voce tenha enviado código para execução a partir do painel 
-`Source` e por alguma razão você desejar cancelar a execução, 
-basta apertar a tecla **ESC**.
-
-- Se você estiver executando código no console interativo, Você precisa usar <kbd>**Ctrl**</kbd>\+<kbd>**C**</kbd> em vez de <kbd>**Esc**</kbd> para 
-cancelar o comando.
-
-- Cancelar um comando não é útil apenas para finalizar comandos incompletos. 
-
-- Você também pode usá-lo para dizer ao R para parar de executar o código (por exemplo, se o código estiver levando muito tempo para ser executado).
-
-
-## Funções Matemáticas e Estatísticas
-
-
-## Comparando objetos
-
-
-## Dica: Comparando números
-
-
-## Variáveis e Atribuição
-
-
-## Funções
-
-
-## Vetorização
-
-
-## Gerenciando seu Environment
-
-
-## Dica: Warnings vs Errors
-
-Preste atenção quando R fizer algo inesperado. 
-
-- **Errors**: são exibidos quando R não pode prosseguir com uma 
-operação. 
-
-- **Warnings**: são exibidas, geralmente, quando uma operação foi executada, mas provavelmente não funcionou como esperado.
-
-- Em ambos os casos, a mensagem que R exibe pelo mnenos tenta lhe dar 
-pistas sobre o problema.
-
+        - `/data_raw`
+        - `/data_clean`
+        - `/scripts`
+        - `/notebooks`
+        - `/exercicios`
+        - `/slides`
+        
 
 ## R packages
 
-- Como exposto na parte I, uma das vantagens da linguagem R é sua 
-extensibilidade. E a forma usual de extender a linguagem é a programação 
-de pacotes ou biliotecas.
+- Uma das vantagens da linguagem R é sua  extensibilidade. E a forma usual 
+de extender a linguagem é a programação de pacotes ou biliotecas.
 
 - Até este momento, há Há mais de 20.000 pacotes disponíveis no 
 [CRAN](https://cran.r-project.org/web/packages/available_packages_by_date.html).
@@ -159,7 +88,7 @@ Por exemplo, para instalar o pacote `dplyr`:
 ```{r}
 #| echo: true
 #| eval: false
-install.packages("dplyr")
+install.packages("MASS")
 ```
 
 Podemos instalar diversos pacotes no mesmo comando:
@@ -167,7 +96,7 @@ Podemos instalar diversos pacotes no mesmo comando:
 ```{r}
 #| echo: true
 #| eval: false
-install.packages("dplyr", "ggplot2", "tidyr")
+install.packages("MASS", "dplyr", "gapminder")
 ```
 
 Para ativar o pacote em uma sessão fazemos:
@@ -186,7 +115,6 @@ Uma alternativa ao comando `library()` é utilizar:
 dplyr::glimpse(mtcars) # o pacote deve ter sido instalado!
 ```
 
-
 Poderíamos remover o mesmo pacote como:
 
 ```{r}
@@ -201,7 +129,9 @@ remove.packages("dplyr")
 O RStudio possui funcionalidades para o gerenciamento de pacotes no 
 painel Output, na guia `Packages`:
 
-```{r painel_output, echo=FALSE, out.width="60%", fig.align="center"}
+![](img/painel_output.png")
+
+```{r, echo = FALSE, out.width = "9l0%", fig.align = "center"}
 knitr::include_graphics(path = "img/painel_output.png")
 ```
 
@@ -214,4 +144,299 @@ em `Update`. É importante sempre atualizar os pacotes.
 
 - É também possível ativar e desativar pacotes marcando ou desmarcando 
 o quadro referente ao pacote.
+
+
+## Usando R como uma calculadora
+
+```{r}
+#| eval: false
+#| echo: true
+2 + 18               # adição
+2 - 18               # subtração
+50821/6              # divisão
+21*4                 # multiplicação
+exp(10)              # função e^10
+log(10)              # log natural de 10
+choose(10, 8)        # comb(n,k)
+factorial(100)       # !100
+cos(pi)              # cosseno 
+sin(pi)              # tangente 
+round(pi, digits=2)  # arredondamento
+```
+
+Precedencia de operacoes:
+
+```{r}
+#| eval: false
+#| echo: true
+1/200*30        # (1/200)*30 - divisao tem precedencia
+```
+
+```{r}
+#| eval: false
+#| echo: true
+1/(200*30)      # deve-se usar parenteses para definir a precedencia
+```
+
+definindo a precedencia com parênteses:
+
+```{r}
+#| eval: false
+#| echo: true
+(59 + 73 + 2)/3
+```
+
+
+## Sintáxe da linguagem: Atribuição
+
+- Podemos criar objetos com `<-`
+
+```{r}
+#| eval: false
+#| echo: true
+x <- 3*4
+```
+
+- Todas as instruções R com as quais criamos objetos (declarações de atribuição) 
+tem o mesmo formato:
+
+```{r}
+#| eval: false
+#| echo: true
+nome_objeto <- valor
+```
+
+- como ler esse código?
+
+- >> `valor é atribuído a nome_objeto`
+
+- Obs: `nome_objeto = valor` funciona mas não é uma boa prática!
+
+
+## Sintáxe da linguagem: Atribuição (cont.)
+
+- Faremos muitas atribuições com `<-`, e não é agradável digitar!
+
+- Solução? 
+
+- shortcut: `Alt + -`
+
+- Observe que o RStudio magicamente envolve `<-` com **espaços**, que é uma boa   prática de formatação de código. 
+
+- É terrível ler código, então **dêaosseusolhosumapausa** e use `espaços`.
+
+- Há um contrato implícito entre nós e a linguagem R.
+
+- R fará o cálculo tedioso para nós, mas em troca, **devemos ser completamente preciso nas instruções**. 
+
+- `Erros de digitação` (`typos`) importam. 
+
+- `Case` (Maiúscula/Minúscula) importa. 
+
+
+## Programando em R: Boas Práticas
+
+- nomes de objetos devem começar com uma letra e podem conter `letras`, 
+  `números`, `_` e `.`
+  
+- Queremos nomes de objetos **descritivos**, então precisamos de uma 
+  convenção (`code style`).
+  
+- [Wickham & Grolemund (2017)](https://r4ds.had.co.nz/workflow-basics.html#whats-in-a-name) recomendam o estilo `snake_case`.
+
+```{r}
+#| eval: false
+#| echo: true
+i_use_snake_case
+OtherPeopleUseCamelCase
+some.people.use.periods
+And_aFew.People_RENOUNCEconvention
+```
+
+
+## Programando em R: Guias de Estilo
+
+- [Google’s R Style Guide](https://google.github.io/styleguide/Rguide.html)
+
+- [Tidyverse Style Guide](https://style.tidyverse.org/)
+
+## Funções em R
+
+- R tem uma grande coleção de funções internas que são executadas como a 
+seguinte sintaxe:
+
+```{r}
+#| eval: false
+#| echo: true
+function_name(arg1 = val1, arg2 = val2, ...)
+```
+
+- Exemplos com a função `seq()`
+
+```{r}
+#| eval: false
+#| echo: true
+y <- seq(1, 10, length.out = 5)
+y
+```
+
+- Exemplos de *autocompletion* com `TAB` 
+
+para que o resultado seja exibido diretamente envolva toda a expressão entre 
+parênteses:
+
+```{r}
+#| eval: false
+#| echo: true
+(y <- seq(1, 10, length.out = 5))
+```
+
+
+
+
+# Tipos de Dados (Atômicos)
+
+## Principais Tipos
+
+                  Descrição    
+-----------       ---------------------------------------------  
+`double`          a vector containing real values
+`integer`         a vector containing integer values
+`character`       a vector containing character values
+`logical`         a vector containing logical values
+`complex`         a vector containing complex values              
+
+
+## Tipos Especiais
+
+                  Descrição    
+-----------       ---------------------------------------------  
+`NA`              `Not Available`: dados faltantes
+`NaN`             `Not a Number`: 0/0 
+`Inf`             $+ \infty$ ou $- \infty$
+
+               
+## Documentação: Definições daLinguagem R 
+
+[R Language Definition](https://cran.r-project.org/doc/manuals/r-release/R-lang.html) 
+
+
+
+
+# Estruturas de Dados
+
+
+## Estruturas de Dados: Visão Geral
+
+```{r fig1, out.width = "80%", fig.align = 'center'}
+knitr::include_graphics("img/struct.png")
+```
+
+
+## Factors: `forcats` package
+
+```{r fig2, out.width = "20%", fig.align = 'center'}
+knitr::include_graphics("img/forcats.png")
+```
+
+Encorajo vocês a explorararem o pacotte `forcats`:
+
+[forcats website](https://forcats.tidyverse.org/)
+
+[Cheat Sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/master/factors.pdf)
+
+
+
+
+# Manipulando dados com o pacote dplyr
+
+## Data Frames: Manipulação com o pacote `dplyr`
+
+- O pacote [`dplyr`](https://dplyr.tidyverse.org/) pertence a um metapacote (família de pacotes) projetado especificamente para Ciência dos Dados chamado [Tidyverse](https://www.tidyverse.org/). 
+
+- Alguns desses pacotes serão abordados ao longo deste curso, mas você pode encontrar informações mais completas em: [https://www.tidyverse.org/](https://www.tidyverse.org/).
+
+- o pacote `dplyr` é uma gramática de manipulação de dados. 
+
+- O pacote fornece um conjunto consistente de **verbos** que ajudam a resolver os    desafios mais comuns de manipulação de dados.
+
+
+## Pacote `dplyr`: Principais Verbos
+
+Verbos            Descrição    
+-----------       -------------------------------------------------------------
+`select()`        picks variables based on their names.
+`filter()`        picks cases based on their values.
+`mutate()`        adds new variables that are functions of existing variables
+`arrange()`       changes the ordering of the rows
+`summarise()`     reduces multiple values down to a single summary.
+`group_by()`      allows you to perform any operation “by group”
+
+
+## Tutorial sobre o Pacote `dplyr`
+
+- Para demonstrar o uso dos verbos, vamos utilizar os dados denominados 
+`gapminder` que estão disponíveis no próprio pacote `gapminder`.
+
+
+## Pacote `dplyr`: Verbos
+
+```{r fig-verbos, out.width = "90%", fig.align = 'center'}
+knitr::include_graphics("img/dplyr.png")
+```
+
+
+## Pacote `dplyr`: `group_by()` e `summarise()`
+
+```{r fig-gs, out.width = "55%", fig.align = 'center'}
+knitr::include_graphics("img/gs.png")
+```
+
+
+
+
+# Dicas
+
+
+## Dica: Cancelando comandos
+
+- Caso voce tenha enviado código para execução a partir do painel 
+`Source` e por alguma razão você desejar cancelar a execução, 
+basta apertar a tecla **ESC**.
+
+- Se você estiver executando código no console interativo, Você precisa usar <kbd>**Ctrl**</kbd>\+<kbd>**C**</kbd> em vez de <kbd>**Esc**</kbd> para 
+cancelar o comando.
+
+- Cancelar um comando não é útil apenas para finalizar comandos incompletos. 
+
+- Você também pode usá-lo para dizer ao R para parar de executar o código (por exemplo, se o código estiver levando muito tempo para ser executado).
+
+
+## Dica: Warnings vs Errors
+
+Preste atenção quando R fizer algo inesperado. 
+
+- **Errors**: são exibidos quando R não pode prosseguir com uma 
+operação. 
+
+- **Warnings**: são exibidas, geralmente, quando uma operação foi executada, mas provavelmente não funcionou como esperado.
+
+- Em ambos os casos, a mensagem que R exibe pelo mnenos tenta lhe dar 
+pistas sobre o problema.
+
+
+## O que não foi tratado sobre a Linguagem R?
+
+- **Controle de Fluxo**
+- **Gráficos**
+- **Outros Documentos Computacionais**
+- Iremos tratar alguns destes itens ao longo do curso.
+
+
+
+## Referência Adicional
+
+- Rapp, Albert. **Yet Again: R + Data Science**. Disponível em: [https://yards.albert-rapp.de/index.html](https://yards.albert-rapp.de/index.html)
+
+
 
