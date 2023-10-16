@@ -14,7 +14,8 @@ format:
   revealjs:
     progress: true
     code-link: true
-    self-contained: false
+    linkcolor: "#800000"
+    self-contained: true
     preview-links: false
     transition: slide
     slide-number: true
@@ -32,48 +33,152 @@ bibliography: referencias.bib
 csl: associacao-brasileira-de-normas-tecnicas.csl
 ---
 
-# Informações sobre a Disciplina
 
+## Summário: Aula 1
+
+- Apresentação da Disciplina (`slides01_parte01`)
+- RStudio: Ambiente de Desenvolvimento Integrado (`slides_parte01`)
+- Introdução à Linguagem R (`slides01_parte02`)
+
+- Documentos computacionais:
+
+    - script: `aula01_script.R`
+    - notebook: `aula01_notebook.Rmd`
+    
+
+# Apresentação da Disciplina
 
 ## Ambiente Virtual de Aprendizagem
+
+- Os materiais para a disciplina serão disponibilizados no Ambiente Virtual de Aprendizagem (Moodle) do IFMG:
+
+- [https://ead.ifmg.edu.br/formiga/](https://ead.ifmg.edu.br/formiga/){target="_blank"}
+
+- O usuáiro/email e a senha para acesso ao AVA são os mesmos que vocês utilizam 
+para acessar o sistema de registro e contole acadêmico [Meu IFMG](https://meu.ifmg.edu.br/Corpore.Net/Login.aspx){target="_blank"}.
+
+- Vocês deverão submeter exercícios, provas e outras atividades no AVA.
 
 
 ## Ementa
 
+1. Fundamentos de Análise de Dados
+  - Linguagem R
+  - RStudio IDE
+  - Documentos computacionais (scrpts, notebooks, quarto documents)
+
+2. Análise de Regressão
+
+3. Análise de Componentes Principais
+
+4. Análise Fatorial 
+
+5. Análise de Agrupamentos
+
+6. Se houver tempo: Introduçào aos Modelos de Equações Estruturais
+
 
 ## Objetivos
 
+- A ênfase deste curso está na **aplicação e implementação** dos métodos para 
+analisar dados em um contexto multivariado.
+
+- Embora a teoria estatística seja empregada quando necessário, o foco do curso 
+será o uso adequado das técnicas. 
+
+- Isso abrange a verificação das suposições dos métodos em relação aos dados, a estimativa de modelos e a avaliação da qualidade do ajuste, bem como a 
+interpretação e validação dos resultados.
+
+- Ao final do curso, espera-se que os participantes sejam capazes de:
+
+    1. Identificar um método multivariaddo correto para abordar uma questão de 
+      pesquisa específica.
+
+    2. Entender e implementar de forma independente as diferentes etapas da 
+      aplicação de uma análise multivariada de dados usando a linguage R.
+      
+    3. Desenvolver relatórios de análises de dados reproduzíveis e auditáveis.
+    
+    
+## Contexto
+
+- As disciplinas modernas sobre análise de dados (Estatística, Econometria, Aprendizagem Estatística...) são fundamentalmente disciplinas computacionais, 
+mas é fácil constatar que este fato não se reflete na formação dos 
+profissionais das ciências sociais aplicadas (e de outras ciências). 
+
+- Com a ascensão dos **Big Data** e da **Ciência de Dados**, 
+tornou-se cada vez mais claro que para formarmos pesquisadores e 
+profissionais preparados para os desafios atuais, é necessária um formação 
+explícita em técnicas e ferramentas computacionais. 
+
+- Além disso, as diretrizes curriculares recentes afirmam claramente que 
+trabalhar com dados requer extensas habilidades de computação e que 
+os profissionais de admnistração, e certamente dos profissionais das 
+demais áreas, devem ser fluentes no acesso, manipulação, análise e modelagem 
+de dados com softwares e procedimentos profissionais.
+
+
+## Referências
+
+- HAIR, J. F.; BLACK, W. C.; BABIN, B. J.; ANDERSON, R. E.; TATHAM, R. L. 
+**Análise Multivariada de Dados**. 6 ed., 2009, Porto Alegre: Bookman. 
+(Disponível na biblioteca do campus).
+
+- WICKHAM, Hadley; ÇETINKAYA-RUNDEL, Mine; GROLEMUND, Garrett. 
+**R for data science. import, tidy, transform, visualize, and model data**. 
+2nd. ed. 2023. O’Reilly Media, Inc. Disponível em: [https://r4ds.hadley.nz](https://r4ds.hadley.nz){target="_blank"}.
+
 
 ## Avaliações 
+
+- Listas de Exercícios: 30 pontos (diversos serão realizados durante as aulas).
+- Exame 1: 30 pontos 
+- Exame 2: 40 pontos
+
+
+## Dias/Horários/Atividades
+
+|     Dia          |      Horário      |    Exames      |
+|:----------------:|:-----------------:|:--------------:|
+| **16/10/23**     | **18:30 - 22:30** |.               |
+| **23/10/23**     | **18:30 - 22:30** |                |
+| **30/10/23**     | **18:30 - 22:30** |                |
+| **06/11/23**     | **18:30 - 22:30** |                |
+| **13/11/23**     | **18:30 - 22:30** | Exame 1        |
+| **20/11/23**     | **18:30 - 22:30** |                |
+| **27/11/23**     | **18:30 - 22:30** |                |
+| **04/12/23**     | **18:30 - 22:30** | Exame 2        |
+
+: Planejamento.
+
 
 
 ## Recomendações
 
 Assuma a responsabilidade pela sua aprendizagem:
 
-- Investa o tempo necessário.
+- Invista o tempo necessário.
 
-- Seja proativo e curioso.
+- Seja proativo e curioso (caso contrário, não deveria tentar cursar um 
+mestrado).
 
-- Desça buracos de coelho.
+- Entre em tocas de coelho.
 
-- Faça perguntas.
-
-- Aprenda a aprender (sofisticação técnica).
+- Aprenda a aprender de forma independente (sofisticação técnica).
 
 
 # Softwares necessários
 
 ## Programas
 
-- [Linguagem R 4.3.1](https://cloud.r-project.org/)
-- [IDE RStudio](https://posit.co/download/rstudio-desktop/)
-- [Quarto](https://quarto.org/docs/download/)
+- [Linguagem R 4.3.1](https://cloud.r-project.org/){target="_blank"}
+- [IDE RStudio](https://posit.co/download/rstudio-desktop/){target="_blank"}
+- [Quarto](https://quarto.org/docs/download/){target="_blank"}
 
 
 ## Instalando a Linguagem R 4.3.1
 
-1. Acesse [https://cloud.r-project.org/](https://cloud.r-project.org/)
+1. Acesse [https://cloud.r-project.org/](https://cloud.r-project.org/){target="_blank"}
 
 2. Selecione o sistema operacional, clicando em **Download R for Windows** por exemplo.
 
@@ -87,7 +192,7 @@ instalação ser concluída.
 
 ## Instalando o IDE RStudio
 
-1. Acesse [https://posit.co/download/rstudio-desktop/](https://posit.co/download/rstudio-desktop/)
+1. Acesse [https://posit.co/download/rstudio-desktop/](https://posit.co/download/rstudio-desktop/){target="_blank"}
 
 2. Em geral, o site detecta seu sistema operacional e disponibiliza o 
 instalador adequado loga abaixo de `2: Install RStudio`. 
@@ -101,7 +206,7 @@ seção `All Installers and Tarballs`
    
 ## Instalando o Sistema de Publicação Quarto
 
-1. Acesse [https://quarto.org/docs/download/](https://quarto.org/docs/download/)
+1. Acesse [https://quarto.org/docs/download/](https://quarto.org/docs/download/){target="_blank"}
 
 2. Percorra a página, encontre o executável para Windows: `quarto-1.3.450-win.msi` e, finalizado o download, instale clicando no 
 arquivo. 
@@ -124,8 +229,8 @@ arquivo.
 
 - A linguagem R produz gráficos de alta qualidade.
 
-- A linguagem R tem uma comunidade grande e acolhedora ([Cross Validated](https://stats.stackexchange.com/), 
-  [Posit Community](https://community.rstudio.com))
+- A linguagem R tem uma comunidade grande e acolhedora ([Cross Validated](https://stats.stackexchange.com/){target="_blank"}, 
+  [Posit Community](https://community.rstudio.com)){target="_blank"}
   
 - A linguagem R não é apenas gratuita, mas também é de código aberto e multiplataforma.
 
@@ -373,7 +478,7 @@ saídas, como gráficos, conteúdo HTML ou arquivos em disco. Contém as guias:
 O RStudio suporta realce de sintaxe e outros recursos especializados de edição 
 de código para tipos de arquivos específicos:
 
-- Scripts em R, Python, SQL
+- Scripts e Notebooks em R, Python, SQL
 
 - Documentos computacionais e científicos em Quarto, R Markdown e LaTeX.
 
@@ -402,7 +507,7 @@ knitr::include_graphics("https://docs.posit.co/ide/user/ide/guide/ui/images/file
 
 ## RStudio Projects
 
-- Cientistas e Analistas de dados mantêm todos os arquivos associados a um determinado projeto juntos e organizados em pastas/diretórios — dados, scripts, 
+- Cientistas e Analistas de dados mantêm todos os arquivos associados a um determinado projeto juntos e organizados em pastas/diretórios — dados, notebooks, scripts, 
 relatórios etc. 
 
 - Esta é uma prática tão sábia e comum que o RStudio tem suporte integrado 
@@ -428,7 +533,8 @@ Projetos RStudio podem ser criados:
 
 - Para criar um novo projeto no RStudio, use `File > New Project`.
 
-- Ou use o botão `New Project`, disponível na barra de ferramentas `Projects` no canto superior direito:
+- Ou use o botão `New Project`, disponível na barra de ferramentas 
+`Projects` no canto superior direito:
 
 - Isso abrirá o pop-up  `New Project Wizard`, clique em `New Directory`:
 
@@ -470,7 +576,9 @@ diretório.
 
 Quando um novo projeto é criado, o RStudio:
 
-- Cria um arquivo de projeto (com extensão `.Rproj`) dentro do diretório do projeto. Este arquivo contém várias opções de projeto e também pode ser usado como um atalho para abrir o projeto diretamente do sistema de arquivos.
+- Cria um arquivo de projeto (com extensão `.Rproj`) dentro do diretório do 
+projeto. Este arquivo contém várias opções de projeto e também pode ser usado 
+como um atalho para abrir o projeto diretamente do sistema de arquivos.
 
 - Cria um diretório oculto (.Rproj.user) onde arquivos temporários específicos do projeto são armazenados. 
 
@@ -490,13 +598,156 @@ knitr::include_graphics(path = "img/new_proj05.jpeg")
 - Agora que você tem um RStudio Project configurado.
 
 - Você pode começar a criar scripts R e documentos computacionais como 
-notebooks, quarto projects, R markdown..., ou o que for necessário 
+**notebooks**, quarto projects, R markdown..., ou o que for necessário 
 para concluir seu projeto. 
 
 - Todos os arquivos de um projeto agora estarão contidos no  
 RStudio Project e salvos na pasta do projeto.
 
-- As configurações que fizemos na @sec-confbasic afetam o comportamento dos projetos.
+- As configurações que fizemos na @sec-confbasic afetam o comportamento dos 
+projetos.
+
+
+## Project da Disciplina
+
+- Estrutura de pastas inicial recomendada para a disciplina:
+
+    - `C:/analise_multivariada_2023`
+
+        - `/data_raw`
+        - `/data_clean`
+        - `/scripts`
+        - `/notebooks`
+        - `/exercicios`
+        - `/slides`
+        
+        
+- Podemos verificar o diretório de trabalho atual (o diretório para o qual 
+R busca itens) usando o seguinte comendo no console:
+
+```{r}
+#| eval: false
+getwd()
+```
+
+        
+- Considerando que você tenha criado o projeto `analise_multivariada_2023` e 
+esteja uma sessão deste projeto, podemos criar a estrutura de pastas 
+recomendada usando os seguintes comandos no console:
+
+```{r}
+#| eval: false
+
+dir.create(data_raw)
+dir.create(data_clean)
+dir.create(scripts)
+dir.create(notebooks)
+dir.create(exercicios)
+dir.create(slides)
+```
+        
+
+## Linguagem R e o Sistema Operacional: Arquivos e Pastas
+
+- Em um ambiente **Windows**, a linguagem R pode ser uma maneira razoavelmente 
+eficaz de automatizar a manipulação de arquivos e pastas (diretórios).
+
+- A linguagem R possui diversas funções para obter informações do sistema 
+operacional e automatizar o gerenciamento de arquivos e pastas. 
+
+- Entretanto, os usuários de sistemas baseados em **Unix** (Linux/macOS) 
+geralmente já possuem maneiras mais elegantes de lidar com esses tarefas a 
+partir da linha de comando.
+
+- Vejamos algumas funções da linguagem R que permitem realizar operaçòes 
+diretamente no sistema operacional:
+
+1. `getwd()`
+
+Retorna a pasta de trabalho atual:
+
+```{r}
+#| eval: false
+getwd()
+```
+
+
+3. `Sys.Date()`, `Sys.time()` e `Sys.timezone()`
+
+`Sys.time` e `Sys.Date` retornam a ideia do sistema da data atual 
+com e sem hora:
+
+```{r}
+#| eval: false
+Sys.Date()
+```
+
+```{r}
+#| eval: false
+Sys.time()
+```
+
+Sys.timezone retorna o nome do fuso horário atual:
+
+```{r}
+#| eval: false
+Sys.timezone()
+```
+
+
+4. `ls()` e `list.files()`
+
+`ls` retorna os nomes dos objetos ativos no ambiente atual:
+
+```{r}
+#| eval: false
+ls()
+```
+
+`list.files()` retorna o nome de arquivos ou pastas do diretório de trabalho:
+
+```{r}
+#| eval: false
+y <- 10
+ls()
+```
+
+
+```{r}
+#| eval: false
+list.files()
+```
+
+
+4. `file.exists()`, `file.info()` e `file.create()`
+
+```{r}
+#| eval: false
+file.exists("02_tutorial_ggplot2.Rmd")
+```
+
+```{r}
+#| eval: false
+file.info("02_tutorial_ggplot2.Rmd")
+```
+
+```{r}
+#| eval: false
+file.create("README.txt")
+```
+
+```{r}
+#| eval: false
+file.remove("README.txt")
+```
+
+
+5. `dir.exists()`
+
+```{r}
+#| eval: false
+dir.exists("data_raw")
+```
 
 
 ## Wokflow dentro do RStudio
@@ -510,19 +761,24 @@ para um arquivo .R que pode ser executado posteriormente.
 
 - Entretanto, rapidamente se torna ineficaz e trabalhoso.
 
-2. **Escreva código em um `script.R`** e use as teclas de atalho do RStudio 
-para enviar a(s) linha(s) selecionada(s) para o console.
+2. **Escreva código em arquivo no painel Source** e use as teclas de atalho 
+do RStudio para enviar a(s) linha(s) selecionada(s) para o console.
 
 - Esta é uma **ótima** maneira de começar; todo o seu código estará salvo para 
  uso posterior.
 
 - Você poderá executar o arquivo criado a partir dos menus do RStudio ou 
-usando a função `source()`.
+usando a função `source()` no caso de um script.
+
+3. Ao longo da disciplina iremos utilizar intensamente R Notebooks.
 
 
-## Executando segmentos do seu código
+## Executando segmentos do seu código em um script
 
-O RStudio oferece grande flexibilidade na execução de código. Existem botões, opções de menu e atalhos de teclado. Para executar uma linha de código, você pode:
+O RStudio oferece grande flexibilidade na execução de código. Existem botões, 
+opções de menu e atalhos de teclado. 
+
+Para executar uma linha de código, você pode:
 
 1. clicar no botão `Run` acima do editor, ou;
 
@@ -532,6 +788,37 @@ O RStudio oferece grande flexibilidade na execução de código. Existem botões
   ou <kbd>Cmd</kbd>\+<kbd>Return</kbd> no OS X.
   
   
+## R Notebooks
+
+Um Notebook R é um documento R Markdown com trechos de código que podem ser 
+executados de forma independente e interativa, com a saída visível 
+imediatamente abaixo do código.
+
+![Notebook R](https://d33wubrfki0l68.cloudfront.net/14588820b42b46fc38e5350566c03420e4c64e34/e54b8/lesson-images/notebooks-1-notebook.png)
+
+- Os R Notebooks são uma implementação da **Programação Literada** que permite 
+a interação direta com R enquanto se produz um documento reproduzível cujo 
+resultado possui qualidade para publicação.  
+
+### Criando um Notebook 
+
+- Você pode criar um novo notebook no RStudio com o comando do menu 
+
+    - `File -> New File -> R Notebook`
+    
+### Inserindo Trechos de Código (*conde chunks*)
+
+- Trechos de código podem ser inseridos usando o atalho do teclado: 
+
+    - Ctrl + Alt + I (Windows/Linux) 
+    - Cmd + Option + I (macOS), 
+    - or pelo menu `Insert a new code chunk`.
+    
+    
+### Documentação
+
+[Acesse a Documentação sobre R Notebooks aqui](https://bookdown.org/yihui/rmarkdown/notebook.html#){target="_blank"}
+
 
 
 

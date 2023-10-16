@@ -14,7 +14,7 @@ format:
   revealjs:
     progress: true
     code-link: true
-    self-contained: false
+    self-contained: true
     preview-links: false
     transition: slide
     slide-number: true
@@ -32,29 +32,7 @@ csl: associacao-brasileira-de-normas-tecnicas.csl
 
 
 # Introdução à Linguagem R
-
-## Summário
-
-- Introdução à Linguagem R
-
-    - Topico 1
-    - Topico 2
-    - Topico 3
   
-  
-## RStudio Project
-
-- A estrutura de pastas inicial recomendada para a disciplina:
-
-    - `C:/analise_multivariada_2023`:
-
-        - `/data_raw`
-        - `/data_clean`
-        - `/scripts`
-        - `/notebooks`
-        - `/exercicios`
-        - `/slides`
-        
 
 ## R packages
 
@@ -62,7 +40,7 @@ csl: associacao-brasileira-de-normas-tecnicas.csl
 de extender a linguagem é a programação de pacotes ou biliotecas.
 
 - Até este momento, há Há mais de 20.000 pacotes disponíveis no 
-[CRAN](https://cran.r-project.org/web/packages/available_packages_by_date.html).
+[CRAN](https://cran.r-project.org/web/packages/available_packages_by_date.html){target="_blank"}.
 
 - R e o RStudio possuem funcionalidades para o gerenciamento de pacotes:
 
@@ -88,7 +66,7 @@ Por exemplo, para instalar o pacote `dplyr`:
 ```{r}
 #| echo: true
 #| eval: false
-install.packages("MASS")
+install.packages("dplyr")
 ```
 
 Podemos instalar diversos pacotes no mesmo comando:
@@ -96,7 +74,7 @@ Podemos instalar diversos pacotes no mesmo comando:
 ```{r}
 #| echo: true
 #| eval: false
-install.packages("MASS", "dplyr", "gapminder")
+install.packages("dplyr", "skimr", "gapminder")
 ```
 
 Para ativar o pacote em uma sessão fazemos:
@@ -212,10 +190,12 @@ nome_objeto <- valor
 
 - Obs: `nome_objeto = valor` funciona mas não é uma boa prática!
 
+- `x = 2` funciona, mas não é uma boa prática.
+
 
 ## Sintáxe da linguagem: Atribuição (cont.)
 
-- Faremos muitas atribuições com `<-`, e não é agradável digitar!
+- Faremos muitas atribuições com `<-`, e não é eficiente digitar.
 
 - Solução? 
 
@@ -242,7 +222,6 @@ nome_objeto <- valor
 - Queremos nomes de objetos **descritivos**, então precisamos de uma 
   convenção (`code style`).
   
-- [Wickham & Grolemund (2017)](https://r4ds.had.co.nz/workflow-basics.html#whats-in-a-name) recomendam o estilo `snake_case`.
 
 ```{r}
 #| eval: false
@@ -253,12 +232,15 @@ some.people.use.periods
 And_aFew.People_RENOUNCEconvention
 ```
 
+### Guias de Estilo
 
-## Programando em R: Guias de Estilo
+- [Google’s R Style Guide](https://google.github.io/styleguide/Rguide.html){target="_blank"}
 
-- [Google’s R Style Guide](https://google.github.io/styleguide/Rguide.html)
+- [Tidyverse Style Guide](https://style.tidyverse.org/){target="_blank"}
 
-- [Tidyverse Style Guide](https://style.tidyverse.org/)
+    - Este guia fornece várias diretrizes para se trabalhar com código em R e 
+      em outras linguagens.
+
 
 ## Funções em R
 
@@ -318,7 +300,7 @@ parênteses:
                
 ## Documentação: Definições daLinguagem R 
 
-[R Language Definition](https://cran.r-project.org/doc/manuals/r-release/R-lang.html) 
+[R Language Definition](https://cran.r-project.org/doc/manuals/r-release/R-lang.html){target="_blank"} 
 
 
 
@@ -341,9 +323,7 @@ knitr::include_graphics("img/forcats.png")
 
 Encorajo vocês a explorararem o pacotte `forcats`:
 
-[forcats website](https://forcats.tidyverse.org/)
-
-[Cheat Sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/master/factors.pdf)
+[forcats website](https://forcats.tidyverse.org/){target="_blank"}
 
 
 
@@ -352,9 +332,9 @@ Encorajo vocês a explorararem o pacotte `forcats`:
 
 ## Data Frames: Manipulação com o pacote `dplyr`
 
-- O pacote [`dplyr`](https://dplyr.tidyverse.org/) pertence a um metapacote (família de pacotes) projetado especificamente para Ciência dos Dados chamado [Tidyverse](https://www.tidyverse.org/). 
+- O pacote [`dplyr`](https://dplyr.tidyverse.org/){target="_blank"} pertence a um metapacote (família de pacotes) projetado especificamente para Ciência dos Dados chamado [Tidyverse](https://www.tidyverse.org/){target="_blank"}. 
 
-- Alguns desses pacotes serão abordados ao longo deste curso, mas você pode encontrar informações mais completas em: [https://www.tidyverse.org/](https://www.tidyverse.org/).
+- Alguns desses pacotes serão abordados ao longo deste curso, mas você pode encontrar informações mais completas em: [https://www.tidyverse.org/](https://www.tidyverse.org/){target="_blank"}.
 
 - o pacote `dplyr` é uma gramática de manipulação de dados. 
 
@@ -404,12 +384,12 @@ knitr::include_graphics("img/gs.png")
 `Source` e por alguma razão você desejar cancelar a execução, 
 basta apertar a tecla **ESC**.
 
-- Se você estiver executando código no console interativo, Você precisa usar <kbd>**Ctrl**</kbd>\+<kbd>**C**</kbd> em vez de <kbd>**Esc**</kbd> para 
+- Se você estiver executando código no console interativo, Você precisa usar <kbd>**Ctrl**</kbd>\+<kbd>**C**</kbd> ao invés de <kbd>**Esc**</kbd> para 
 cancelar o comando.
 
 - Cancelar um comando não é útil apenas para finalizar comandos incompletos. 
 
-- Você também pode usá-lo para dizer ao R para parar de executar o código (por exemplo, se o código estiver levando muito tempo para ser executado).
+- Você também pode usá-lo para dizer ao R parar de executar o código (por exemplo, se o código estiver levando muito tempo para ser executado).
 
 
 ## Dica: Warnings vs Errors
@@ -425,18 +405,10 @@ operação.
 pistas sobre o problema.
 
 
-## O que não foi tratado sobre a Linguagem R?
-
-- **Controle de Fluxo**
-- **Gráficos**
-- **Outros Documentos Computacionais**
-- Iremos tratar alguns destes itens ao longo do curso.
-
-
 
 ## Referência Adicional
 
-- Rapp, Albert. **Yet Again: R + Data Science**. Disponível em: [https://yards.albert-rapp.de/index.html](https://yards.albert-rapp.de/index.html)
+- Rapp, Albert. **Yet Again: R + Data Science**. Disponível em: [https://yards.albert-rapp.de/index.html](https://yards.albert-rapp.de/index.html){target="_blank"}
 
 
 

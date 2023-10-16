@@ -87,6 +87,7 @@ Arredontamento
 round(pi, digits=2) 
 ```
 
+Há muitas outras funções. 
 
 ### Precedência de operações
 
@@ -105,6 +106,7 @@ Deve-se usar parenteses para definir a precedenci:
 ```{r}
 (59 + 73 + 2)/3
 ```
+
 
 
 ## Variaveis e Atribuição de valores 
@@ -131,6 +133,7 @@ x
 ```
 
 
+
 ## Sintáxe da Linguagem 
 
 ```{r}
@@ -155,6 +158,7 @@ Usando o nome correto do objeto:
 ```{r}
 r_rocks
 ```
+
 
 
 ## Operadores Lógicos 
@@ -256,6 +260,7 @@ z > 5 & z < 15
 ```
 
 
+
 ## Tipos Atômicos de Dados 
 
 ### double 
@@ -310,7 +315,6 @@ v <- as.numeric(e)
 v
 ```
 
-
 ### complex 
 
 ```{r}
@@ -321,6 +325,7 @@ c
 ```{r}
 typeof(c)
 ```
+
 
 
 ## Tipos Especiais
@@ -351,9 +356,10 @@ i
 ```
 
 
+
 ## Estruturas de Dados 
 
-### Vector 
+### vector 
 
 Vetores são estruturas de dados que podem armazenar somente elementos do 
 mesmo tipo atômico. 
@@ -419,6 +425,7 @@ class(vec4)
 class(vec5) 
 ```
 
+
 ## Vetorização
 
 Na linguagem R, um conceito fundamental é o de "vetorização". 
@@ -442,7 +449,7 @@ resultado
 ```
 
 
-## Data Frame 
+## data.frame 
 
 ### Criando uma data frame I 
 
@@ -467,7 +474,7 @@ glimpse(dataf)
 ```
 
 
-## Factor 
+## factor 
 
 Considere uma variável que registra meses: 
 
@@ -549,6 +556,7 @@ factor(x1)
 ```
 
 
+
 ## Matrix 
 
 ### Criando uma Matriz 
@@ -558,7 +566,6 @@ m <- matrix(c(0, 2, 1, 0), nrow = 2, ncol = 2, byrow = TRUE)
 m
 dim(m)   # dimensoes da matriz
 ```
-
 
 ### Algebra Matricial
 
@@ -610,12 +617,12 @@ verificando a validade da matriz inversa: $A^(-1) %*% A = I$
 solve(m) %*% m == diag(nrow = nrow(m), ncol = ncol(m))
 ```
 
-
 ### Autovalores e Autovetores
 
 ```{r}
 eigen(m)
 ```
+
 
 
 ## List 
@@ -628,22 +635,26 @@ lista_1
 ```
 
 
-# Manipulacao de Dados 
 
-## Vetores 
+# Manipulação de Dados 
+
+## Gerenciando o Environment 
 
 ```{r}
 ls() # lista os objetos ativos na secao
 ```
 
+podemos remover objetos ativos com a funcão `rm()``
+
 ### Extracao de elementos de Vetores
 
-Exibindo o vetor vec1
+Exibindo o vetor vec1:
+
 ```{r}
 print(vec1)
 ```
 
-eleciona o primeiro elemento:
+seleciona o primeiro elemento:
 
 ```{r}
 vec1[1]
@@ -673,7 +684,6 @@ seleciona o segundo e quarto elementos:
 vec1[c(2,4)]
 ```
 
-
 seleciona o segundo até o quarto elementos:
 
 ```{r}
@@ -699,7 +709,7 @@ Calcula o tamanho/numero de elementos do vetor:
 length(vec1)   
 ```
 
-Há quantos elementos únicos no vetor:
+Exibe os elementos únicos do vetor:
 
 ```{r}
 unique(vec1)   #
@@ -735,7 +745,8 @@ Fornece o mínimo dos elementos do vetor:
 min(vec1)
 ```
 
-Fornece o máximo dos elementos do vetor
+Fornece o máximo dos elementos do vetor:
+
 ```{r}
 max(vec1)      # máximo dos elementos do vetor
 ```
@@ -746,8 +757,10 @@ Calcula a média dos elementos:
 sum(vec1)/length(vec1)
 ```
 
+usando a função `mean()`
+
 ```{r}
-mean(vec1)     # média dos elementos
+mean(vec1)
 ```
 
 Calcula a mediana dos elementos:
@@ -756,19 +769,19 @@ Calcula a mediana dos elementos:
 median(vec1)   # mediana dos elementos
 ```
 
-
-Fornece os valores mínimo e máximo:
+Calcula os valores mínimo e máximo:
 
 ```{r}
 range(vec1) 
 ```
-
 
 Calcula a variância dos dados:
 
 ```{r}
 sum((vec1 - mean(vec1))^2)/(length(vec1) - 1)
 ```
+
+usando a função `var()`
 
 ```{r}
 var(vec1) 
@@ -835,16 +848,20 @@ mean(vetor_na, na.rm = TRUE)
 Há dados faltantes há no vetor `vetor_na`?
 
 ```{r}
-is.na(g)
+is.na(vetor_na)
 ```
 
 Quantos dados faltantes há no vetor `vetor_na`?:
 
 ```{r}
-sum(is.na(g)) 
+sum(is.na(vetor_na)) 
 ```
 
 Quantos dados completos há no vetor `vetor_na`?
+
+```{r}
+sum(!is.na(vetor_na)) 
+```
 
 
 ## Análise Exploratória de Dados
@@ -864,7 +881,7 @@ dplyr::glimpse(gapminder)
 ```
 
 A função `skim` do pacote `skimr` fornece diversas estatísticas descritivas 
-de uma `data.frame` ou `tibble` (versão modernizada de uma `data.frame`):
+de uma `data.frame` ou `tibble` (versão moderna de uma `data.frame`):
 
 ```{r}
 skimr::skim(gapminder)
