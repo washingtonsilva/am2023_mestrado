@@ -19,28 +19,33 @@
 
 # lembre-se que pode instalá-los retirand o comentario 
 # do comando abaixo e executando-o
-# install.packages("dplyr", "skimr", "gapminder", "haven", "here", "sjlabelled")
+# install.packages("here", "readxl",,"dplyr", "skimr", "gapminder")
 
 # Ativa os pacotes para a sessao:
+library(here) 
+library(readxl)
 library(dplyr)
 library(skimr)
 library(gapminder)
-library(here)
-library(haven)
-library(sjlabelled)
-
 
 # importando arquivos de dados --------------------------------------------
 
-# HATCO.SAV: arquivo SPSS disponibilizado por HAIR et. al. (2009)
-hatco <- haven::read_sav(here("data_raw", "HATCO.SAV"), user_na = TRUE)
+# hair6e_data.xls: arquivo xls disponibilizado por HAIR et. al. (2009)
+path_xls <- here("data_raw", "hair6e_data.xls")
+
+hatco <- readxl::read_xls(
+  path_xls,
+  sheet = "HATCO",
+)
+
+# visao geral
 dplyr::glimpse(hatco)
+
+# visao mais detalhada
 str(hatco)
 
-# iniciando o processo de "limpeza" dos dados
-hatco_clean <- sjlabelled::label_to_colnames(hatco)
-dplyr::glimpse(hatco_clean)
-
+# estatisticas descritivas
+skimr::skim(hatco)
 
 
 # Obtendo ajuda -----------------------------------------------------------
