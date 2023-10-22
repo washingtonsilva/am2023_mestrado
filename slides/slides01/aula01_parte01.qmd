@@ -12,13 +12,13 @@ date-format: long
 lang: "pt"
 format: 
   revealjs:
-    progress: true
-    code-link: true
-    linkcolor: "#800000"
-    self-contained: true
-    preview-links: false
-    transition: slide
     slide-number: true
+    progress: true
+    transition: slide
+    code-link: true
+    self-contained: false
+    preview-links: false
+    chalkboard: true
     scrollable: true
     overview: true
     logo: logo.jpeg

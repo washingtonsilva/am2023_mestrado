@@ -12,12 +12,13 @@ date-format: long
 lang: "pt"
 format: 
   revealjs:
-    progress: true
-    code-link: true
-    self-contained: true
-    preview-links: false
-    transition: slide
     slide-number: true
+    progress: true
+    transition: slide
+    code-link: true
+    self-contained: false
+    preview-links: false
+    chalkboard: true
     scrollable: true
     overview: true
     logo: logo.jpeg
@@ -40,7 +41,7 @@ csl: associacao-brasileira-de-normas-tecnicas.csl
 de extender a linguagem é a programação de pacotes ou biliotecas.
 
 - Até este momento, há Há mais de 20.000 pacotes disponíveis no 
-[CRAN](https://cran.r-project.org/web/packages/available_packages_by_date.html){target="_blank"}.
+[CRAN](https://cran.r-project.org/web/packages/available_packages_by_date.html){target="_blank"}
 
 - R e o RStudio possuem funcionalidades para o gerenciamento de pacotes:
 
