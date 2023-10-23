@@ -1162,10 +1162,9 @@ pode-se pensar na inclusão de muitas variáveis
 - É um método para estimar diversos modelos de regressão 
 e selecionar as variáveis preditoras que devem ser mantidas. 
 
-- O procedimento envolve, a partir do modelo contendo todas as variáveis preditoras ($X$), retirar cada uma  das variáveis preditorasdo modelo 
-(stepwise backward), e selecionar as que devem ser mantidas de acordo 
-com algum critério, o mais usado é a manter as variáveis que 
-reduzem o Critério de Informação de Akaike (AIC)
+- O procedimento envolve, a partir do modelo contendo todas as variáveis preditoras ($X$), retirar cada uma  das variáveis preditoras do modelo e selecionar as que devem ser mantidas de acordo com algum critério, o mais 
+usado é manter as variáveis que reduzem o Critério de Informação de Akaike 
+(AIC).
 
 - O **Critério de Informação de Akaike (AIC)** é uma medida relativa da 
 qualidade de um modelo estatístico. Isto é, dado um conjunto de modelos para 
@@ -1488,9 +1487,26 @@ knitr::include_graphics("img/fig11.png")
 
 # Modelos de Regressão: Previsão
 
+## Avaliação da Acurácia Preditiva
+
+- *Root-Mean-Square Error* (rmse): 
+
+$$
+ {RMSE} ={\sqrt {\frac {\sum _{t=1}^{n}({\hat {y}}_{i}-y_{i})^{2}}{n}}}
+$$
+
+
+- *Mean Absolute Error* (mae): 
+
+$$
+MAE = \frac{\sum_{i=1}^{n}|{\hat {y}}_{i}-y_{i}|}{n}
+$$
 
 	
+## Referências 
 
+::: {#refs}
+:::
 
 
     

@@ -1,5 +1,6 @@
 ---
 title: "Tutorial: Modelos de RegressãO Linear"
+author: "Washington Santos da Silva"
 output: html_notebook
 ---
 
@@ -30,7 +31,7 @@ relação ao número de unidades do ativo à vista é conhecida como
 
 Como o risco neste contexto é geralmente medido como a volatilidade dos 
 retornos da carteira, uma estratégia intuitivamente plausível pode ser 
-escolher a razão íde hedge que minimiza a variação dos retornos de 
+escolher a razão de hedge que minimiza a variação dos retornos de 
 uma carteira contendo a posição à vista e futura; isso é conhecido como a 
 razão ótima de hedge.
 
@@ -91,14 +92,14 @@ knitr::opts_chunk$set(digits = 4)
 
 
 ```{r, warning=FALSE, message=FALSE}
-library(readxl)    # readr::read_excel()
-library(dplyr) 
-library(janitor)   # clean_names()
-library(PerformanceAnalytics)
-library(skimr)
-library(psych)     # describe()
-library(lmtest)    # diversos testes para modelos de regressao   
-library(car)       # diversos testes e recursos para modelos de regressao
+library(readxl)    # para usar read_xls()
+library(dplyr)     # para manipulacao de dados
+library(janitor)   # para clean_names()
+library(PerformanceAnalytics)  # para usar chart.Correlation()
+library(psych)     # para usar describe()
+library(lmtest)    # para resettest() e bptest()   
+library(car)       # para qqPlot(), 
+library(DescTools) # para usar JarqueBeraTest()
 library(stargazer) # stargazer(): tabelas automatizadas para modelos
 ```
 
@@ -235,8 +236,8 @@ Como o valor-p = 0.1004, os dados da amostra fornecem evidência de que o modelo
 linear é adequado para modelar a relação entre os retornos, nos mercado à vista 
 e futuro, do índice S&P (500). 
 
-Conclusão alternativa, os dados da amostra fornecem evidência para não 
-rejeitar-se a hipótese nula de que o modelo linear é adequado.
+Conclusão alternativa, os dados fornecem evidência para não 
+rejeitarmos a hipótese nula de que o modelo linear é adequado.
 
 Além disso, o valor-p = 0.1004 do teste RESET, fornece evidências de que não 
 há forte evidência de endogeneidade por omissão de variáveis.
@@ -291,20 +292,7 @@ desempenha apenas um papel menor na análise de regressão linear. Ela é
 necessária principalmente para inferência em amostras pequenas e, nestes casos, 
 a técnica bootstrap pode ser usada para inferência. 
 
-O bootstrap fornece um método alternativo computacionalmente intensivo usado 
-principalmente para calcular erros padrão, intervalos de confiança e testes 
-quando as hipóteses necessárias para os métodos padrão são questionáveis, ou 
-quando os métodos padrão não estão prontamente disponíveis.
-
-
-```{r}
-betahat.boot <- car::Boot(reg_retornos, R = 199) 
-summary(betahat.boot)  
-confint(betahat.boot)
-```
-
-
-Para casos mais relevantes de não normalidade dos resíduos, outra estratégia 
+Para casos mais relevantes de não normalidade dos resíduos, uma estratégia 
 possível é a utilização de métodos não-paramétricos ou regressão robusta.
 
 A função `rlm()` do pacote `MASS` estima um modelo linear por regressão 
@@ -357,7 +345,7 @@ MacKinnon & White (1985).
 library(sandwich)
 
 ## Aplicando a correção 
-coeftest(reg_retornos, vcov = vcovHC(model, type = "HC3"))
+ep_robustos <- coeftest(reg_retornos, vcov = vcovHC(model, type = "HC3"))
 ```
 
 
@@ -415,8 +403,16 @@ a seguinte tabela com o pacote stargazer:
 
 
 ```{r, results = 'asis'}
-stargazer(reg_retornos, type = "html", report = ('vcsp'), ci = TRUE, out = "html")
+stargazer(reg_retornos, 
+          type = "text", 
+          report = ('vcsp'), 
+          ci = TRUE, 
+          se = list(NULL, ep_robustos)
+          )
 ```
+
+
+
 
 
 

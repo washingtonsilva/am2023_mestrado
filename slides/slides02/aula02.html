@@ -94,7 +94,26 @@
     code span.va { color: #111111; } /* Variable */
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
-  </style>
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
 <link rel="stylesheet" href="aula02_files/libs/revealjs/dist/theme/quarto.css">
 <link href="aula02_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
 <link href="aula02_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
@@ -404,7 +423,7 @@ Prof.&nbsp;Washington Santos da Silva
     </div>
 </div>
 
-  <p class="date">22 de outubro de 2023</p>
+  <p class="date">23 de outubro de 2023</p>
 </section><section id="summário-aula-2" class="slide level2"><h2>Summário: Aula 2</h2>
 <ul>
 <li>Modelagem Estatística: As duas Culturas</li>
@@ -1654,12 +1673,32 @@ H &amp;= X(X^{t}X)^{-1} X^{t}
 <td style="text-align: left;">robustos</td>
 </tr>
 </tbody>
-</table></section></section><section id="modelos-de-regressão-previsão" class="title-slide slide level1 center"><h1>Modelos de Regressão: Previsão</h1>
+</table></section></section><section><section id="modelos-de-regressão-previsão" class="title-slide slide level1 center"><h1>Modelos de Regressão: Previsão</h1>
+
+</section><section id="avaliação-da-acurácia-preditiva" class="slide level2"><h2>Avaliação da Acurácia Preditiva</h2>
+<ul>
+<li>
+<em>Root-Mean-Square Error</em> (rmse):</li>
+</ul>
+<p><span class="math display">\[
+{RMSE} ={\sqrt {\frac {\sum _{t=1}^{n}({\hat {y}}_{i}-y_{i})^{2}}{n}}}
+\]</span></p>
+<ul>
+<li>
+<em>Mean Absolute Error</em> (mae):</li>
+</ul>
+<p><span class="math display">\[
+MAE = \frac{\sum_{i=1}^{n}|{\hat {y}}_{i}-y_{i}|}{n}
+\]</span></p>
+</section><section id="referências" class="slide level2 smaller scrollable"><h2>Referências</h2>
+<div id="refs" role="list">
+
+</div>
 
 <img src="logo.jpeg" class="slide-logo r-stretch"><div class="footer footer-default">
 
 </div>
-</section>
+</section></section>
 </div>
   </div>
 

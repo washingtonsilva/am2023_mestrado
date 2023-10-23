@@ -11,7 +11,7 @@ science, v. 16, n. 3, p. 199-231, 2001.}
 springer, 2013. Disponível em: \url{https://www.statlearning.com/}}
 
 \bibitem[Stock \& Watson (2004)]{sw}
-{STOCK, James H.; Watson, Mark W. Econometria: uma abordagem moderna. 
+{STOCK, James H.; Watson, Mark W. Introdução à Econometria. 
 Pearson Universidades, 2004. Disponível na Biblioteca Virtual 
 Pearson: \url{https://plataforma.bvirtual.com.br/Account/Login}}
 
