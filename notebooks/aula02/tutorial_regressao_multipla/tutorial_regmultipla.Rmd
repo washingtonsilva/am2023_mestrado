@@ -1,0 +1,205 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+# Regressão Linear Múltipla em R
+
+## Aplicação: Modelos de Precificação e Regressão Hedônicos
+
+Modelos de precificação hedônica tratam um bem comercializado, geralmente uma 
+casa, como uma soma de bens individuais (características ou atributos) que não 
+podem ser vendidos separadamente no mercado. O principal objetivo de um 
+modelo de precificação hedônico é estimar a contribuição de tais 
+características ou atributos para o preço da casa. É por isso que eles se 
+tornaram uma estratégia central para estimar os preços implícitos de bens não comercializáveis.
+
+A regressão hedônica é um método de preferência revelada para 
+estimar o valor monetário das características de um bem. Decompõe o bem ou 
+item pesquisado em suas características e obtém estimativas da contribuição 
+de valor monetário de cada característica. Os modelos de regressão hedônica são 
+mais comumente estimados por meio de análise de regressão, onde o preço geral 
+do bem é tratado como a variável dependente e as características do bem se 
+tornam as variáveis preditoras. 
+
+Os modelos hedônicos são comumente usados na avaliação imobiliária, pois as 
+casas têm uma variedade de características facilmente mensuráveis (como o 
+número de quartos, tamanho total ou distância de certas comodidades) que as 
+tornam mais passíveis de modelos de regressão hedônica do que a maioria dos 
+outros bens.
+
+Neste tipo de aplicação, estamos geralmente mais interessados na acurácia 
+preditiva do modelo, ou seja, desejamos um modelo capaz de prever com boa 
+acurária o valor de um imóvel, dadas suas caracaterísticas e não 
+temos interesse relevante nas estimativas pontuais dos parâmetros do 
+modelo de regressão.
+
+
+## 1. Pacotes Necessários
+
+```{r, warning=FALSE, message=FALSE}
+library(MASS)
+library(tidymodels)
+library(ggplot2)
+```
+
+
+## Dados
+
+```{r}
+data(Boston)
+dplyr::glimpse(Boston)
+```
+
+
+
+## 1. Preparação dos Dados
+
+Dividindo os dados em datos para treinamento e teste do modelo:
+
+```{r}
+# fixando a semente para reproducibilidade
+set.seed(4595)
+
+# dividindo os dados: 75% para treinamento, 25%. para teste
+boston_split <- initial_split(Boston, strata = "medv", prop = 0.75)
+
+# dados para treinamento
+boston_treino <- training(boston_split)
+
+# dados para teste
+boston_teste  <- testing(boston_split)
+```
+
+Visualizando os dados para treinamento:
+
+```{r}
+dplyr::glimpse(boston_treino)
+```
+
+dados para teste:
+
+```{r}
+dplyr::glimpse(boston_teste)
+```
+
+
+### Feature Engineering (Preparação dos Dados)
+
+Criamos uma pipeline de engenharia de características chamada 
+`boston_recipe`, contendo as seguintes transformações:
+
+- remove a assimetria dos preditores numéricos
+
+- normalize todos os preditores numéricos
+
+Esta receita será aplicada automaticamente em uma etapa posterior usando as funções `workflow()` e `last_fit()`.
+
+
+```{r}
+boston_recipe <- recipe(medv ~ ., data = boston_treino) %>% 
+                 step_YeoJohnson(all_numeric()) %>% 
+                 step_normalize(all_numeric()) 
+```
+
+
+## Especificando o Modelo
+
+O pacote `parsnip` é o pacote da família `tidymodels` que permite a 
+especificação de diferentes modelos.
+
+- O tipo de modelo (*type*) diferencia modelos como regressão 
+logística, redes neurais,árvores de decisão, e assim por diante.
+
+- O modo do modelo (*mode*) inclui opções comuns como regressão e classificação;
+alguns tipos de modelo suportam qualquer um deles, enquanto outros têm apenas 
+um modo.
+
+- O "motor" do modelo (*model engine*) é a ferramenta computacional que será 
+usada para ajustar o modelo. 
+
+```{r}
+reg_lm <-
+  # type
+  linear_reg() %>%
+  # engine
+  set_engine("lm") %>%
+  # mode
+  set_mode("regression")
+```
+
+
+## Criando um Workflow
+
+O pacote de `workflow` foi projetado para combinar modelos e receitas em um 
+único objeto. 
+
+Para criar um workflow, começamos com `workflow()` para criar um workflow vazio 
+e, em seguida, adicionamos o modelo e a receita com `add_model()` e 
+`add_recipe()`:
+
+```{r}
+reglinear_wf <- workflow() %>% 
+                add_model(reg_lm) %>% 
+                add_recipe(boston_recipe)
+```
+
+
+## Executando o Wokflow
+
+A função `last_fit()` pegará um objeto workflow e aplicará a receita e o 
+modelo a um objeto contendo dados divididos (treino/teste) especificado.
+
+No código abaixo, passamos o objeto `reglinear_wf` e o objeto 
+`boston_split` para a funcão `last_fit()`.
+
+A função `last_fit()`: 
+
+- treinará as etapas de engenharia de características nos dados de treinamento;
+
+- ajustará o modelo aos dados de treinamento; 
+
+- aplicará as etapas de engenharia de características aos dados de teste, e;
+
+- calculará as previsões para os dados de teste, 
+
+Tudo em uma única etapa!
+
+```{r}
+reglinear_fit <- reglinear_wf %>% 
+                 last_fit(split = boston_split)
+```
+
+
+
+Criar um workflow e usar a função `last_fit()` é uma ótima opção para 
+automatizar um pipeline de aprendizado estatística (de máquina).
+
+
+## Avaliando o Modelo Treinado
+
+Para obter as métricas (de acurácia preditiva) e previsões de desempenho 
+do modelo treinado nos dados para teste, usamos as funções `collect_metrics()` 
+e `collect_predictions()` em nosso objeto `reglinear_fit`.
+
+Obtendo as métricas de previsão (de acurácia preditiva)
+
+```{r}
+reglinear_fit %>% collect_metrics()
+```
+
+Podemos obter a data frame contendo as previsões para os dados de teste 
+com os seguintes comandos:
+
+```{r}
+resultado_teste <- reglinear_fit %>% collect_predictions()
+resultado_teste
+```
+
+
+
+## Importância das Variáveis
+
+
+
