@@ -1,11 +1,15 @@
 ---
 title: 'Aula 1: Introdução à Linguagem R'
-author: "Seu nome"
-subtitle: Introdução à Ciência dos Dados 2023  Mestrado Profissional em Administração
-output:
-  html_document:
-    df_print: paged
+author: "Prof. Washington Santos da Silva"
+output: html_notebook
 ---
+
+<style type="text/css">
+  body{
+  font-size: 12pt;
+  text-align: justify
+      }
+</style>
 
 ## Configurações Globais e Pacotes Necessários
 
@@ -1039,6 +1043,3 @@ rmp_continente <- gapminder %>%
 
 rmp_continente
 ```
-
-
-# INCLUIR GRÁFICOS

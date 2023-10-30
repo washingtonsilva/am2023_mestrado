@@ -1,5 +1,5 @@
 ---
-title: "Tutorial: Modelos de RegressãO Linear"
+title: 'Tutorial: Modelos de RegressãO Linear'
 author: "Washington Santos da Silva"
 output: html_notebook
 ---
@@ -86,12 +86,8 @@ estamos interessados na estimativa da razão ótima de hedge por $\hat{\beta}_1$
 
 ## 1. Pacotes Necessários
 
-```{r setub}
-knitr::opts_chunk$set(digits = 4)
-```
-
-
 ```{r, warning=FALSE, message=FALSE}
+library(here)      # para usar here()
 library(readxl)    # para usar read_xls()
 library(dplyr)     # para manipulacao de dados
 library(janitor)   # para clean_names()
@@ -100,7 +96,7 @@ library(psych)     # para usar describe()
 library(lmtest)    # para resettest() e bptest()   
 library(car)       # para qqPlot(), 
 library(DescTools) # para usar JarqueBeraTest()
-library(stargazer) # stargazer(): tabelas automatizadas para modelos
+library(modelsummary) # stargazer(): tabelas automatizadas para modelos
 ```
 
 
@@ -175,7 +171,7 @@ dplyr::glimpse(hedge_clean)
 ### 4.1  Estatísticas Descritivas
 
 ```{r}
-psych::describe(hedge_final)
+psych::describe(hedge_clean)
 ```
 
 Analisando as estatística descritivas, as estimativas do coeficiente de 
@@ -191,7 +187,7 @@ amplamente documentada para séries de retornos financeiros.
 
 
 ```{r}
-hedge_final %>% dplyr::select(rspot, rfutures) %>% chart.Correlation()
+hedge_clean %>% dplyr::select(rspot, rfutures) %>% chart.Correlation()
 ```
 
 É possível observar a assimetria negativa nas duas séries de retornos 
@@ -214,7 +210,7 @@ interessados na estimação da razão ótima de hedge, utilizamos os retornos
 como variáveis $y$ e $x$ no modelo de regressão linear simples:
 
 ```{r}
-reg_retornos <- lm(rspot ~ rfutures, data = hedge_final)
+reg_retornos <- lm(rspot ~ rfutures, data = hedge_clean)
 summary(reg_retornos)
 names(reg_retornos)
 ```
@@ -301,7 +297,7 @@ robusta usando um estimador M.
 ```{r}
 library(MASS)
 
-reg_rob <- rlm(rspot ~ rfutures, data = hedge_final)
+reg_rob <- rlm(rspot ~ rfutures, data = hedge_clean)
 summary(reg_rob)
 ```
 
@@ -345,7 +341,7 @@ MacKinnon & White (1985).
 library(sandwich)
 
 ## Aplicando a correção 
-ep_robustos <- coeftest(reg_retornos, vcov = vcovHC(model, type = "HC3"))
+ep_robustos <- coeftest(reg_retornos, vcov = vcovHC(reg_retornos, type = "HC3"))
 ```
 
 
@@ -392,23 +388,25 @@ car::linearHypothesis(reg_retornos, c("rfutures = 1"),
 
 ## 7. Comunicação dos Resultados
 
-stargazer é um pacote R que cria código LATEX, código HTML e texto ASCII para 
-tabelas de regressão bem formatadas, com vários modelos lado a lado, bem como 
-para tabelas de estatísticas resumidas, quadros de dados, vetores e matrizes.
+`modelsummary` é um pacote R que crie tabelas personalizáveis para resumir 
+a estimação de diversos modelos estatísticos. Além disso, pode criar 
+gráficos de coeficientes, tabelas cruzadas de vários níveis, resumos de 
+conjuntos de dados e matrizes de correlação.
 
-Considerando que desejamos reportar os resultados da estimação da razão 
-ótima de hedge pelo modelo de regressão linear podemos produzir a 
-a seguinte tabela com o pacote stargazer:
+Este pacote suporta dezenas de modelos estatísticos e pode produzir tabelas 
+em HTML, LaTeX, Word, Markdown, PDF, PowerPoint, Excel, RTF, JPG ou PNG. A
+s tabelas podem ser facilmente incorporadas em documentos dinâmicos 'Rmarkdown' 
+ou 'knitr'.
+
+A tabelas a seguir reporta os resultados da estimação da razão 
+ótima de hedge usando o modelo de regressão linear:
 
 
-
-```{r, results = 'asis'}
-stargazer(reg_retornos, 
-          type = "text", 
-          report = ('vcsp'), 
-          ci = TRUE, 
-          se = list(NULL, ep_robustos)
-          )
+```{r}
+msummary(reg_retornos, 
+         statistic = c("conf.int"),
+         vcov = 'robust',
+         stars = c('*' = .1, '**' = .05, '***' = .01))
 ```
 
 

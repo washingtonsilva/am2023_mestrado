@@ -1,8 +1,15 @@
 ---
-title: "R Notebook"
+title: "Regressão Linear Múltipla em R"
+autor: "Prof. Washington S. da Silva"
 output: html_notebook
 ---
 
+<style type="text/css">
+  body{
+  font-size: 12pt;
+  text-align: justify
+      }
+</style>
 
 # Regressão Linear Múltipla em R
 
@@ -36,12 +43,12 @@ temos interesse relevante nas estimativas pontuais dos parâmetros do
 modelo de regressão.
 
 
-## 1. Pacotes Necessários
+## Pacotes Necessários
 
 ```{r, warning=FALSE, message=FALSE}
 library(MASS)
 library(tidymodels)
-library(ggplot2)
+library(vip)
 ```
 
 
@@ -54,7 +61,7 @@ dplyr::glimpse(Boston)
 
 
 
-## 1. Preparação dos Dados
+## 1. Divisão dos Dados em Teste/Treinamento
 
 Dividindo os dados em datos para treinamento e teste do modelo:
 
@@ -85,7 +92,7 @@ dplyr::glimpse(boston_teste)
 ```
 
 
-### Feature Engineering (Preparação dos Dados)
+### 2. Engenharia de Características (*Feature Engineering*)
 
 Criamos uma pipeline de engenharia de características chamada 
 `boston_recipe`, contendo as seguintes transformações:
@@ -104,7 +111,7 @@ boston_recipe <- recipe(medv ~ ., data = boston_treino) %>%
 ```
 
 
-## Especificando o Modelo
+## 3. Especificação do Modelo
 
 O pacote `parsnip` é o pacote da família `tidymodels` que permite a 
 especificação de diferentes modelos.
@@ -130,7 +137,7 @@ reg_lm <-
 ```
 
 
-## Criando um Workflow
+## 4. Workflow
 
 O pacote de `workflow` foi projetado para combinar modelos e receitas em um 
 único objeto. 
@@ -146,7 +153,7 @@ reglinear_wf <- workflow() %>%
 ```
 
 
-## Executando o Wokflow
+## 5. Executando o Wokflow
 
 A função `last_fit()` pegará um objeto workflow e aplicará a receita e o 
 modelo a um objeto contendo dados divididos (treino/teste) especificado.
@@ -171,13 +178,11 @@ reglinear_fit <- reglinear_wf %>%
                  last_fit(split = boston_split)
 ```
 
-
-
 Criar um workflow e usar a função `last_fit()` é uma ótima opção para 
 automatizar um pipeline de aprendizado estatística (de máquina).
 
 
-## Avaliando o Modelo Treinado
+## 6. Avaliando o Modelo Treinado
 
 Para obter as métricas (de acurácia preditiva) e previsões de desempenho 
 do modelo treinado nos dados para teste, usamos as funções `collect_metrics()` 
@@ -198,8 +203,49 @@ resultado_teste
 ```
 
 
-
 ## Importância das Variáveis
+
+Criar um workflow e usar a função `last_fit()` é uma ótima opção para 
+automatizar uma pipeline de aprendizado de máquina. 
+
+No entanto, não somos capazes de explorar a importância das variáveis nos dados 
+de treinamento quando usamos esta pipeline.
+
+Para obter um gráfico da importância das variáveis com `vip()`, devemos usar 
+um método parecido com a abordagem clásssica dos modelos de regressão. Isso 
+envolve ajustar o modelo com a função `fit()` aos dados de treinamento.
+
+Para fazer isso, vamos treinar `boston_recipe` e transformar nossos dados 
+de treinamento. Em seguida, usamos a função `fit()` para treinar nosso objeto 
+de regressão linear, `reg_lm`, aos dados de treinamento processados.
+
+Então podemos usar a função `vip()` para ver quais preditores são mais 
+importantes.
+
+```{r}
+boston_treino_baked <- boston_recipe %>% 
+                       prep(training = boston_treino) %>% 
+                       bake(new_data = NULL)
+```
+
+Agora, ajustamos o modelo de regressão linear aos dados de treinamento:
+
+```{r}
+boston_lm_fit <- reg_lm %>% 
+                fit(medv ~ ., data = boston_treino_baked)
+```
+
+Finalmente, aplicamos a função `vip::vip()` ao modelo de regressão linear treinado.
+
+Aparentemente, a porcentagem da população com baixo status social (`lstat`) 
+na região da casa é o preditor mais importante, seguido da média ponderada 
+das distâncias a cinco centros de emprego de Boston (`dis`), razão 
+aluno/professor por cidade e pelo número médio de quartos por habitação (`rm`).
+
+```{r}
+vip(boston_lm_fit, include_type = TRUE)
+```
+
 
 
 

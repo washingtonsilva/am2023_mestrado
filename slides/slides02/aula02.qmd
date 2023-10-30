@@ -16,7 +16,7 @@ format:
     progress: true
     transition: slide
     code-link: true
-    self-contained: false
+    self-contained: true
     preview-links: false
     chalkboard: false
     scrollable: true
@@ -37,7 +37,6 @@ csl: associacao-brasileira-de-normas-tecnicas.csl
 ## Summário: Aula 2
 
 - Modelagem Estatística: As duas Culturas
-- Análise de Correlação
 - Modelos de Regressão Linear: Inferência
 - Modelos de Regressão Linear: Previsão
 
@@ -50,7 +49,7 @@ csl: associacao-brasileira-de-normas-tecnicas.csl
 
 ![Statistical Modelling: The Two Cultures](img/breiman_two.jpeg){#fig-two fig-align="center" width=80%}
 
-[Link para o Artigo](https://projecteuclid.org/journals/statistical-science/volume-16/issue-3/Statistical-Modeling--The-Two-Cultures-with-comments-and-a/10.1214/ss/1009213726.full){target="_blank"}
+[@breiman2001](https://projecteuclid.org/journals/statistical-science/volume-16/issue-3/Statistical-Modeling--The-Two-Cultures-with-comments-and-a/10.1214/ss/1009213726.full){target="_blank"}
 
 
 
@@ -143,6 +142,16 @@ resposta que pode supervisionar a aprendizagem dos modelos/algoritmos.
 
 
 # Modelos de Regressão Linear: Inferência
+
+
+## Modelos de Regressão Linear
+
+- Referências:
+
+    - @wooldridge2023introduccao
+    - @sw
+    - @elements2009
+    - @islr2
 
 
 ## Modelos de Regressão Linear
@@ -1131,13 +1140,12 @@ ser rejeitada.
 
 ```{r, eval = FALSE, echo = TRUE}
 # Teste RESET em R 
-library(lmtest)
 
-# endogeneidade
-resettest(modelo, power = 2:3, type = "fitted")
+# teste de endogeneidade por omissao de variaveis
+lmtest::resettest(modelo, power = 2:3, type = "fitted")
 
-# nao-linearidade
-resettest(modelo, power = 2:3, type = "regressor")
+# teste de nao-linearidade
+lmtest::resettest(modelo, power = 2:3, type = "regressor")
 ```
 
 
@@ -1206,8 +1214,7 @@ summary(modelo_final)
 
 ```{r, eval = FALSE, echo = TRUE}
 # Teste de Breusch-Pagan no R
-library(lmtest)
-bptest(modelo)
+lmtest::bptest(modelo)
 ```
 
 
@@ -1229,8 +1236,7 @@ bptest(modelo)
 
 ```{r, eval = FALSE, echo = TRUE}
 # Teste de Jarque-Bera no R
-library(DescTools)
-JarqueBeraTest(modelo_step$residuals, robust = TRUE))
+DescTools::JarqueBeraTest(modelo_step$residuals, robust = TRUE))
 ```
 
 
@@ -1253,8 +1259,7 @@ não deve ser rejeitada.
 
 ```{r, eval = FALSE, echo = TRUE}
 # Teste de Durbin-Watson no R
-library(car)
-durbinWatsonTest(modelo)
+car::durbinWatsonTest(modelo)
 ```
 
 
@@ -1286,13 +1291,11 @@ $$
 vif_j = \frac{1}{1 - R_{j}^2}
 $$
 
-$|vif| > 10$ é o critério mais comum para dizer se uma variável está causando 
-multicolinearidade ou não.
+$|vif| > 5$ e $|vif| > 10$ são critérios comuns para dizer se uma variável 
+está causando multicolinearidade ou não.
 
 ```{r, eval = FALSE, echo = TRUE}
-# VIF no R
-library(car)
-vif(modelo)
+car::vif(modelo)
 ```
 
 
