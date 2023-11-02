@@ -1,18 +1,20 @@
 ---
 title: "Exercício/Tutorial: Modelos de Regressão Linear em R"
-author: "Seu Nome"
+author: "Washington Santos da Silva"
 output: html_notebook
 ---
 
 ## R Notebooks 
 
-Este é um R Notebook. Quando você executa o código R no notebook, os resultados aparecem abaixo do código.
+Este é um R Notebook. Quando você executa o código R no notebook, os resultados 
+aparecem abaixo do código.
 
 O código R precisa estar em "pedaços" (*chunks*) em um Notebook R. Logo abaixo, 
 está um exemplo de um pedaço de código R. O código produz uma parábola.
 
 Tente executar este cógdigo, colocando o cursor dentro do código e clicando no 
-botão *Run*, ou colocando o cursor dentro do código e pressionando *Ctrl+Shift+Enter* (Windows/Linux).
+botão *Run*, ou colocando o cursor dentro do código e pressionando 
+*Ctrl+Shift+Enter* (Windows/Linux).
 
 ```{r}
 x <- seq(-1, 1, by = 0.01)
@@ -32,13 +34,18 @@ na barra de ferramentas ou pressionando *Ctrl+Alt+I* (Win/Linux).
 
 ## Questão 1
 
-Insira um novo pedaço de código R abaixo, digite e execute 
-o código: Sys.time()
+Insira um novo trecho de código R abaixo, digite e execute 
+o comando: Sys.time()
+
+```{r}
+Sys.time()
+```
+
 
 
 ## Modelos de Regressão Linear com Dados Simulados
 
-Em vez de usar teoria e fórmulas, vamos explorar e revisar a modelaos de 
+Em vez de usar teoria e fórmulas, vamos explorar e revisar os modelos de 
 regressão linear usando dados simulados.
 
 O código abaixo faz o seguinte: 
@@ -53,14 +60,14 @@ O código abaixo faz o seguinte:
 
 ```{r}
 x <- 1:25
-y <- 10 + 5*x  # formula for a line
+y <- 10 + 5*x  
 d <- data.frame(x, y)
 plot(y ~ x, data = d)
 ```
 
 - 10 é o intercepto ($\beta_0$).
-- 5 é o coeficiente de o inclinacão ($\beta_1$). 
-- y é completamente determinado pr x ($y = 10 + 5x$)
+- 5 é o coeficiente de inclinacão ($\beta_1$). 
+- y é completamente determinado por x ($y = 10 + 5x$)
 
 Agora vamos adicionar algum "ruído" aos nossos dados adicionando valores 
 (pseudo) aleatórios de uma distribuição Normal com média = 0 e 
@@ -89,12 +96,15 @@ y é a combinação de uma parte fixa e uma parte aleatória:
 ## Questão 2
 
 E se recebêssemos esses dados e nos dissessem para determinar o processo 
-que os gerou? Em outras palavras, _trabalhe de trás para frente_ e preencha os espaços em branco:
+que os gerou? Em outras palavras, _trabalhe de trás para frente_ e preencha 
+os espaços em branco:
 
-1. ___ + ___*x
+1. 10 + 5*x
 2. rnorm(n = 25, mean = 0, sd = ____)
 
-_Essa é a abordagem tradicional em modelagem/regressão linear_. Você tem alguma variável resposta numérica e deseja encontrar o modelo que gerou os dados.
+_Essa é a abordagem tradicional em modelagem/regressão linear_. Você tem 
+alguma variável resposta numérica e deseja encontrar o modelo que gerou 
+os dados.
 
 A modelagem de regressão linear múltipla tradicional assume as seguintes 
 hipóteses como verdadeiras (entre outras):
@@ -126,6 +136,7 @@ resultados do modelo usando `summary()`:
 ```{r}
 mod_sim <- lm(y ~ x, data = d)
 summary(mod_sim)
+
 ```
 
 O modelo retorna as seguintes estimativas:
@@ -239,6 +250,11 @@ salve os resultados em um objeto chamado `mod_sim2`, veja os resultados
 usando a função `summary()`. Qual modelo foi estimado? Qual é o desvio 
 padrão estimado do erro aleatório normalmente distribuído?
 
+
+```{r}
+
+```
+
 2. Use o modelo para simular um histogramas ou densidade e compare com o 
 histograma e densidade original de `d$y`. Execute o código várias vezes 
 para ver como a curva de densidade gerada pelo modelo varia.
@@ -248,7 +264,7 @@ Agora, vamos aplicar um modelo de regressão linear a dados reais.
 
 ## Importando os Dados
 
-Vamos importar os dados que usaremos . Os dados com os quais trabalharemos 
+Vamos importar os dados que usaremos. Os dados com os quais trabalharemos 
 são dados imobiliários do condado de Albemarle no estado da Virgínia/EUA, 
 baixados do Office of Geographic Data Services. Usaremos uma 
 _amostra aleatória_ dos dados.
@@ -293,7 +309,7 @@ Digamos que queremos modelar o valor total médio de uma casa (representado
 pela variável `totalvalue`) em função de várias características, como 
 tamanho do lote, metros quadrados construídos, presença de ar central, etc.
 
-Vamos ver como a distribuição da variável que representa o valor total 
+Vamos ver a distribuição da variável que representa o valor total 
 usando um histograma. Observe que a distribuição é bastante assimétrica:
 
 ```{r}
@@ -311,7 +327,7 @@ plot(density(homes$totalvalue))
 Para modelar o valor médio total das residências em função de diversas características, precisamos propor um modelo linear. Ao contrário do exemplo anterior, estes não são dados simulados para os quais conhecemos o processo 
 gerador dos dados. 
 
-Como propor um modelo? É fundamental ter algum conhecimento sobre o fenômeno
+Como propor um modelo? É fundamental ter algum conhecimento sobre o fenômeno.
 
 Vamos ajustar um modelo linear usando pés quadrados (`finsqft`), o 
 número de quartos (`bedroom`) e tamanho do lote (`lotsize`). O sinal 
@@ -337,14 +353,14 @@ totalprice = -133328.2482 + 284.4613*finsqft + -13218.4091*bedroom +
 
 Algumas interpretações básicas:
 
-- cada pé quadrado acabado adicional adiciona cerca de US$ 284 ao preço, 
-  mantidas as demais variáveis constantes.
+- cada pé quadrado construído adicional adiciona, em média, cerca de 
+  US$ 284 ao preço, mantidas as demais variáveis constantes.
   
-- cada quarto adicional reduz o preço em US$ 13.218, mantidas as 
+- cada quarto adicional reduz o preço, em média, em US$ 13.218, mantidas as 
   demais variáveis constantes.
   
-- cada acre adicional de tamanho de lote adiciona cerca de US$ 4.268 ao   
-  preço, mantidas as demais variáveis constantes.
+- cada acre adicional de tamanho de lote adiciona, em média, cerca 
+  de US$ 4.268 ao preço, mantidas as demais variáveis constantes.
 
 Cada uma dessas interpretações assume que _todas as outras variáveis são mantidas constantes_! Portanto, estima-se que adicionar um quarto a uma casa, sem aumentar o tamanho do lote ou os metros quadrados acabados da casa, reduza o valor da casa. Isso faz sentido?
 
@@ -359,7 +375,10 @@ sim_y <- -133328.2482 + 284.4613*homes$finsqft +
 ```
 
 
-Uma maneira mais fácil e rápida é usar a função `simulate()` que permite simular múltiplas amostras. Aqui geramos 50 amostras. Cada amostra terá o mesmo número de observações que nossa amostra original (n = 3.025). Cada valor de amostra é gerado usando nossos valores observados para `finsqft`, `bedroom` e `lotsize`. O resultado é uma data frame com 50 colunas.
+Uma maneira mais fácil e rápida é usar a função `simulate()` que permite 
+simular múltiplas amostras. Aqui geramos 50 amostras. Cada amostra terá o 
+mesmo número de observações que nossa amostra original (n = 3.025). Cada 
+valor de amostra é gerado usando nossos valores observados para `finsqft`, `bedroom` e `lotsize`. O resultado é uma data frame com 50 colunas.
 
 ```{r}
 sim1 <- simulate(m1, nsim = 50)
@@ -373,11 +392,8 @@ código de uma vez.)
 
 ```{r}
 plot(density(homes$totalvalue))
-for(i in 1:50)lines(density(sim1[[i]]), col = "grey80")
+for(i in 1:50) lines(density(sim1[[i]]), col = "grey80")
 ```
-
-(Veja o final do notebook para saber como criar esse gráfico usando 
-o pacote ggplot2 e como transformar esse código em uma função.)
 
 Este não parece ser um bom modelo. Na verdade alguns dos nossos valores
 simulados são negativos!
@@ -385,9 +401,11 @@ simulados são negativos!
 Antes de revisarmos o modelo, lembre-se das principais hipóteses:
 
 1) `totalvalue` pode ser modelado por uma soma ponderada:
-    valor total = interceptação + pés quadrados + quartos + tamanho do lote
+    valor total = interceptação + pés quadrados + quartos + tamanho do lote.
+    
 2)  O erro aleatóri segue aproximadamente uma distribuição Normal 
     com média 0.
+    
 3)  O desvio-padrão (variância) desta distribuição Normal é constante
 
 A linguagem R fornece alguns gráficos de diagnóstico básicos para 
@@ -435,11 +453,10 @@ hist(homes$totalvalue)
 ```
 
 
-Ao lidar com uma variável resposta estritamente positiva e muito assimétrica Ao lidar com uma resposta estritamente positiva e muito distorcida (como variáveis 
-que representam preços), é comum transformar a variável resposta para uma 
-escala diferente. 
+Ao lidar com uma variável resposta estritamente positiva e muito assimétrica (como variáveis que representam preços), é comum transformar a variável 
+resposta para uma escala diferente. 
 
-Uma transformação comum é uma transformação logarítmica. Quando aplicamos o logaritmo natural a variável `totalvalue`, a distribuição parece um pouco mais simétrica, embora seja importante observar que isso não é uma suposição da 
+Uma transformação comum é uma transformação logarítmica. Quando aplicamos o logaritmo natural à variável `totalvalue`, a distribuição parece um pouco mais simétrica, embora seja importante observar que isso não é uma suposição da 
 modelagem linear!
 
 ```{r}
@@ -620,7 +637,7 @@ equivalente no distrito de Albemarle.
 
 Em nosso modelo acima, que incluía `hsdistrict`, assumimos que os efeitos eram *aditivos*. Por exemplo, não importava em que distrito escolar a casa ficava, o efeito de `banheiro` ou `finsqft` era o mesmo. 
 
-Os efeitos serem aditivos, também implica que o efeito de cada “banheiro completo” adicional era o mesmo, independentemente do tamanho da casa, e vice-versa. Isso pode ser muito simplista.
+Os efeitos serem aditivos, também implica que o efeito de cada “banheiro completo” adicional é o mesmo, independentemente do tamanho da casa, e vice-versa. Isso pode ser muito simplista.
 
 As interações permitem que os efeitos das variáveis dependam de outras variáveis. Novamente o conhecimento do assunto auxilia na proposição de interações. Como veremos, as interações tornam seu modelo mais flexível, mas mais difícil de entender.
 
@@ -635,9 +652,12 @@ summary(m6)
 
 A interpretação é muito mais difícil. Não podemos interpretar diretamente os _efeitos principais_ de `fullbath`, `finsqft` ou `hsdistrict`. Eles interagem. Qual é o efeito de `finsqft`? Ele depende de `fullbath` e `hsdistrict`.
 
-As interações são “significativas” ou necessárias? Podemos usar a função `anova` para avaliar esta questão. Essa função executa uma série de _testes F parciais_. Cada linha abaixo é um teste de hipótese. 
+As interações são “significativas” ou necessárias? Podemos usar a função 
+`anova` para avaliar esta questão. Essa função executa uma série de 
+_testes F parciais_. Cada linha abaixo é um teste de hipótese. 
 
-A hipótese nula é que o modelo com este preditor é igual ao modelo sem o preditor. Os testes anova abaixo usam o que é chamado de somas de quadrados do Tipo I. Isso respeita a ordem das variáveis no modelo. Assim:
+A hipótese nula é que o modelo com este preditor é igual ao modelo sem o preditor. Os testes anova abaixo usam o que é chamado de somas de quadrados 
+do Tipo I. Isso respeita a ordem das variáveis no modelo. Assim:
 
 - o primeiro teste compara um modelo com apenas um intercepto a um modelo com intercepto e com a variável `fullbath`.
 
@@ -733,7 +753,7 @@ plot(y ~ x, nl_dat)
 ```
 
 É evidente que um modelo linear não funcionará bem para estes dados. A 
-relação entre x ey  não é adequadamente capturada por um modelo linear.
+relação entre x e y  não é adequadamente capturada por um modelo linear.
 
 Se quiséssemos tentar "recuperar" os coeficeintes que usamos na simulação 
 desses dados, poderíamos ajustar um modelo polinomial usando a função 

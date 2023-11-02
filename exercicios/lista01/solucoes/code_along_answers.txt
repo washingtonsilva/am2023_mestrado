@@ -1,6 +1,6 @@
 Code along answers
 
-## CODE ALONG 1
+## CODE ALONG 2
 
 1. Model `y` as a function of `z` using `lm(y ~ z, data = d)` and save to an object called `mod2`. View the summary. What formula does the model return? What is the estimated standard deviation of the Normally distributed noise?
 
@@ -15,7 +15,7 @@ lines(density(73.0003 + d$z*0.2312 + rnorm(25, 0, sd = 36.36)), col = "red")
 
 
 
-## CODE ALONG 2
+## CODE ALONG 3
 
 1. Insert a code chunk below and model `log(totalvalue)` as function of `fullbath` and `finsqft.` Call your model `m3`
 
@@ -38,7 +38,7 @@ plot(density(log(homes$totalvalue)))
 for(i in 1:50)lines(density(sim_m3[[i]]), lty = 2, col = "grey80")
 
 
-## CODE ALONG 3
+## CODE ALONG 4
 
 1. Insert a code chunk below and model `log(totalvalue)` as function of `fullbath`, `finsqft` and `cooling.` Call your model `m5`. 
 
@@ -51,9 +51,10 @@ round(exp(coef(m5)), 3)
 Expected value of a home with No Central Air is about 19-20% lower than an equivalent home with Central Air.
 
 
-## CODE ALONG 4
+## CODE ALONG 5
 
-1. Insert a code chunk below and model `log(totalvalue)` as function of `fullbath`, `finsqft`, `cooling`, and the interaction of `finsqft` and `cooling`. Call your model `m7`. Is the interaction warranted?
+1. Insert a code chunk below and model `log(totalvalue)` as function of `fullbath`, `finsqft`, `cooling`, and the interaction of `finsqft` and 
+`cooling`. Call your model `m7`. Is the interaction warranted?
 
 m7 <- lm(log(totalvalue) ~ fullbath + finsqft + cooling + finsqft:cooling, 
         data = homes)
@@ -64,7 +65,7 @@ anova(m7)
 plot(ggpredict(m7, terms = c("finsqft[1000:4000 by=500]", "cooling")))
 
 
-## CODE ALONG 5
+## CODE ALONG 6
 
 1. Insert a code chunk below and model `log(totalvalue)` as function of `finsqft` with a natural spline of 5 `df`, `cooling`, and the interaction of `cooling` and `finsqft` (natural spline of 5 `df`). Call your model `nlm4`.
 
