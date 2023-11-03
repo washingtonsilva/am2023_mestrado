@@ -73,7 +73,8 @@ Agora vamos adicionar algum "ruído" aos nossos dados adicionando valores
 (pseudo) aleatórios de uma distribuição Normal com média = 0 e 
 desvio padrão = 10.
 
-A função `rnorm()` nos permite extrair valores aleatórios de uma distribuição Normal.
+A função `rnorm()` nos permite extrair valores aleatórios de uma distribuição 
+Normal.
 
 O comando `set.seed(1)` garante que todos geremos os mesmos dados "aleatórios":
 
@@ -124,10 +125,13 @@ dados. Para isso usamos a função `lm()`. Temos que especificar a fórmula para
 a primeira hipótese. A segunda e a terceira hipóteses estão incorporadas 
 em `lm()`.
 
-A fórmula "y ~ x" significa que pensamos que o modelo é "y = intercepto + inclinação*x" ou ("b0 + b1x"). 
+A fórmula "y ~ x" significa que pensamos que o modelo é 
+"y = intercepto + inclinação*x" ou ("b0 + b1x"). 
 
-A menos que especifiquemos o contrário, isso pressupõe que queremos estimar o intercepto. Isso diz à função `lm()` para pegar os dados e encontrar os 
-melhores intercepto e coeficiente de inclinação. _Observe que este é o modelo correto!_
+A menos que especifiquemos o contrário, isso pressupõe que queremos estimar o 
+intercepto. Isso diz à função `lm()` para pegar os dados e encontrar os 
+melhores intercepto e coeficiente de inclinação. 
+\_Observe que este é o modelo correto!_
 
 Quando você usa `lm()` você geralmente deseja salvar os resultados em um 
 objeto. Abaixo salvamos no objeto "mod_sim". Em seguida, visualizamos os 
@@ -172,7 +176,8 @@ Também podemos comparar _curvas de densidade suaves_ dos dados originais e
 com os gerados pelo modelo. As curvas de densidade suaves são basicamente 
 versões suaves de histogramas. 
 
-Se tivermos um bom modelo, os dados gerados pelo nosso modelo deverão ter uma distribuição semelhante aos dados originais. Execute o código abaixo de uma 
+Se tivermos um bom modelo, os dados gerados pelo nosso modelo deverão ter 
+uma distribuição semelhante aos dados originais. Execute o código abaixo de uma 
 vez e mais de uma vez.
 
 ```{r}
@@ -201,7 +206,8 @@ predict(mod_sim, newdata = data.frame(x = 10), interval = "confidence")
 ```
 
 A média esperada (condicional) de y quando x = 10 é de cerca de 61,6 com um 
-IC de 95% de (57,2, 65,9). O IC nos dá uma noção de quão incerta é essa média esperada. Na verdade, seria melhor relatar isso como “a média esperada de y 
+IC de 95% de (57,2, 65,9). O IC nos dá uma noção de quão incerta é essa média 
+esperada. Na verdade, seria melhor relatar isso como “a média esperada de y 
 quando x = 10 deve estar entre 57 a 66”.
 
 Poderíamos também tentar resumir a relação entre y e x examinando os 
@@ -251,10 +257,6 @@ usando a função `summary()`. Qual modelo foi estimado? Qual é o desvio
 padrão estimado do erro aleatório normalmente distribuído?
 
 
-```{r}
-
-```
-
 2. Use o modelo para simular um histogramas ou densidade e compare com o 
 histograma e densidade original de `d$y`. Execute o código várias vezes 
 para ver como a curva de densidade gerada pelo modelo varia.
@@ -292,8 +294,10 @@ Dicionário dos Dados:
 - *halfbath*: número de lavabos (somente vaso sanitário e pia).
 - *lotsize*: tamanho do terreno onde a casa está localizada, em hec.
 - *totalvalue*: valor total avaliado da casa e da propriedade.
-- *esdistrict*: escola infantil à qual as crianças que vivem nessa área são designadas para frequentar com base em seu endereço residencial.
-- *msdistrict*: escola fundamental à qual as crianças que vivem nessa área são designadas para frequentar.
+- *esdistrict*: escola infantil à qual as crianças que vivem nessa área são 
+designadas para frequentar com base em seu endereço residencial.
+- *msdistrict*: escola fundamental à qual as crianças que vivem nessa área 
+são designadas para frequentar.
 - *hsdistrict*: escola do ensino médio à qual os adolescentes que vivem nessa
 área são designadas para frequentar.
 - *censustract*: o setor censitário em que a casa está localizada.
@@ -324,8 +328,10 @@ plot(density(homes$totalvalue))
 ```
 
 
-Para modelar o valor médio total das residências em função de diversas características, precisamos propor um modelo linear. Ao contrário do exemplo anterior, estes não são dados simulados para os quais conhecemos o processo 
-gerador dos dados. 
+Para modelar o valor médio total das residências em função de diversas 
+características, precisamos propor um modelo linear. Ao contrário do 
+exemplo anterior, estes não são dados simulados para os quais conhecemos 
+o processo gerador dos dados. 
 
 Como propor um modelo? É fundamental ter algum conhecimento sobre o fenômeno.
 
@@ -344,7 +350,7 @@ A função `coef()` extrai os coeficientes, ou parâmetros estimados:
 coef(m1)
 ```
 
-Com os parâmetros estimados, podemos escreve o modelo estimado:
+Com os parâmetros estimados, podemos escrever o modelo estimado:
 
 ```
 totalprice = -133328.2482 + 284.4613*finsqft + -13218.4091*bedroom +
@@ -362,9 +368,13 @@ Algumas interpretações básicas:
 - cada acre adicional de tamanho de lote adiciona, em média, cerca 
   de US$ 4.268 ao preço, mantidas as demais variáveis constantes.
 
-Cada uma dessas interpretações assume que _todas as outras variáveis são mantidas constantes_! Portanto, estima-se que adicionar um quarto a uma casa, sem aumentar o tamanho do lote ou os metros quadrados acabados da casa, reduza o valor da casa. Isso faz sentido?
+Cada uma dessas interpretações assume que _todas as outras variáveis são mantidas constantes_! Portanto, estima-se que adicionar um quarto a uma casa, sem 
+aumentar o tamanho do lote ou os metros quadrados acabados da casa, 
+reduza o valor da casa. Isso faz sentido?
 
-Este é um modelo “bom”? Vamos simular os dados do modelo e compará-los com os dados observados. Um “bom” modelo deve gerar dados semelhantes aos dados originais.
+Este é um modelo “bom”? Vamos simular os dados do modelo e compará-los com 
+os dados observados. Um “bom” modelo deve gerar dados semelhantes aos dados 
+originais.
 
 Poderíamos fazer isso manualmente:
 
@@ -378,14 +388,17 @@ sim_y <- -133328.2482 + 284.4613*homes$finsqft +
 Uma maneira mais fácil e rápida é usar a função `simulate()` que permite 
 simular múltiplas amostras. Aqui geramos 50 amostras. Cada amostra terá o 
 mesmo número de observações que nossa amostra original (n = 3.025). Cada 
-valor de amostra é gerado usando nossos valores observados para `finsqft`, `bedroom` e `lotsize`. O resultado é uma data frame com 50 colunas.
+valor de amostra é gerado usando nossos valores observados para `finsqft`, 
+`bedroom` e `lotsize`. O resultado é uma data frame com 50 colunas.
 
 ```{r}
 sim1 <- simulate(m1, nsim = 50)
 ```
 
 
-Agora vamos representar graficamente os dados simulados e os dados observados usando gráficos de densidade. Usamos um loop `for` para adicionar estimativas de densidade suaves das 50 simulações. 
+Agora vamos representar graficamente os dados simulados e os dados observados 
+usando gráficos de densidade. Usamos um loop `for` para adicionar estimativas 
+de densidade suaves das 50 simulações. 
 
 O comando `sim1[[i]]` extrai a coluna _i_ como um vetor. (execute o 
 código de uma vez.)
@@ -403,7 +416,7 @@ Antes de revisarmos o modelo, lembre-se das principais hipóteses:
 1) `totalvalue` pode ser modelado por uma soma ponderada:
     valor total = interceptação + pés quadrados + quartos + tamanho do lote.
     
-2)  O erro aleatóri segue aproximadamente uma distribuição Normal 
+2)  O erro aleatório segue aproximadamente uma distribuição Normal 
     com média 0.
     
 3)  O desvio-padrão (variância) desta distribuição Normal é constante
@@ -423,13 +436,17 @@ Como interpretar os gráficos:
 dispersão uniforme e simétrica dos pontos; se não, haverá evidência de 
 que a variância ou desvio-padrão não é constante.
 
-2. QQ normal: os pontos devem ficar próximos à linha diagonal; caso contrário, haverá evidência de que o resíduo não segue, aproximadamente, 
+2. QQ normal: os pontos devem ficar próximos à linha diagonal; caso 
+contrário, haverá evidência de que o resíduo não segue, aproximadamente, 
 uma distribuição n=Normal.
 
 3. Scale-Location: deve ter uma linha horizontal com dispersão uniforme de 
 pontos; (semelhante ao nº 1, mas mais fácil de detectar tendência na dispersão).
 
-4. Residuais vs Alavancagem: pontos fora das curvas de nível são observações influentes. Alavancagem é a distância do centro de todos os preditores. Uma observação com alta alavancagem tem influência substancial no valor ajustado.
+4. Residuals vs Leverage: pontos fora das curvas de nível são observações 
+influentes. Alavancagem é a distância do centro de todos os preditores. 
+Uma observação com alta alavancagem tem influência substancial no valor 
+ajustado.
 
 Por padrão, os 3 pontos "mais extremos" são rotulados pelo número da linha. 
 2658 aparece em todos as quatro gráficos. É uma casa muito grande e cara.
@@ -453,11 +470,14 @@ hist(homes$totalvalue)
 ```
 
 
-Ao lidar com uma variável resposta estritamente positiva e muito assimétrica (como variáveis que representam preços), é comum transformar a variável 
+Ao lidar com uma variável resposta estritamente positiva e muito assimétrica 
+(como variáveis que representam preços), é comum transformar a variável 
 resposta para uma escala diferente. 
 
-Uma transformação comum é uma transformação logarítmica. Quando aplicamos o logaritmo natural à variável `totalvalue`, a distribuição parece um pouco mais simétrica, embora seja importante observar que isso não é uma suposição da 
-modelagem linear!
+Uma transformação comum é uma transformação logarítmica. Quando aplicamos 
+o logaritmo natural à variável `totalvalue`, a distribuição parece um pouco 
+mais simétrica, embora seja importante observar que isso não é uma suposição 
+da modelagem linear!
 
 ```{r}
 hist(log(homes$totalvalue))
@@ -477,7 +497,8 @@ plot(m2)
 ```
 
 
-Mas este é um “bom modelo”? Nosso modelo proposto de somas ponderadas é bom? Novamente, vamos simular dados e comparar com os dados observados.
+Mas este é um “bom modelo”? Nosso modelo proposto de somas ponderadas é bom? 
+Novamente, vamos simular dados e comparar com os dados observados.
 
 ```{r}
 sim2 <- simulate(m2, nsim = 50)
@@ -488,7 +509,9 @@ for(i in 1:50)lines(density(sim2[[i]]), lty = 2, col = "grey80")
 Os resultados não são tão ruins!
 
 Digamos que estejamos satisfeitos com este modelo. Como interpretamos as 
-estimativas dos parâmetros? Como a variável resposta foi transformada usando a função logaritmo natural, interpretamos as estimativas dos parâmetros como _diferenças proporcionais aproximadas_. 
+estimativas dos parâmetros? Como a variável resposta foi transformada usando 
+a função logaritmo natural, interpretamos as estimativas dos parâmetros 
+como _diferenças proporcionais aproximadas_. 
 
 Abaixo vemos os coeficientes arredondados para 4 casas decimais.
 
@@ -514,9 +537,11 @@ acabados adicionais aumenta o preço em 5%.
 - cada acre adicional de tamanho de lote aumenta o preço, em média, 
 em cerca de 0,47%.
 
-Lembre-se, a interpretação assume que _todas as outras variáveis são mantidas constantes_!
+Lembre-se, a interpretação assume que 
+_todas as outras variáveis são mantidas constantes_!
 
-Uma estimativa um pouco mais precisa pode ser obtida _exponencializando_ os coeficientes e depois interpretando os efeitos como _multiplicativos_ em 
+Uma estimativa um pouco mais precisa pode ser obtida _exponencializando_ 
+os coeficientes e depois interpretando os efeitos como _multiplicativos_ em 
 vez de aditivos. Abaixo exponenciamos usando a função `exp` e depois 
 arredondamos para 4 casas decimais.
 
@@ -524,7 +549,9 @@ arredondamos para 4 casas decimais.
 round(exp(coef(m2)), 4) 
 ```
 
-Por exemplo, cada quarto adicional (assumindo que todas as demais variáveis preditoras se mantém constante) aumenta o preço total esperado em cerca de 4,4%. Multiplicar por 1,0439 equivale a somar 4,39%.
+Por exemplo, cada quarto adicional (assumindo que todas as demais variáveis 
+preditoras se mantém constante) aumenta o preço total esperado em cerca 
+de 4,4%. Multiplicar por 1,0439 equivale a somar 4,39%.
 
 Vamos revisar o resultado do resumo:
 
@@ -535,7 +562,9 @@ summary(m2)
 
 **VISÃO GERAL:**
 
-- Seção de resíduos: avaliação rápida de resíduos. Idealmente, o primeiro e o terceira quartis e Min/Max serão aproximadamente equivalentes em valor absoluto.
+- Seção de resíduos: avaliação rápida de resíduos. Idealmente, o primeiro 
+e o terceira quartis e Min/Max serão aproximadamente equivalentes em valor 
+absoluto.
 
 - Coeficientes: lista os coeficientes estimados juntamente com testes da 
 hipótese nula de que cada coeficiente é estatisticamente igual a zero. 
@@ -551,7 +580,8 @@ dos resíduos, que por hipótese segue uma distribuição normal.
 - Estatística F: teste geral de que todos os coeficientes 
 (exceto intercepto) são 0.
 
-Todos os valores-p referem-se aos testes de hipótese de que os coeficientes são iguais a zero. Muitos estatísticos e pesquisadores preferem observar os 
+Todos os valores-p referem-se aos testes de hipótese de que os coeficientes 
+são iguais a zero. Muitos estatísticos e pesquisadores preferem observar os 
 intervalos de confiança.
 
 ```{r}
@@ -559,12 +589,14 @@ round(confint(m2) * 100, 4)
 ```
 
 De acordo com o nosso modelo, cada quarto adicional acrescenta, em média, 
-entre 2% e 6% ao valor de uma casa, assumindo que todas as demais variáveis preditoras se mantém constante.
+entre 2% e 6% ao valor de uma casa, assumindo que todas as demais variáveis 
+preditoras se mantém constante.
 
 
 ## Questão 4
 
-1. Escreva código para modelar `log(totalvalue)` como função de `fullbath` e `finsqft.` Chame seu modelo de `m3`
+1. Escreva código para modelar `log(totalvalue)` como função de `fullbath` 
+e `finsqft.` Chame seu modelo de `m3`
 
 
 2. Escreve o código para produzir os gráficos de diagnóstico dos 
@@ -574,12 +606,14 @@ resíduos
 3. Como interpretamos o coeficiente estimado da variáveil `fullbath`?
 
 
-4. Escreva código para simular os dados do modelo, em seguida, compare com o `totalvalue` observado. Este parece ser um bom modelo?
+4. Escreva código para simular os dados do modelo, em seguida, compare com 
+o `totalvalue` observado. Este parece ser um bom modelo?
 
 
 ## Preditores categóricos
 
-Vamos adicionar `hsdistrict` ao modelo que acabamos de ajustar. Estar em um determinado distrito escolar afeta o valor total de uma casa? 
+Vamos adicionar `hsdistrict` ao modelo que acabamos de ajustar. Estar em 
+um determinado distrito escolar afeta o valor total de uma casa? 
 
 A função `table` produz uma tabela de frequência (contagem) de 
 variáveis categóricas (e também de números inteiros!):
@@ -588,20 +622,27 @@ variáveis categóricas (e também de números inteiros!):
 table(homes$hsdistrict)
 ```
 
-Esses níveis não são números, então como R lida com isso em um modelo linear? A linguagem cria um _contraste_, que é uma matriz de zeros e uns. Se você tiver um fator com K níveis, terá K-1 colunas. 
+Esses níveis não são números, então como R lida com isso em um modelo linear? 
+A linguagem cria um _contraste_, que é uma matriz de zeros e uns. Se você 
+tiver um fator com K níveis, terá K-1 colunas. 
 
-Neste caso teremos duas colunas: uma para Monticello HS e outra para Western Albemarle HS. Por padrão, R pega qualquer nível que venha primeiro em ordem alfabética e o torna o nível _baseline_ ou _referência_.
+Neste caso teremos duas colunas: uma para Monticello HS e outra para Western 
+Albemarle HS. Por padrão, R pega qualquer nível que venha primeiro em ordem 
+alfabética e o torna o nível _baseline_ ou _referência_.
 
-Vejamos o contraste padrão, chamado _treatment contrast_. Para fazer isso, convertemos a variável/coluna `hsdistrict` em un fator e então usamos a função `contrasts()`. 
+Vejamos o contraste padrão, chamado _treatment contrast_. Para fazer isso, 
+convertemos a variável/coluna `hsdistrict` em un fator e então usamos a função `contrasts()`. 
 
-OBS: Não precisamos fazer isso para adicionar hsdistrict ao nosso modelo! Estamos azendo isso apenas para gerar a "definição" de contraste.
+OBS: Não precisamos fazer isso para adicionar hsdistrict ao nosso modelo! 
+Estamos azendo isso apenas para gerar a "definição" de contraste.
 
 ```{r}
 contrasts(factor(homes$hsdistrict))
 ```
 
 
-Um modelo com `hsdistrict` terá dois coeficientes: `Monticello` e `Western Albemarle`
+Um modelo com `hsdistrict` terá dois coeficientes: `Monticello` e 
+`Western Albemarle`
 
 - uma casa no distrito de Albemarle HS recebe dois zeros
 - uma casa no distrito de Monticello HS recebe um na coluna Monticello
@@ -614,20 +655,25 @@ m4 <- lm(log(totalvalue) ~ fullbath + finsqft + hsdistrict, data = homes)
 summary(m4)
 ```
 
-Os coeficientes para Monticello e Western Albemarle são em relação a Albemarle HS.
+Os coeficientes para Monticello e Western Albemarle são em relação a 
+Albemarle HS.
 
 ```{r}
 round(coef(m4) * 100, 4)
 ```
 
 
-Pelas estimativas, o valor de uma casa em Western Albemarle será cerca de 10% superior ao de uma casa equivalente em Albemarle. Da mesma forma, o valor de uma casa no distrito de Monticello será cerca de 7% inferior ao de uma casa 
+Pelas estimativas, o valor de uma casa em Western Albemarle será cerca de 
+10% superior ao de uma casa equivalente em Albemarle. Da mesma forma, o 
+valor de uma casa no distrito de Monticello será cerca de 7% inferior ao 
+de uma casa 
 equivalente no distrito de Albemarle.
 
 
 ## Questão 4
 
-1. Escreva o código para modelar `log(totalvalue)` como função de `fullbath`, `finsqft` e `cooling`. Chame seu modelo de `m5`.
+1. Escreva o código para modelar `log(totalvalue)` como função de `fullbath`, 
+`finsqft` e `cooling`. Chame seu modelo de `m5`.
 
 
 2. Qual é a interpretação do coeficente de `cooling`?
@@ -635,13 +681,23 @@ equivalente no distrito de Albemarle.
 
 ## Modelando Interações
 
-Em nosso modelo acima, que incluía `hsdistrict`, assumimos que os efeitos eram *aditivos*. Por exemplo, não importava em que distrito escolar a casa ficava, o efeito de `banheiro` ou `finsqft` era o mesmo. 
+Em nosso modelo acima, que incluía `hsdistrict`, assumimos que os efeitos 
+eram *aditivos*. Por exemplo, não importava em que distrito escolar a casa 
+ficava, o efeito de `banheiro` ou `finsqft` era o mesmo. 
 
-Os efeitos serem aditivos, também implica que o efeito de cada “banheiro completo” adicional é o mesmo, independentemente do tamanho da casa, e vice-versa. Isso pode ser muito simplista.
+Os efeitos serem aditivos, também implica que o efeito de cada 
+“banheiro completo” adicional é o mesmo, independentemente do tamanho da 
+casa, e vice-versa. Isso pode ser muito simplista.
 
-As interações permitem que os efeitos das variáveis dependam de outras variáveis. Novamente o conhecimento do assunto auxilia na proposição de interações. Como veremos, as interações tornam seu modelo mais flexível, mas mais difícil de entender.
+As interações permitem que os efeitos das variáveis dependam de outras 
+variáveis. Novamente o conhecimento do assunto auxilia na proposição de 
+interações. Como veremos, as interações tornam seu modelo mais flexível, 
+mas mais difícil de entender.
 
-R simplifica a inclusão de interações em modelos. Basta indicar uma interação entre duas variáveis colocando dois pontos (:) entre elas. Abaixo incluímos interações bidirecionais. (Você pode ter interações de três vias e superiores, mas elas são muito difíceis de interpretar.)
+R simplifica a inclusão de interações em modelos. Basta indicar uma interação 
+entre duas variáveis colocando dois pontos (:) entre elas. Abaixo incluímos 
+interações bidirecionais. (Você pode ter interações de três vias e superiores, 
+mas elas são muito difíceis de interpretar.)
 
 ```{r}
 m6 <- lm(log(totalvalue) ~ fullbath + finsqft + hsdistrict + 
@@ -650,18 +706,23 @@ m6 <- lm(log(totalvalue) ~ fullbath + finsqft + hsdistrict +
 summary(m6)
 ```
 
-A interpretação é muito mais difícil. Não podemos interpretar diretamente os _efeitos principais_ de `fullbath`, `finsqft` ou `hsdistrict`. Eles interagem. Qual é o efeito de `finsqft`? Ele depende de `fullbath` e `hsdistrict`.
+A interpretação é muito mais difícil. Não podemos interpretar diretamente os
+_efeitos principais_ de `fullbath`, `finsqft` ou `hsdistrict`. Eles interagem. 
+Qual é o efeito de `finsqft`? Ele depende de `fullbath` e `hsdistrict`.
 
 As interações são “significativas” ou necessárias? Podemos usar a função 
 `anova` para avaliar esta questão. Essa função executa uma série de 
 _testes F parciais_. Cada linha abaixo é um teste de hipótese. 
 
-A hipótese nula é que o modelo com este preditor é igual ao modelo sem o preditor. Os testes anova abaixo usam o que é chamado de somas de quadrados 
+A hipótese nula é que o modelo com este preditor é igual ao modelo sem o 
+preditor. Os testes anova abaixo usam o que é chamado de somas de quadrados 
 do Tipo I. Isso respeita a ordem das variáveis no modelo. Assim:
 
-- o primeiro teste compara um modelo com apenas um intercepto a um modelo com intercepto e com a variável `fullbath`.
+- o primeiro teste compara um modelo com apenas um intercepto a um modelo com 
+intercepto e com a variável `fullbath`.
 
-- o segundo teste compara um modelo com intercepto e `fullbath` com um modelo com intercepto, `fullbath` e `finsqft`.
+- o segundo teste compara um modelo com intercepto e `fullbath` com um 
+modelo com intercepto, `fullbath` e `finsqft`.
 
 - E assim por diante.
 
@@ -673,12 +734,13 @@ anova(m6)
 
 A interação `finsqft:hsdistrict` não parece contribuir muito para o modelo.
 
-O fato de uma interação ser significativa não implica necessariamente que seja relvante ou que valha a pena incluí-la no modelo. Não podemos inferir nada 
-sobre a natureza da interação a partir da tabela da Análise da 
+O fato de uma interação ser significativa não implica necessariamente que 
+seja relvante ou que valha a pena incluí-la no modelo. Não podemos inferir 
+nada sobre a natureza da interação a partir da tabela da Análise da 
 Variância (ANOVA).
 
 _Gráficos de efeitos_ podem nos ajudar a visualizar e dar sentido aos 
-modelos com interações. Vamos fazer um usando o pacote ggeffects e anlisar 
+modelos com interações. Vamos fazer um usando o pacote ggeffects e analisar 
 o que ele está exibindo.
 
 ```{r}
@@ -687,8 +749,10 @@ plot(ggpredict(m6, terms = c("fullbath", "hsdistrict")))
 # coloca fullbath no eixo x, agrupa por hsdistrict
 ```
 
-Qual é o efeito de `fullbath`? Depende. É mais forte em Western Albemarle e Monticello. É claro que grande parte da diferença ocorre em valores extremos
-de `fullbath`. As “faixas” ao redor das linhas representam intervalos com 95% confiança .
+Qual é o efeito de `fullbath`? Depende. É mais forte em Western Albemarle e 
+Monticello. É claro que grande parte da diferença ocorre em valores extremos
+de `fullbath`. As “faixas” ao redor das linhas representam intervalos com 
+95% de confiança.
 
 O que exatamente foi plotado? Podemos ver usando a funcão `ggpredict` 
 sem `plot`:
@@ -697,7 +761,8 @@ sem `plot`:
 ggpredict(m6, terms = c("fullbath", "hsdistrict"))
 ```
 
-`ggpredict` usou nosso modelo para fazer previsões de `totalvalue` para vários valores de `fullbath` nos três distritos escolares, mantendo 
+`ggpredict` usou nosso modelo para fazer previsões de `totalvalue` para vários 
+valores de `fullbath` nos três distritos escolares, mantendo 
 `finsqft` igual a 1828 (a mediana de `finsqft`).
 
 Podemos especificar os valores se quisermos. Por exemplo, crie um gráfico 
@@ -708,24 +773,27 @@ plot(ggpredict(m6, terms = c("fullbath[1:5]", "hsdistrict"),
           condition = c(finsqft = 2000)))
 ```
 
-E quanto aos efeitos de `finsqft` e `fullbath`? Esta é _uma interação de duas variáveis numéricas_. A segunda variável deve servir como variável de 
-agrupamento ao criar um gráfico de efeito. Abaixo definimos `fullbath` 
-\para assumir valores de 2 a 5 e `finsqft` para assumir valores de 1000 
-a 4000 em passos de 500.
+E quanto aos efeitos de `finsqft` e `fullbath`? Esta é 
+_uma interação de duas variáveis numéricas_. A segunda variável deve servir 
+como variável de agrupamento ao criar um gráfico de efeito. Abaixo definimos 
+`fullbath` para assumir valores de 2 a 5 e `finsqft` para assumir valores de 
+1000 a 4000 em passos de 500.
 
 ```{r}
 plot(ggpredict(m6, terms = c("finsqft[1000:4000 by=500]", "fullbath[2:5]")))
 ```
 
 O efeito de `finsqft` parece diminuir em função do número de banheiros 
-completos que uma casa tiver. Mas existem poucas casas grandes com 2 banheiros completos e, da mesma forma, poucas casas pequenas com 5 banheiros completos. 
+completos que uma casa tiver. Mas existem poucas casas grandes com 2 banheiros 
+completos e, da mesma forma, poucas casas pequenas com 5 banheiros completos. 
 Embora a interação seja “significativa” no modelo, é claramente uma interação 
 muito pequena.
 
 
 ## Questão 5
 
-1. Escreva código para modelar `log(totalvalue)` como função de `fullbath`, `finsqft`, `cooling` e a interação entre `finsqft` e `cooling`. Chame seu 
+1. Escreva código para modelar `log(totalvalue)` como função de `fullbath`, 
+`finsqft`, `cooling` e a interação entre `finsqft` e `cooling`. Chame seu 
 modelo de `m7`. A interação é importante?
 
 2. Visualize a interação usando a função `ggpredict`. Use `[1000:4000 by=500]` 
@@ -764,12 +832,15 @@ desses dados, poderíamos ajustar um modelo polinomial usando a função
 nlm1 <- lm(y ~ poly(x, degree = 2, raw = TRUE), data = nl_dat)
 ```
 
-No entanto, a abordagem recomendada para ajustar efeitos não lineares é usar _splines naturais_ em vez de polinômios. Splines naturais essencialmente nos permitem ajustar uma série de polinômios cúbicos conectados em nós localizados 
-no intervalo de nossos dados.
+No entanto, a abordagem recomendada para ajustar efeitos não lineares é 
+usar _splines naturais_ em vez de polinômios. Splines naturais essencialmente 
+nos permitem ajustar uma série de polinômios cúbicos conectados em nós 
+localizados no intervalo de nossos dados.
 
-A opção mais fácil é usar a função `ns()` do pacote splines, que vem instalado 
-com R. `ns` significa "natural splines". O segundo argumento são os graus de liberdade (`df`). Pode ser útil pensar em `df` como o número de vezes que a 
-linha suave muda de direção.
+A opção mais fácil é usar a função `ns()` do pacote splines, que vem 
+instalado com R. `ns` significa "natural splines". O segundo argumento são os 
+graus de liberdade (`df`). Pode ser útil pensar em `df` como o número de vezes 
+que a linha suave muda de direção.
 
 Frank Harrell afirma em seu livro _Regression Model Strategies_ que 3 a 5 `df` 
 é quase sempre suficiente. Seu conselho básico é alocar mais `df` para 
@@ -792,7 +863,8 @@ plot(ggpredict(nlm2, terms = "x"), add.data = TRUE)
 ```
 
 
-Vamos voltar aos dados das casas e ajustar um efeito não linear para `finsqft` usando um spline natural com `df` igual a 5. Abaixo, incluímos 
+Vamos voltar aos dados das casas e ajustar um efeito não linear para `finsqft` 
+usando um spline natural com `df` igual a 5. Abaixo, incluímos 
 também `hsdistrict` e `lotsize` e permitimos que `finsqft` e `hsdistrict` 
 interajam.
 
@@ -821,7 +893,9 @@ summary(nlm3)
 ```
 
 
-Os gráficos de efeitos são nossa única esperança para compreender este modelo. Abaixo, plotamos o valor total previsto em finqft variando de 1.000 a 3.000, agrupado por hsdistrict.
+Os gráficos de efeitos são nossa única esperança para compreender este modelo. 
+Abaixo, plotamos o valor total previsto em finqft variando de 1.000 a 3.000, 
+agrupado por hsdistrict.
 
 ```{r}
 plot(ggpredict(nlm3, terms = c("finsqft[1000:3000 by=250]", "hsdistrict")))
@@ -864,14 +938,16 @@ cbind(observed = homes$totalvalue[h], fitted = exp(fitted(nlm3)[h]))
 ## Questão 6
 
 1. Escreva código para modelar `log(totalvalue)` como função de `finsqft` 
-com um spline natural com `df = 5`, `cooling`, e a interação de `cooling` e `finsqft` (spline natural com `df = 5`). Chame seu modelo de `nlm4`.
+com um spline natural com `df = 5`, `cooling`, e a interação de `cooling` e 
+`finsqft` (spline natural com `df = 5`). Chame seu modelo de `nlm4`.
 
 
 2. Use a função `anova` para verificar se a interação parece necessária. 
 O que você acha?
 
 
-3. Crie um gráfico de efeito de `finsqft` por `resfriamento`. Tente `[1000:5000 by=250]` para o intervalo de valores de `finsqft`.
+3. Crie um gráfico de efeito de `finsqft` por `resfriamento`. Tente 
+`[1000:5000 by=250]` para o intervalo de valores de `finsqft`.
 
 
 ## Fim
@@ -900,7 +976,8 @@ múltiplas medidas sobre o mesmo assunto ou grupos de medidas relacionadas)
 
 - modelos de sobrevivência (para respostas que medem o tempo até um evento)
 
-- modelos de séries temporais (para respostas que apresentam, digamos, variação sazonal ao longo do tempo)
+- modelos de séries temporais (para respostas que apresentam, digamos, 
+variação sazonal ao longo do tempo)
 
 
 **Referências**
@@ -908,7 +985,8 @@ múltiplas medidas sobre o mesmo assunto ou grupos de medidas relacionadas)
 - Faraway, J. (2005). _Linear Models in R_. London: Chapman & Hall.
 - Fox, J. (2002). _A R and S-Plus Companion to Applied Regression_. London: 
   Sage.
-- Harrell, F. (2015). _Regression Modeling Strategies_ (2nd ed.). New York: Springer.
+- Harrell, F. (2015). _Regression Modeling Strategies_ (2nd ed.). New York: 
+Springer.
 - Kutner, M., et al. (2005). _Applied Linear Statistical Models_ (5th ed.). 
 New York: McGraw-Hill.
 - Maindonald J., Braun, J.W. (2010). _Data Analysis and Graphics Using R_ 
@@ -924,17 +1002,20 @@ para reduzir a assimetria da distribuição e, portanto, para ajudar a atender
 
 Lembre-se de que, sem a transformação logarítmica, nossos resíduos eram 
 grandes e assimétricos, o que é uma maneira elegante de dizer que nosso 
-modelo não possuía bom ajuste aos dados. Um bom modelo deve ter resíduos relativamente pequenos com dispersão simétrica.
+modelo não possuía bom ajuste aos dados. Um bom modelo deve ter resíduos 
+relativamente pequenos com dispersão simétrica.
 
 Uma transformação logarítmica fazia sentido por dois motivos:
 
 1. A variável resposta `totalvalue` era estritamente positiva, tinha um 
 limite superior grande e cobria várias ordens de grandeza.
 
-2. as mudanças em `totalvalue` de acordo com os preditores foram relativas (multiplicativas) e não absolutas (aditivas), o que corresponde à escala 
+2. as mudanças em `totalvalue` de acordo com os preditores foram relativas 
+(multiplicativas) e não absolutas (aditivas), o que corresponde à escala 
 logarítmica natural.
 
-É importante observar que nem todas as variáveis com distribuição assimétrica precisam ser transformadas quando se trata de modelagem 
+É importante observar que nem todas as variáveis com distribuição assimétrica 
+precisam ser transformadas quando se trata de modelagem 
 linear. As hipóteses distributivas são feitas em relação aos resíduos 
 não em relação às variáveis resposta e preditores. 
 
@@ -967,7 +1048,8 @@ simétrica.
 car::symbox(homes$totalvalue)
 ```
 
-Também podemos usar `symbox()` em um objeto modelo. Por exemplo, isso produz essencialmente o mesmo gráfico usando os resíduos do modelo em vez do 
+Também podemos usar `symbox()` em um objeto modelo. Por exemplo, isso produz 
+essencialmente o mesmo gráfico usando os resíduos do modelo em vez do 
 `valor total`. Simplesmente canalize o modelo para `symbox()`.
 
 ```{r}
@@ -986,5 +1068,6 @@ lm(totalvalue ~ finsqft + bedroom + lotsize, data = homes) |>
   car::powerTransform() 
 ```
 
-0,16 está próximo de 0, então faz sentido prosseguir com uma transformação logarítmica. Isso simplifica muito a interpretação.
+0,16 está próximo de 0, então faz sentido prosseguir com uma transformação 
+logarítmica. Isso simplifica muito a interpretação.
 

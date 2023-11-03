@@ -1,0 +1,198 @@
+---
+title: "Lista de Exercícios 1 - Resolução"
+subtitle: "Análise Multivariada"
+author: "Prof. Washington S. da Silva"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    code-copy: true
+    css: styles.css
+lang: "pt"
+date: today
+execute: 
+  warning: false
+  message: false
+---
+
+
+
+```{r}
+#| echo: false
+
+# cria modelo linear deterministico
+x <- 1:25
+y <- 10 + 5*x  
+d <- data.frame(x, y)
+
+# simula modelo de regressao linear simples
+set.seed(1)
+erro <- rnorm(n = 25, mean = 0, sd = 10)
+d$y <- 10 + 5*x + erro
+```
+
+
+
+## Questão 1
+
+Insira um novo trecho de código R abaixo, digite e execute 
+o comando: Sys.time()
+
+```{r}
+#| echo: true
+Sys.time()
+```
+
+
+## Questão 2
+
+Preencha os espaços em branco:
+
+1. 10 + 5*x
+2. rnorm(n = 25, mean = 0, sd = 10)
+
+
+## Questão 3
+
+3.1 Modele `y` como uma função de `z` usando `lm(y ~ z, data = d)` e 
+salve os resultados em um objeto chamado `mod_sim2`, veja os resultados 
+usando a função `summary()`. Qual modelo foi estimado? Qual é o desvio 
+padrão estimado do erro aleatório normalmente distribuído?
+
+```{r}
+#| echo: true
+set.seed(4)
+d$z <- runif(25, min = -100, max = 100)
+```
+
+
+```{r}
+#| echo: true
+mod_sim2 <- lm(y ~ z, data = d)
+summary(mod_sim2)
+```
+
+
+3.2 Use o modelo para simular um histogramas ou densidade e compare com o 
+histograma e densidade original de `d$y`. Execute o código várias vezes 
+para ver como a curva de densidade gerada pelo modelo varia.
+
+```{r}
+#| echo: true
+hist(d$y, freq = FALSE)
+lines(density(d$y))
+lines(density(73.0003 + d$z*0.2312 + rnorm(25, 0, sd = 36.36)), col = "red")
+```
+
+
+## Questão 4
+
+
+4.1 Escreva código para modelar `log(totalvalue)` como função de `fullbath` 
+e `finsqft.` Chame seu modelo de `m3`
+
+```{r}
+#| echo: true
+#| message: false
+url <- 'https://raw.githubusercontent.com/clayford/dataviz_with_ggplot2/master/alb_homes.csv'
+homes <- readr::read_csv(file = url)
+dplyr::glimpse(homes)
+```
+
+
+```{r}
+#| echo: true
+m3 <- lm(log(totalvalue) ~ fullbath + finsqft, data = homes)
+```
+
+
+4.2 Escreve o código para produzir os gráficos de diagnóstico dos 
+resíduos
+
+```{r}
+#| echo: true
+plot(m3)
+```
+
+
+4.3 Como interpretamos o coeficiente estimado da variáveil `fullbath`?
+
+```{r}
+#| echo: true
+round(exp(coef(m3)), 3)
+```
+
+
+4.4 Escreva código para simular os dados do modelo, em seguida, compare com 
+o `totalvalue` observado. Este parece ser um bom modelo?
+
+```{r}
+#| echo: true
+sim_m3 <- simulate(m3, nsim = 50)
+plot(density(log(homes$totalvalue)))
+for (i in 1:50) lines(density(sim_m3[[i]]), lty = 2, col = "grey80")
+```
+
+
+## Questão 5
+
+5.1 Escreva código para modelar `log(totalvalue)` como função de `fullbath`, 
+`finsqft`, `cooling` e a interação entre `finsqft` e `cooling`. Chame seu 
+modelo de `m7`. A interação é importante?
+
+```{r}
+#| echo: true
+m7 <- lm(log(totalvalue) ~ fullbath + finsqft + cooling + finsqft:cooling, 
+        data = homes)
+summary(m7)
+```
+
+
+5.2 Visualize a interação usando a função `ggpredict`. Use `[1000:4000 by=500]` 
+para definir o intervalo de `finsqft` no eixo x. Quão notável é essa interação?
+
+```{r}
+#| echo: true
+plot(ggeffects::ggpredict(m7, terms = c("finsqft[1000:4000 by=500]", "cooling")))
+```
+
+
+## Questão 6
+
+
+6.1 Escreva código para modelar `log(totalvalue)` como função de `finsqft` 
+com um spline natural com `df = 5`, `cooling`, e a interação de `cooling` e 
+`finsqft` (spline natural com `df = 5`). Chame seu modelo de `nlm4`.
+
+```{r}
+#| echo: true
+nlm4 <- lm(log(totalvalue) ~ splines::ns(finsqft, df = 5) + cooling + 
+             splines::ns(finsqft, df = 5):cooling, data = homes)
+```
+
+
+6.2  Use a função `anova` para verificar se a interação parece necessária. 
+O que você acha?
+
+```{r}
+#| echo: true
+anova(nlm4)
+```
+
+
+6.3 Crie um gráfico de efeito de `finsqft` por `resfriamento`. Tente 
+`[1000:5000 by=250]` para o intervalo de valores de `finsqft`.
+
+```{r}
+#| echo: true
+plot(ggeffects::ggpredict(nlm4, terms = c("finsqft[1000:5000 by=250]", "cooling")))
+```
+
+
+
+
+
+
+
+
+
