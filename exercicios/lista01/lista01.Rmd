@@ -670,7 +670,7 @@ de uma casa
 equivalente no distrito de Albemarle.
 
 
-## Questão 4
+## Questão 5
 
 1. Escreva o código para modelar `log(totalvalue)` como função de `fullbath`, 
 `finsqft` e `cooling`. Chame seu modelo de `m5`.
@@ -790,7 +790,7 @@ Embora a interação seja “significativa” no modelo, é claramente uma inter
 muito pequena.
 
 
-## Questão 5
+## Questão 6
 
 1. Escreva código para modelar `log(totalvalue)` como função de `fullbath`, 
 `finsqft`, `cooling` e a interação entre `finsqft` e `cooling`. Chame seu 
@@ -935,7 +935,7 @@ cbind(observed = homes$totalvalue[h], fitted = exp(fitted(nlm3)[h]))
 ```
 
 
-## Questão 6
+## Questão 7
 
 1. Escreva código para modelar `log(totalvalue)` como função de `finsqft` 
 com um spline natural com `df = 5`, `cooling`, e a interação de `cooling` e 

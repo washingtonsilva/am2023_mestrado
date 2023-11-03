@@ -31,6 +31,7 @@ round(exp(coef(m3)), 3)
 
 Adding a full bath increases value of house by about 17% 
 
+
 4. Insert a code chunk below and simulate data from the model and compare to the observed `totalvalue`. Does this look like a good model?
 
 sim_m3 <- simulate(m3, nsim = 50)

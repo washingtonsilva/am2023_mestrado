@@ -3,3 +3,12 @@
   font-size: 12pt;
   text-align: justify
       }
+      
+  .quarto-title-block .quarto-title-banner {
+  background-image: url(img/logo.jpeg);
+  background-size: 200px;
+  background-position: left;
+  background-repeat: no-repeat;
+  padding-left: 10px;
+  background-origin: content-box;
+}

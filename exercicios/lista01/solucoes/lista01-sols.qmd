@@ -1,11 +1,13 @@
 ---
 title: "Lista de Exercícios 1 - Resolução"
 subtitle: "Análise Multivariada"
-author: "Prof. Washington S. da Silva"
+author: "Prof. Dr. Washington S. da Silva"
+title-block-banner: "#27445C"
 format:
   html:
     embed-resources: true
     toc: true
+    toc-location: left
     code-copy: true
     css: styles.css
 lang: "pt"
@@ -32,32 +34,45 @@ d$y <- 10 + 5*x + erro
 ```
 
 
-
 ## Questão 1
 
 Insira um novo trecho de código R abaixo, digite e execute 
 o comando: Sys.time()
 
+::: {.callout-tip}
+## Solução
+
 ```{r}
 #| echo: true
 Sys.time()
 ```
+:::
 
 
 ## Questão 2
 
 Preencha os espaços em branco:
 
+::: {.callout-tip}
+## Solução
+
 1. 10 + 5*x
 2. rnorm(n = 25, mean = 0, sd = 10)
+:::
 
 
 ## Questão 3
 
-3.1 Modele `y` como uma função de `z` usando `lm(y ~ z, data = d)` e 
+### 3.1 
+
+Modele `y` como uma função de `z` usando `lm(y ~ z, data = d)` e 
 salve os resultados em um objeto chamado `mod_sim2`, veja os resultados 
 usando a função `summary()`. Qual modelo foi estimado? Qual é o desvio 
 padrão estimado do erro aleatório normalmente distribuído?
+
+
+::: {.callout-tip}
+## Solução
 
 ```{r}
 #| echo: true
@@ -72,10 +87,24 @@ mod_sim2 <- lm(y ~ z, data = d)
 summary(mod_sim2)
 ```
 
+O modelo estimado foi:
 
-3.2 Use o modelo para simular um histogramas ou densidade e compare com o 
+```
+y = 73 + 0.23*z
+```
+
+A estimativa do erro padrão residual foi 36.36.
+:::
+
+
+### 3.2 
+
+Use o modelo para simular um histogramas ou densidade e compare com o 
 histograma e densidade original de `d$y`. Execute o código várias vezes 
 para ver como a curva de densidade gerada pelo modelo varia.
+
+::: {.callout-tip}
+## Solução
 
 ```{r}
 #| echo: true
@@ -84,47 +113,73 @@ lines(density(d$y))
 lines(density(73.0003 + d$z*0.2312 + rnorm(25, 0, sd = 36.36)), col = "red")
 ```
 
+:::
 
 ## Questão 4
 
+### 4.1 
 
-4.1 Escreva código para modelar `log(totalvalue)` como função de `fullbath` 
+Escreva código para modelar `log(totalvalue)` como função de `fullbath` 
 e `finsqft.` Chame seu modelo de `m3`
+
+::: {.callout-tip}
+## Solução
 
 ```{r}
 #| echo: true
 #| message: false
 url <- 'https://raw.githubusercontent.com/clayford/dataviz_with_ggplot2/master/alb_homes.csv'
 homes <- readr::read_csv(file = url)
-dplyr::glimpse(homes)
 ```
 
-
 ```{r}
-#| echo: true
 m3 <- lm(log(totalvalue) ~ fullbath + finsqft, data = homes)
 ```
+:::
 
 
-4.2 Escreve o código para produzir os gráficos de diagnóstico dos 
+### 4.2 
+
+Escreve o código para produzir os gráficos de diagnóstico dos 
 resíduos
 
+::: {.callout-tip}
+## Solução
+
 ```{r}
-#| echo: true
 plot(m3)
 ```
+::: 
 
 
-4.3 Como interpretamos o coeficiente estimado da variáveil `fullbath`?
+### 4.3 
+
+Como interpretamos o coeficiente estimado da variáveil `fullbath`?
+
+::: {.callout-tip}
+## Solução
 
 ```{r}
-#| echo: true
-round(exp(coef(m3)), 3)
+round(coef(m3), 3)
 ```
 
+No slide 33 sobre os modelos de regressão linear, podemos ver que 
+a interpretação da estimativa de um parâmetro associado a $x$ em que a transformação logarítmica foi aplicada somente a $y$ é: A variação de 
+1 unidade em $X$ está associada a uma variação média de 100*$\beta$ % em 
+$Y$.
 
-4.4 Escreva código para simular os dados do modelo, em seguida, compare com 
+Portanto, adicionar um banheiro completo aumenta, em média, o valor da 
+casa em cerca de 16%.
+::: 
+
+
+### 4.4. 
+
+Escreva código para simular os dados do modelo, em seguida, compare com 
 o `totalvalue` observado. Este parece ser um bom modelo?
+
+::: {.callout-tip}
+## Solução
 
 ```{r}
 #| echo: true
@@ -133,12 +188,53 @@ plot(density(log(homes$totalvalue)))
 for (i in 1:50) lines(density(sim_m3[[i]]), lty = 2, col = "grey80")
 ```
 
+O modelo parece ser apenas razoável e, certamente, pode ser melhorado.
+:::
+
 
 ## Questão 5
 
-5.1 Escreva código para modelar `log(totalvalue)` como função de `fullbath`, 
+### 5.1 
+
+Escreva o código para modelar `log(totalvalue)` como função de `fullbath`, 
+`finsqft` e `cooling`. Chame seu modelo de `m5`.
+
+::: {.callout-tip}
+## Solução
+
+```{r}
+#| echo: true
+m5 <- lm(log(totalvalue) ~ fullbath + finsqft + cooling, data = homes)
+```
+:::
+
+
+### 5.2 
+
+Qual é a interpretação do coeficente de `cooling`?
+
+::: {.callout-tip}
+## Solução
+
+```{r}
+#| echo: true
+round(coef(m5), 3)
+```
+
+Em média, o valor de uma casa sem Ar Central é cerca de 20 % menor do que uma casa equivalente com Ar Central.
+:::
+
+
+## Questão 6
+
+### 6.1 
+
+Escreva código para modelar `log(totalvalue)` como função de `fullbath`, 
 `finsqft`, `cooling` e a interação entre `finsqft` e `cooling`. Chame seu 
 modelo de `m7`. A interação é importante?
+
+::: {.callout-tip}
+## Solução
 
 ```{r}
 #| echo: true
@@ -146,48 +242,71 @@ m7 <- lm(log(totalvalue) ~ fullbath + finsqft + cooling + finsqft:cooling,
         data = homes)
 summary(m7)
 ```
+:::
 
 
-5.2 Visualize a interação usando a função `ggpredict`. Use `[1000:4000 by=500]` 
+### 6.2 
+
+Visualize a interação usando a função `ggpredict`. Use `[1000:4000 by=500]` 
 para definir o intervalo de `finsqft` no eixo x. Quão notável é essa interação?
+
+::: {.callout-tip}
+## Solução
 
 ```{r}
 #| echo: true
 plot(ggeffects::ggpredict(m7, terms = c("finsqft[1000:4000 by=500]", "cooling")))
 ```
+:::
 
 
-## Questão 6
+## Questão 7
 
+### 7.1 
 
-6.1 Escreva código para modelar `log(totalvalue)` como função de `finsqft` 
+Escreva código para modelar `log(totalvalue)` como função de `finsqft` 
 com um spline natural com `df = 5`, `cooling`, e a interação de `cooling` e 
 `finsqft` (spline natural com `df = 5`). Chame seu modelo de `nlm4`.
+
+::: {.callout-tip}
+## Solução
 
 ```{r}
 #| echo: true
 nlm4 <- lm(log(totalvalue) ~ splines::ns(finsqft, df = 5) + cooling + 
              splines::ns(finsqft, df = 5):cooling, data = homes)
 ```
+:::
 
 
-6.2  Use a função `anova` para verificar se a interação parece necessária. 
+### 7.2 
+
+Use a função `anova` para verificar se a interação parece necessária. 
 O que você acha?
+
+::: {.callout-tip}
+## Solução
 
 ```{r}
 #| echo: true
 anova(nlm4)
 ```
+:::
 
 
-6.3 Crie um gráfico de efeito de `finsqft` por `resfriamento`. Tente 
+### 7.3 
+
+Crie um gráfico de efeito de `finsqft` por `resfriamento`. Tente 
 `[1000:5000 by=250]` para o intervalo de valores de `finsqft`.
+
+::: {.callout-tip}
+## Solução
 
 ```{r}
 #| echo: true
 plot(ggeffects::ggpredict(nlm4, terms = c("finsqft[1000:5000 by=250]", "cooling")))
 ```
-
+:::
 
 
 
