@@ -130,8 +130,7 @@ A fórmula "y ~ x" significa que pensamos que o modelo é
 
 A menos que especifiquemos o contrário, isso pressupõe que queremos estimar o 
 intercepto. Isso diz à função `lm()` para pegar os dados e encontrar os 
-melhores intercepto e coeficiente de inclinação. 
-\_Observe que este é o modelo correto!_
+melhores intercepto e coeficiente de inclinação. _Observe que este é o modelo correto!_
 
 Quando você usa `lm()` você geralmente deseja salvar os resultados em um 
 objeto. Abaixo salvamos no objeto "mod_sim". Em seguida, visualizamos os 
@@ -223,7 +222,7 @@ de uma unidade em x, variando em média 0,27 acima ou abaixo de 5. O erro
 padrão nos dá uma indicação da incerteza nesta estimativa. Falaremos mais 
 sobre os valores t e valores-p adiante.
 
-**RESUMO:\**
+**RESUMO:**
 
 Essencialmente, a modelagem de regressão linear básica consistem em:
 
@@ -368,8 +367,7 @@ Algumas interpretações básicas:
 - cada acre adicional de tamanho de lote adiciona, em média, cerca 
   de US$ 4.268 ao preço, mantidas as demais variáveis constantes.
 
-Cada uma dessas interpretações assume que _todas as outras variáveis são mantidas constantes_! Portanto, estima-se que adicionar um quarto a uma casa, sem 
-aumentar o tamanho do lote ou os metros quadrados acabados da casa, 
+Cada uma dessas interpretações assume que _todas as outras variáveis são mantidas constantes_! Portanto, estima-se que adicionar um quarto a uma casa, sem aumentar o tamanho do lote ou os metros quadrados acabados da casa, 
 reduza o valor da casa. Isso faz sentido?
 
 Este é um modelo “bom”? Vamos simular os dados do modelo e compará-los com 
@@ -438,7 +436,7 @@ que a variância ou desvio-padrão não é constante.
 
 2. QQ normal: os pontos devem ficar próximos à linha diagonal; caso 
 contrário, haverá evidência de que o resíduo não segue, aproximadamente, 
-uma distribuição n=Normal.
+uma distribuição Normal.
 
 3. Scale-Location: deve ter uma linha horizontal com dispersão uniforme de 
 pontos; (semelhante ao nº 1, mas mais fácil de detectar tendência na dispersão).
@@ -631,10 +629,10 @@ Albemarle HS. Por padrão, R pega qualquer nível que venha primeiro em ordem
 alfabética e o torna o nível _baseline_ ou _referência_.
 
 Vejamos o contraste padrão, chamado _treatment contrast_. Para fazer isso, 
-convertemos a variável/coluna `hsdistrict` em un fator e então usamos a função `contrasts()`. 
+convertemos a variável/coluna `hsdistrict` em um fator e então usamos a função `contrasts()`. 
 
 OBS: Não precisamos fazer isso para adicionar hsdistrict ao nosso modelo! 
-Estamos azendo isso apenas para gerar a "definição" de contraste.
+Estamos fazendo isso apenas para gerar a "definição" de contraste.
 
 ```{r}
 contrasts(factor(homes$hsdistrict))
@@ -666,8 +664,7 @@ round(coef(m4) * 100, 4)
 Pelas estimativas, o valor de uma casa em Western Albemarle será cerca de 
 10% superior ao de uma casa equivalente em Albemarle. Da mesma forma, o 
 valor de uma casa no distrito de Monticello será cerca de 7% inferior ao 
-de uma casa 
-equivalente no distrito de Albemarle.
+de uma casa equivalente no distrito de Albemarle.
 
 
 ## Questão 5
@@ -726,7 +723,8 @@ modelo com intercepto, `fullbath` e `finsqft`.
 
 - E assim por diante.
 
-Se a hipótese nula for verdadeira, o valor F deve estar próximo de 1.
+Se a hipótese nula for verdadeira, o valor-p do teste F deve ser alto em 
+relação ao nível de significância definido, geralmente 0,05.
 
 ```{r}
 anova(m6)
@@ -894,8 +892,8 @@ summary(nlm3)
 
 
 Os gráficos de efeitos são nossa única esperança para compreender este modelo. 
-Abaixo, plotamos o valor total previsto em finqft variando de 1.000 a 3.000, 
-agrupado por hsdistrict.
+Abaixo, plotamos o valor total previsto com finqft variando de 1.000 a 3.000, 
+em passos de 250, agrupado por hsdistrict.
 
 ```{r}
 plot(ggpredict(nlm3, terms = c("finsqft[1000:3000 by=250]", "hsdistrict")))
@@ -904,7 +902,7 @@ plot(ggpredict(nlm3, terms = c("finsqft[1000:3000 by=250]", "hsdistrict")))
 O efeito de `finsqft` no `valor total` parece mais forte em Western 
 Albemarle quando você ultrapassa 1.500 pés quadrados.
 
-O modelo simula dados semelhantes em distribuição aos dados observados?
+O modelo simula dados semelhantes em relação à distribuição dos dados observados?
 
 ```{r}
 sim4 <- simulate(nlm3, nsim = 50)

@@ -30,7 +30,11 @@ bibliography: referencias.bib
 csl: associacao-brasileira-de-normas-tecnicas.csl
 ---
 
-## Summário: Aula 
+## Summário: Aula
+
+- Lista de Exercícios 1
+
+- Modelos de Regressão Linear: Foco em Previsão
 
 - Análise de Componentes Principais
 
@@ -41,11 +45,11 @@ csl: associacao-brasileira-de-normas-tecnicas.csl
 
 - Modelos de Regressão Linear 
 
-    - Algoritmo/Modelo de Aprendizagem Supervisionado
+    - Algoritmo de Aprendizagem Supervisionada
     
 - Análise de Componentes Principais 
 
-    - Algoritmo/Modelo de Aprendizagem Não Supervisionada
+    - Algoritmo de Aprendizagem Não Supervisionada
     
 
 ## 
@@ -207,10 +211,118 @@ de álgebra linear:
     - Decomposição em Valor Singular (SVD = *singular Value Decomposition*).
     
 
+
+
+## Teorema da Decomposição Espectral {.scrollable}
+
+Considere um vetor aleatório $Z$:
+
+$$
+\textbf{Z} = \left(\begin{array}{c} z_1\\ z_2\\ \vdots \\z_p\end{array}\right)
+$$
+
+Com matriz de variância-covariância dada por:
+
+$$
+\text{var}(\textbf{Z}) = \Sigma = \left(\begin{array}{cccc}\sigma^2_1 & \sigma_{12} & \dots &\sigma_{1p}\\ \sigma_{21} & \sigma^2_2 & \dots &\sigma_{2p}\\  \vdots & \vdots & \ddots & \vdots \\ \sigma_{p1} & \sigma_{p2} & \dots & \sigma^2_p\end{array}\right)
+$$
+
+Considere as combinações lineares:
+
+$$
+\begin{array}{lll} 
+z_1 & = & \phi_{11}x_1 + \phi_{12}x_2 + \dots + \phi_{1p}x_p \\ 
+z_2 & = & \phi_{21}x_1 + \phi_{22}x_2 + \dots + \phi_{2p}x_p \\ & & \vdots \\ 
+z_p & = & \phi_{p1}x_1 + \phi_{p2}x_2 + \dots + \phi_{pp}x_p
+\end{array}
+$$
+
+$Z$ é uma função dos dados aleatórios, e também é aleatório. Portanto, tem 
+variância dada por:
+
+$$
+\text{var}(Y_i) = \sum\limits_{k=1}^{p}\sum\limits_{l=1}^{p}\phi_{ik}\phi_{il}\sigma_{kl} = \mathbf{\phi}'_i\Sigma\mathbf{\phi}_i
+$$
+Além disso, $Z_i$ e $Z_j$ tem covariância:
+
+$$
+\text{cov}(Z_i, Z_j) = \sum\limits_{k=1}^{p}\sum\limits_{l=1}^{p}e_{ik}e_{jl}\sigma_{kl} = \mathbf{e}'_i\Sigma\mathbf{e}_j
+$$
+Vamos coletar os coeficientes $\phi_{ij}$ no vetor:
+
+$$
+\mathbf{\phi}_i = \left(\begin{array}{c} \phi_{i1}\\ \phi_{i2}\\ \vdots \\ \phi_{ip}\end{array}\right)
+$$
+
+Portanto, podemos reescrever o problema de otimização na forma matricial como:
+
+$$
+\text{var}(z_1) = \sum\limits_{k=1}^{p}\sum\limits_{l=1}^{p}\phi_{1k}\phi_{1l}\sigma_{kl} = \mathbf{\phi}'_1\Sigma\mathbf{\phi}_1
+$$
+Sujeito à restrição de que: 
+
+$$
+\mathbf{\phi}'_1\mathbf{\phi}_1 = \sum\limits_{j=1}^{p}\phi^2_{1j} = 1
+$$
+
+### Como obetemos os coeficientes $\phi_{ij}$ dos CPs?
+
+A solução envolve os **autovalores** e **autovetores** da matriz variância-covariância $\Sigma$.
+
+O [Teorema da Decomposição Espectral](https://en.wikipedia.org/wiki/Eigendecomposition_of_a_matrix){target="_blank"} nos permite afirmar que a matriz de variância-covariância pode ser escrita como a soma em relação dos autovalores p, multiplicada pelo produto do autovetor correspondente vezes seu transposto:
+
+$$
+\Sigma =  \sum_{i=1}^{p}\lambda_i \mathbf{\phi}_i \mathbf{\phi}_i' 
+$$
+É fácil ver que a variação total de $X$ é o traço da matriz de variância-covariância, que é a soma das variâncias das variáveis individuais, 
+que por sua vez é igual à soma dos autovalores:
+
+$$
+\begin{align} 
+tr(\Sigma)    & =  \sigma^2_1 + \sigma^2_2 + \dots +\sigma^2_p \\ 
+              & =  \lambda_1 + \lambda_2 + \dots + \lambda_p
+\end{align}
+$$
+
+- Isso nos dará uma interpretação dos componentes em termos da quantidade da variação total explicada por cada componente.
+
+
+### Decomposição Espectral
+
+- A decomposição espectral da matriz de variância-covariância fornece os **autovetores** associados à esta matriz. 
+
+- Cada autovetor é uma **combinação linear das variáveis originais**. Esses autovetores são os vetores das **cargas** dos componentes principais. 
+
+- Cada coeficiente representa como as variáveis originais contribuem para a formação de um componente principal específico. 
+
+- Os autovetores são determinados de tal forma que o primeiro autovetor explica 
+a maior variabilidade dos dados, o segundo explica a segunda maior 
+variabilidadem e assim por diante. 
+
+- Portanto, esses coeficientes nos dizem como as variáveis originais estão relacionadas aos principais padrões de variabilidade dos dados.
+
+- Os **autovalores** obtidos na decomposição espectral representam a quantidade da variabilidade total explicada por cada componente principal. Quanto maior o autovalor, mais variabilidade o componente principal captura. 
+
+- A variância de cada componente principal é diretamente relacionada ao seu autovalor. Quando você divide o autovalor pelo número de observações menos um (n - 1), obtém a variância explicada por aquele componente principal. 
+
+- Essas variâncias indicam a importância relativa de cada componente na explicação da variabilidade dos dados. 
+
+- Portanto, os autovalores e suas respectivas variâncias associadas nos dizem o quanto cada componente principal contribui para a explicação global da variabilidade nos dados.
+
+- A função `princomp` da linguagem R realiza uma análise de componentes 
+principais sobre a matriz de correlações ou de covariâncias usando a 
+função `eigen`.
+
+- Entretanto, é preferível utilizar a função `prcomp`, que aplica a 
+[Decomposição em Valor Singular](https://en.wikipedia.org/wiki/Singular_value_decomposition){target="_blank"} da matriz à matriz de correlações ou de covariâncias 
+
+
+
 ## Geometria dos Componentes Principais
 
 - O vetor de cargas $\phi_1$ com elementos 
-$\phi_{11}, \phi_{21},\ldots,\phi_{p1}$ define uma direção no espaço de características ao longo da qual os dados variam mais.
+$\phi_{11}, \phi_{21},\ldots,\phi_{p1}$ define uma direção no espaço de 
+características ao longo da qual os dados variam mais.
 
 - Se projetarmos os $n$ pontos de dados $x_1,\ldots,x_n$ nesta
 direção, os valores projetados são os próprios scores do componente principal
@@ -251,6 +363,17 @@ a sequência ordenada de vetores singulares à direita da matriz $X$, e as
 variâncias dos componentes são $\frac{1}{n}$ vezes o quadrados dos valores singulares.
 
 - Existem no máximo $min(n-1; p)$ componentes principais.
+
+
+## Projeções? Projeções que Maximizam a Variância?
+
+![Uma silueta enigmática](img/cam3.png){#fig-cam3 fig-align="center" width=20%}
+
+
+## Projeções? Projeções que Maximizam a Variância?
+
+![Outra Projeção](img/cam4.png){#fig-cam4 fig-align="center" width=40%}
+
 
 
 ## Etapas da Análise de Componentes Principais
@@ -307,7 +430,7 @@ para o segundo componente [`Rape` está centrado no ponto
 (0:54; 0:17)].
 
 
-## `USAarrests`: Cargas dos CPs 
+## `USAarrests`: Vetores das Cargas dos CPs 
 
 |          |    CP1     |     CP2    |
 |:--------:|:----------:|:----------:|
@@ -341,7 +464,7 @@ taxas globais de crimes graves.
 - Isto indica que as variáveis relacionadas com o crime são correlacionadas entre si – estados com altas taxas de homicídio tendem a ter altas taxas de agressão e de estupro – e que a variável `UrbanPop` está menos correlacionada com as outras três.
 
 
-## `USAarrests`: Interpretação
+## `USAarrests`: Interpretação {.smaller}
 
 - Podemos examinar as diferenças entre os estados através dos dois vetores de scores ($z$) dos CPs da @fig-biplot. 
 

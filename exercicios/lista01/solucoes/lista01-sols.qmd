@@ -89,9 +89,9 @@ summary(mod_sim2)
 
 O modelo estimado foi:
 
-```
-y = 73 + 0.23*z
-```
+$$
+\hat{y} = 73 + 0.23\times z
+$$
 
 A estimativa do erro padrão residual foi 36.36.
 :::
@@ -149,6 +149,22 @@ resíduos
 ```{r}
 plot(m3)
 ```
+
+**Observações:** 
+
+1. A curvatura que pode ser observada no gráfico dos resíduos ($\hat{e}$) 
+versus os valores ajustados ($\hat{y}$, primeiro gráfico) mostra evidência de algum padrão não linear que não foi captado pelo modelo. O mesmo comportamento 
+pode ser observado no gráfico dos resíduos padronizados versus 
+os valores ajustados (terceiro gráfico).
+
+2. O gráfico quantil-quantil dos resíduos revela uma distribuição 
+com caudas pesadas, isto é, a distribuição dos resíduos contém mais 
+outliers nas caudas do que uma distribuição normal (veja o 
+slide 49 sobre os modelos de regressão linear). Este não é 
+um grande problema para os procedimentos de inferência, assimetrias 
+na distribuição dos resíduos é o desvio mais grave e que compromente 
+os procedimentos que supõe que os resíduos seguem uma 
+distribuição aproximadamente normal.
 ::: 
 
 
@@ -169,7 +185,7 @@ a interpretação da estimativa de um parâmetro associado a $x$ em que a transf
 $Y$.
 
 Portanto, adicionar um banheiro completo aumenta, em média, o valor da 
-casa em cerca de 16%.
+casa em cerca de 16%, mantidas constantes as demais variáveis.
 ::: 
 
 
@@ -188,7 +204,7 @@ plot(density(log(homes$totalvalue)))
 for (i in 1:50) lines(density(sim_m3[[i]]), lty = 2, col = "grey80")
 ```
 
-O modelo parece ser apenas razoável e, certamente, pode ser melhorado.
+Eu diria que o modelo é razoável, e pode ser melhorado.
 :::
 
 
@@ -221,7 +237,7 @@ Qual é a interpretação do coeficente de `cooling`?
 round(coef(m5), 3)
 ```
 
-Em média, o valor de uma casa sem Ar Central é cerca de 20 % menor do que uma casa equivalente com Ar Central.
+Em média, o valor de uma casa sem Ar Central é cerca de 20 % menor do que uma casa equivalente com Ar Central, mantidas as demais variáveis constantes.
 :::
 
 
@@ -242,7 +258,12 @@ m7 <- lm(log(totalvalue) ~ fullbath + finsqft + cooling + finsqft:cooling,
         data = homes)
 summary(m7)
 ```
+
+O valor-p do teste F é superior a 0,05, assim, aparentemente, a interação 
+entre `finsqft` e `cooling` parece ser importante para explciar o 
+valor total das casas.
 :::
+
 
 
 ### 6.2 
@@ -257,6 +278,11 @@ para definir o intervalo de `finsqft` no eixo x. Quão notável é essa interaç
 #| echo: true
 plot(ggeffects::ggpredict(m7, terms = c("finsqft[1000:4000 by=500]", "cooling")))
 ```
+
+Observando o gráfico de efeitos, o efeito de `finsqft` parece diminuir 
+um pouco em relação às casas com e sem ar central, ou seja, à medida 
+que os pés quadrados construídos aumentam, a diferença entre o valor 
+total das casas com e sem ar central diminui.
 :::
 
 
@@ -291,6 +317,15 @@ O que você acha?
 #| echo: true
 anova(nlm4)
 ```
+
+O valor-p do teste F da interação foi 0.1102, que é superior aos níveis 
+usuais de siginificância (0,05 e 0,1), assim, apenas pelo resultado do 
+teste F, a interação não parece importante. 
+
+Entretanto, como vimos, o fato de uma interação não ser significativa não 
+implica necessariamente que não seja relvante ou que não valha a pena incluí-la 
+no modelo, precisamos recorrer a gráficos de efeitos para analisar 
+a questão com mais propriedade. 
 :::
 
 
@@ -306,10 +341,34 @@ Crie um gráfico de efeito de `finsqft` por `resfriamento`. Tente
 #| echo: true
 plot(ggeffects::ggpredict(nlm4, terms = c("finsqft[1000:5000 by=250]", "cooling")))
 ```
+
+Incorporando a não linearidade ao modelo com splines naturais e 
+alterando a configuração do gráfico de efeitos, a 
+interação entre `finsqft` e `cooling` parece mais consistente. 
+
+O efeito de `finsqft` aumenta substancialmente em relação às casas 
+com e sem ar central para casas com mais pés quadrados construídos, 
+especificamente, a partir de 3.600 pés quadrados construídos 
+aproximadamente. 
 :::
 
 
+::: {.callout-tip}
+# Pontos Importantes
 
+Este exercício de modelagem linear busca enfatizar, entre outros pontos:
+
+1. que os métodos estatísticos fornecem métodos muito úteis para 
+entendermos, para aprendermos sobre diversos tipos de fenômenos. 
+
+2. que estes métodos estatísticos não podem ser aplicados como 
+receitas determínísticas, que na verdade estes métodos fornecem 
+uma forma de pensar o entendimento de um fenômeno.
+
+3. que *significância estatística* não implica em *significância prática*. 
+A questão das interações exibe de forma explícita a necessidade 
+desta distinção.
+:::
 
 
 
