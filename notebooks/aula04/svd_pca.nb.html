@@ -11,7 +11,7 @@
 
 
 
-<title>Análise de Componentes Principais - Parte I</title>
+<title>PCA via Decomposição SVD</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -1746,235 +1746,70 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Análise de Componentes Principais - Parte
-I</h1>
+<h1 class="title toc-ignore">PCA via Decomposição SVD</h1>
 
 </div>
 
 
 <!-- rnb-text-begin -->
-<div id="análise-de-componentes-principais-com-base-r" class="section level2">
-<h2>Análise de Componentes Principais com base R</h2>
-<p>Neste laboratório, vamos analisar os aspectos essenciais da Análise
-de Componentes Principais analisando os dados <code>USArrests</code>,
-que fazem parte do pacote interno <code>datasets::R</code>.</p>
-<p>As linhas da data frame contêm os 50 estados, em ordem
-alfabética:</p>
+<div id="pca-via-decomposição-svd" class="section level2">
+<h2>PCA via Decomposição SVD</h2>
+<p>Para ilustar a aplicação da decomposição SVD para os cálculos da
+análise de componentes principais, vamos transformar a data frame
+<code>USArrests</code> em uma matriz, após padronizar cada coluna para
+ter média zero e variância um.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZXN0YWRvcyA8LSByb3cubmFtZXMoVVNBcnJlc3RzKVxuZXN0YWRvc1xuYGBgIn0= -->
-<pre class="r"><code>estados &lt;- row.names(USArrests)
-estados</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuWCA8LSBkYXRhLm1hdHJpeChzY2FsZShVU0FycmVzdHMpKVxucGNvYiA8LSBwcmNvbXAoWClcbnN1bW1hcnkocGNvYilcbmBgYCJ9 -->
+<pre class="r"><code>X &lt;- data.matrix(scale(USArrests))
+pcob &lt;- prcomp(X)
+summary(pcob)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>As colunas da data frame contêm as quatro variáveis:</p>
+<p>Vemos que o primeiro componente principal explica <span class="math inline">\(62\%\)</span> da variabilidade dos dados.</p>
+<p>Vimos nos slides que resolver o problema de otimização para auma
+matriz de dados centrada <span class="math inline">\(\bf X\)</span> é
+equivalente a computar os primeiros <span class="math inline">\(M\)</span> componentes principais dos dados.</p>
+<p>A Decomposição em Valor Singular (SVD) é um algoritmo geral para
+resolver a Eq. 2:</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFtZXMoVVNBcnJlc3RzKVxuYGBgIn0= -->
-<pre class="r"><code>names(USArrests)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc1ggPC0gc3ZkKFgpXG5uYW1lcyhzWClcbnJvdW5kKHNYJHYsIDMpXG5gYGAifQ== -->
+<pre class="r"><code>sX &lt;- svd(X)
+names(sX)
+round(sX$v, 3)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Inicialmente, examinamos brevemente os dados. Podemos notar que as
-variáveis têm médias muito diferentes.</p>
+<p>A função <code>svd()</code> retorna os três componentes da
+decomposição: <code>u</code>, <code>d</code>, e <code>v</code>.</p>
+<p>A matriz <code>v</code> é equivalente à matriz de cargas dos
+componentes principais (à exececão de uma inversão de sinal sem
+importância).</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYXBwbHkoVVNBcnJlc3RzLCAyLCBtZWFuKVxuYGBgIn0= -->
-<pre class="r"><code>apply(USArrests, 2, mean)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucGNvYiRyb3RhdGlvblxuYGBgIn0= -->
+<pre class="r"><code>pcob$rotation</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Observe que a função <code>apply()</code> nos permite aplicar uma
-função — neste caso, a função <code>mean()</code> — a cada linha ou
-coluna do conjunto de dados.</p>
-<p>O segundo argumento aqui indica se desejamos calcular a média das
-linhas, <span class="math inline">\(1\)</span>, ou das colunas, <span class="math inline">\(2\)</span>.</p>
-<p>Vemos que há, em média, três vezes mais esturpos do que homicídios, e
-mais de oito vezes mais agressões do que estupros.</p>
-<p>Também podemos examinar as variâncias das quatro variáveis usando a
-função <code>apply()</code>.</p>
+<p>A matriz <code>u</code> é equivalente à matriz de scores
+<em>padronizados</em>, e os desvios padrão estão no vetor
+<code>d</code>.</p>
+<p>Podemos recuperar os vetores de scores usando a saída de
+<code>svd()</code>. Eles são idênticos aos vetores de scores gerados
+pela função <code>prcomp()</code>.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYXBwbHkoVVNBcnJlc3RzLCAyLCB2YXIpXG5gYGAifQ== -->
-<pre class="r"><code>apply(USArrests, 2, var)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudChzWCRkICogdChzWCR1KSlcbnBjb2IkeFxuYGBgIn0= -->
+<pre class="r"><code>t(sX$d * t(sX$u))
+pcob$x</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Não surpreende que a variabilidade seja muito diferente.</p>
-<p>A variável <code>UrbanPop</code> mede a porcentagem da população de
-cada estado que vive em área urbana, que não é um número comparável ao
-número de estupros em cada estado por 100.000 indivíduos.</p>
-<p>Se não padronizamos as variáveis antes de realizar a PCA, então a
-maioria dos componentes principais que observamos seriam impulsionados
-pela variável <code>Assault</code>, uma vez que ela tem de longe as
-maiores média e variância.</p>
-<p>Assim, é importante padronizar as variáveis para que tenham média
-zero e desvio padrão um antes de realizar a PCA.</p>
-<p>Agora realizamos a análise de componentes principais usando a função
-<code>prcomp()</code>, que é uma das várias funções em <code>R</code>
-que executam PCA:</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHIub3V0IDwtIHByY29tcChVU0FycmVzdHMsIHNjYWxlID0gVFJVRSlcbmBgYCJ9 -->
-<pre class="r"><code>pr.out &lt;- prcomp(USArrests, scale = TRUE)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Por padrão, a função <code>prcomp()</code> centraliza as variáveis
-para terem média zero. Usando a opção <code>scale = TRUE</code>,
-escalamos o variáveis para que tenham desvio padrão igual a um.</p>
-<p>A saída de <code>prcomp()</code> contém uma série de quantidades
-úteis.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFtZXMocHIub3V0KVxuYGBgIn0= -->
-<pre class="r"><code>names(pr.out)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Os componentes <code>center</code> e <code>scalce</code> correspondem
-às médias e desvios padrão das variáveis que foram utilizadas para
-escalonamento antes da implementação da PCA.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHIub3V0JGNlbnRlclxucHIub3V0JHNjYWxlXG5gYGAifQ== -->
-<pre class="r"><code>pr.out$center
-pr.out$scale</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>A matriz <code>rotation</code> contém as cargas dos componentes
-principais; cada coluna de <code>pr.out$rotation</code> contém o
-correspondente vetor de cargas do componente principal.</p>
-<p><strong>Obs.</strong> Esta função é chamada de matriz de rotação,
-porque quando multiplicamos a matriz <span class="math inline">\(\bf
-X\)</span> pela matriz <code>pr.out$rotation</code>, obtemos as
-coordenadas dos dados no sistema de coordenadas rotacionado. Essas
-coordenadas são os scores dos componentes principais.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHIub3V0JHJvdGF0aW9uXG5gYGAifQ== -->
-<pre class="r"><code>pr.out$rotation</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Vemos que existem quatro componentes principais distintos. Isso era
-esperado porque em geral, existem <span class="math inline">\(\min(n-1,p)\)</span> componentes principais
-informativos em um conjunto de dados com <span class="math inline">\(n\)</span> observações e <span class="math inline">\(p\)</span> variáveis.</p>
-<p>Usando a função <code>prcomp()</code>, não precisamos multiplicar
-explicitamente os dados pelos vetores de cargas do componente principal
-para obter os vetores de scores do componente principal.</p>
-<p>Em vez disso, a matriz <code>x</code> (<span class="math inline">\(50
-\times 4\)</span>) tem como colunas os vetores de scores dos componentes
-principais. Ou seja, a <span class="math inline">\(k\)</span>ésima
-coluna de <code>x</code> é o <span class="math inline">\(k\)</span>ésimo
-vetor de score do componente principal.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGltKHByLm91dCR4KVxuYGBgIn0= -->
-<pre class="r"><code>dim(pr.out$x)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Podemos representar graficamente os dois primeiros componentes
-principais da seguinte forma:</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYmlwbG90KHByLm91dCwgc2NhbGUgPSAwKVxuYGBgIn0= -->
-<pre class="r"><code>biplot(pr.out, scale = 0)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>O argumento <code>scale = 0</code> de <code>biplot()</code> garante
-que as setas sejam dimensionadas para representar as cargas; outros
-valores para <code>scale</code> fornecem biplots ligeiramente diferentes
-com interpretações diferentes.</p>
-<p>Observe que esta figura é uma imagem espelhada da Fig. 2 dos
-slides.</p>
-<p>Lembre-se de que os componentes principais só são únicos à exceção de
-uma mudança de sinal, portanto podemos reproduzir a Fig. 2 fazendo
-algumas pequenas alterações:</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHIub3V0JHJvdGF0aW9uID0gLXByLm91dCRyb3RhdGlvblxucHIub3V0JHggPSAtcHIub3V0JHhcbmJpcGxvdChwci5vdXQsIHNjYWxlID0gMClcbmBgYCJ9 -->
-<pre class="r"><code>pr.out$rotation = -pr.out$rotation
-pr.out$x = -pr.out$x
-biplot(pr.out, scale = 0)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>A função <code>prcomp()</code> também gera o desvio padrão de cada
-componente principal.</p>
-<p>Por exemplo, para os dados <code>USArrests</code>, podemos acessar
-esses desvios padrão com:</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHIub3V0JHNkZXZcbmBgYCJ9 -->
-<pre class="r"><code>pr.out$sdev</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>A variância explicada por cada componente principal é obtida elevando
-os desvios padrão ao quadrado:</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHIudmFyIDwtIHByLm91dCRzZGV2XjJcbnByLnZhclxuYGBgIn0= -->
-<pre class="r"><code>pr.var &lt;- pr.out$sdev^2
-pr.var</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Para calcular a proporção da variância explicada por cada componente
-principal, simplesmente dividimos a variância explicada por cada
-componente principal pela variância total explicada por todos os quatro
-componentes principais:</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHZlIDwtIHByLnZhciAvIHN1bShwci52YXIpXG5wdmVcbmBgYCJ9 -->
-<pre class="r"><code>pve &lt;- pr.var / sum(pr.var)
-pve</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Vemos que o primeiro componente principal explica <span class="math inline">\(62,0\,\%\)</span> da variação nos dados, o segundo
-componente principal explica <span class="math inline">\(24,7\,\%\)</span> da variação e assim por
-diante.</p>
-<p>Podemos plotar a PVE explicada por cada componente, bem como a PVE
-acumulada, fazendo:</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucGFyKG1mcm93ID0gYygxLCAyKSlcblxucGxvdChwdmUsIFxuICAgICB4bGFiID0gXCJDb21wb25lbnRlIFByaW5jaXBhbFwiLFxuICAgICB5bGFiID0gXCJQcm9wb3LDp8OjbyBvZGEgVmFyacOibmNpYSBFeHBsaWNhZGFcIiwgXG4gICAgIHlsaW0gPSBjKDAsIDEpLFxuICAgICB0eXBlID0gXCJiXCIpXG5cbnBsb3QoY3Vtc3VtKHB2ZSksIFxuICAgICB4bGFiID0gXCJDb21wb25lbnRlIFByaW5jaXBhbFwiLFxuICAgICB5bGFiID0gXCJQcm9wb3LDp8OjbyBBY3VtdWxhZGEgZGEgVmFyacOibmNpYSBFeHBsaWNhZGFcIixcbiAgICAgeWxpbSA9IGMoMCwgMSksIFxuICAgICB0eXBlID0gXCJiXCIpXG5gYGAifQ== -->
-<pre class="r"><code>par(mfrow = c(1, 2))
-
-plot(pve, 
-     xlab = &quot;Componente Principal&quot;,
-     ylab = &quot;Proporção oda Variância Explicada&quot;, 
-     ylim = c(0, 1),
-     type = &quot;b&quot;)
-
-plot(cumsum(pve), 
-     xlab = &quot;Componente Principal&quot;,
-     ylab = &quot;Proporção Acumulada da Variância Explicada&quot;,
-     ylim = c(0, 1), 
-     type = &quot;b&quot;)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Observe que a função <code>cumsum()</code> calcula a soma acumulada
-dos elementos de um vetor numérico. Por exemplo:</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYSA8LSBjKDEsIDIsIDgsIC0zKVxuY3Vtc3VtKGEpXG5gYGAifQ== -->
-<pre class="r"><code>a &lt;- c(1, 2, 8, -3)
-cumsum(a)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAnQW7DoWxpc2UgZGUgQ29tcG9uZW50ZXMgUHJpbmNpcGFpcyAtIFBhcnRlIEknCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KCgojIyBBbsOhbGlzZSBkZSBDb21wb25lbnRlcyBQcmluY2lwYWlzIGNvbSBiYXNlIFIKCk5lc3RlIGxhYm9yYXTDs3JpbywgdmFtb3MgYW5hbGlzYXIgb3MgYXNwZWN0b3MgZXNzZW5jaWFpcyBkYSBBbsOhbGlzZSBkZSAKQ29tcG9uZW50ZXMgUHJpbmNpcGFpcyBhbmFsaXNhbmRvIG9zIGRhZG9zICBgVVNBcnJlc3RzYCwgcXVlIGZhemVtIHBhcnRlIGRvIApwYWNvdGUgaW50ZXJubyBgZGF0YXNldHM6OlJgLiAKCkFzIGxpbmhhcyBkYSBkYXRhIGZyYW1lIGNvbnTDqm0gb3MgNTAgZXN0YWRvcywgZW0gb3JkZW0gYWxmYWLDqXRpY2E6CgpgYGB7ciBjaHVuazF9CmVzdGFkb3MgPC0gcm93Lm5hbWVzKFVTQXJyZXN0cykKZXN0YWRvcwpgYGAKCkFzIGNvbHVuYXMgZGEgZGF0YSBmcmFtZSBjb250w6ptIGFzIHF1YXRybyB2YXJpw6F2ZWlzOgoKYGBge3IgY2h1bmsyfQpuYW1lcyhVU0FycmVzdHMpCmBgYAoKSW5pY2lhbG1lbnRlLCBleGFtaW5hbW9zIGJyZXZlbWVudGUgb3MgZGFkb3MuIFBvZGVtb3Mgbm90YXIgcXVlIGFzIHZhcmnDoXZlaXMgCnTDqm0gbcOpZGlhcyBtdWl0byBkaWZlcmVudGVzLgoKYGBge3IgY2h1bmszfQphcHBseShVU0FycmVzdHMsIDIsIG1lYW4pCmBgYAoKT2JzZXJ2ZSBxdWUgYSBmdW7Dp8OjbyBgYXBwbHkoKWAgbm9zIHBlcm1pdGUgYXBsaWNhciB1bWEgZnVuw6fDo28gLS0tIG5lc3RlIGNhc28sIGEgZnVuw6fDo28gYG1lYW4oKWAgLS0tIGEgY2FkYSBsaW5oYSBvdSBjb2x1bmEgZG8gY29uanVudG8gZGUgZGFkb3MuIAoKTyBzZWd1bmRvIGFyZ3VtZW50byBhcXVpIGluZGljYSBzZSBkZXNlamFtb3MgY2FsY3VsYXIgYSBtw6lkaWEgZGFzIGxpbmhhcywgCiQxJCwgb3UgZGFzIGNvbHVuYXMsICQyJC4gCgpWZW1vcyBxdWUgaMOhLCBlbSBtw6lkaWEsIHRyw6pzIHZlemVzIG1haXMgZXN0dXJwb3MgZG8gcXVlIGhvbWljw61kaW9zLCBlIAptYWlzIGRlIG9pdG8gdmV6ZXMgbWFpcyBhZ3Jlc3PDtWVzIGRvIHF1ZSBlc3R1cHJvcy4KClRhbWLDqW0gcG9kZW1vcyBleGFtaW5hciBhcyB2YXJpw6JuY2lhcyBkYXMgcXVhdHJvIHZhcmnDoXZlaXMgdXNhbmRvIGEgZnVuw6fDo28gYGFwcGx5KClgLgoKYGBge3IgY2h1bms0fQphcHBseShVU0FycmVzdHMsIDIsIHZhcikKYGBgCgpOw6NvIHN1cnByZWVuZGUgcXVlIGEgdmFyaWFiaWxpZGFkZSBzZWphIG11aXRvIGRpZmVyZW50ZS4KCkEgdmFyacOhdmVsIGBVcmJhblBvcGAgbWVkZSBhIHBvcmNlbnRhZ2VtIGRhIHBvcHVsYcOnw6NvIGRlIGNhZGEgZXN0YWRvIHF1ZSAKdml2ZSBlbSDDoXJlYSB1cmJhbmEsIHF1ZSBuw6NvIMOpIHVtIG7Dum1lcm8gY29tcGFyw6F2ZWwgYW8gbsO6bWVybyBkZSBlc3R1cHJvcwplbSBjYWRhIGVzdGFkbyBwb3IgMTAwLjAwMCBpbmRpdsOtZHVvcy4KClNlIG7Do28gcGFkcm9uaXphbW9zIGFzIHZhcmnDoXZlaXMgYW50ZXMgZGUgcmVhbGl6YXIgYSBQQ0EsIGVudMOjbyBhIG1haW9yaWEgCmRvcyBjb21wb25lbnRlcyBwcmluY2lwYWlzIHF1ZSBvYnNlcnZhbW9zIHNlcmlhbSBpbXB1bHNpb25hZG9zIHBlbGEgdmFyacOhdmVsIGBBc3NhdWx0YCwgdW1hIHZleiBxdWUgZWxhIHRlbSBkZSBsb25nZSBhcyBtYWlvcmVzIG3DqWRpYSBlIHZhcmnDom5jaWEuCgpBc3NpbSwgw6kgaW1wb3J0YW50ZSBwYWRyb25pemFyIGFzIHZhcmnDoXZlaXMgcGFyYSBxdWUgdGVuaGFtIG3DqWRpYSB6ZXJvIGUgZGVzdmlvIHBhZHLDo28gdW0gYW50ZXMgZGUgcmVhbGl6YXIgYSBQQ0EuCgpBZ29yYSByZWFsaXphbW9zIGEgYW7DoWxpc2UgZGUgY29tcG9uZW50ZXMgcHJpbmNpcGFpcyB1c2FuZG8gYSBmdW7Dp8OjbyBgcHJjb21wKClgLCBxdWUgw6kgdW1hIGRhcyB2w6FyaWFzIGZ1bsOnw7VlcyBlbSBgUmAgcXVlIGV4ZWN1dGFtIFBDQToKCmBgYHtyIGNodW5rNX0KcHIub3V0IDwtIHByY29tcChVU0FycmVzdHMsIHNjYWxlID0gVFJVRSkKYGBgCgpQb3IgcGFkcsOjbywgYSBmdW7Dp8OjbyBgcHJjb21wKClgIGNlbnRyYWxpemEgYXMgdmFyacOhdmVpcyBwYXJhIHRlcmVtIG3DqWRpYSB6ZXJvLiBVc2FuZG8gYSBvcMOnw6NvIGBzY2FsZSA9IFRSVUVgLCBlc2NhbGFtb3MgbyB2YXJpw6F2ZWlzIHBhcmEgcXVlIHRlbmhhbSBkZXN2aW8gcGFkcsOjbyBpZ3VhbCBhIHVtLiAKCkEgc2HDrWRhIGRlIGBwcmNvbXAoKWAgY29udMOpbSB1bWEgc8OpcmllIGRlIHF1YW50aWRhZGVzIMO6dGVpcy4KCmBgYHtyIGNodW5rNn0KbmFtZXMocHIub3V0KQpgYGAKCk9zIGNvbXBvbmVudGVzIGBjZW50ZXJgIGUgYHNjYWxjZWAgY29ycmVzcG9uZGVtIMOgcyBtw6lkaWFzIGUgZGVzdmlvcyBwYWRyw6NvIGRhcyB2YXJpw6F2ZWlzIHF1ZSBmb3JhbSB1dGlsaXphZGFzIHBhcmEgZXNjYWxvbmFtZW50byBhbnRlcyBkYSBpbXBsZW1lbnRhw6fDo28gZGEKUENBLgoKYGBge3IgY2h1bms3fQpwci5vdXQkY2VudGVyCnByLm91dCRzY2FsZQpgYGAKCkEgbWF0cml6IGByb3RhdGlvbmAgY29udMOpbSBhcyBjYXJnYXMgZG9zIGNvbXBvbmVudGVzIHByaW5jaXBhaXM7IGNhZGEgY29sdW5hIGRlIGBwci5vdXQkcm90YXRpb25gIGNvbnTDqW0gbyBjb3JyZXNwb25kZW50ZSB2ZXRvciBkZSBjYXJnYXMgZG8gY29tcG9uZW50ZSBwcmluY2lwYWwuCgoqKk9icy4qKiBFc3RhIGZ1bsOnw6NvIMOpIGNoYW1hZGEgZGUgbWF0cml6IGRlIHJvdGHDp8OjbywgcG9ycXVlIHF1YW5kbwptdWx0aXBsaWNhbW9zIGEgbWF0cml6ICRcYmYgWCQgcGVsYSBtYXRyaXogYHByLm91dCRyb3RhdGlvbmAsIG9idGVtb3MgYXMgY29vcmRlbmFkYXMgZG9zIGRhZG9zIG5vIHNpc3RlbWEgZGUgY29vcmRlbmFkYXMgcm90YWNpb25hZG8uIEVzc2FzIApjb29yZGVuYWRhcyBzw6NvIG9zIHNjb3JlcyBkb3MgY29tcG9uZW50ZXMgcHJpbmNpcGFpcy4KCmBgYHtyIGNodW5rOH0KcHIub3V0JHJvdGF0aW9uCmBgYAoKVmVtb3MgcXVlIGV4aXN0ZW0gcXVhdHJvIGNvbXBvbmVudGVzIHByaW5jaXBhaXMgZGlzdGludG9zLiBJc3NvIGVyYSBlc3BlcmFkbyAKcG9ycXVlIGVtIGdlcmFsLCBleGlzdGVtICRcbWluKG4tMSxwKSQgY29tcG9uZW50ZXMgcHJpbmNpcGFpcyBpbmZvcm1hdGl2b3MgZW0gCnVtIGNvbmp1bnRvIGRlIGRhZG9zIGNvbSAkbiQgb2JzZXJ2YcOnw7VlcyBlICRwJCB2YXJpw6F2ZWlzLgoKVXNhbmRvIGEgZnVuw6fDo28gYHByY29tcCgpYCwgbsOjbyBwcmVjaXNhbW9zIG11bHRpcGxpY2FyIGV4cGxpY2l0YW1lbnRlIG9zIGRhZG9zIHBlbG9zIHZldG9yZXMgZGUgY2FyZ2FzIGRvIGNvbXBvbmVudGUgcHJpbmNpcGFsIHBhcmEgb2J0ZXIgb3MgdmV0b3JlcyBkZSBzY29yZXMgZG8gY29tcG9uZW50ZSBwcmluY2lwYWwuIAoKRW0gdmV6IGRpc3NvLCBhIG1hdHJpeiBgeGAgKCQ1MCBcdGltZXMgNCQpIHRlbSBjb21vIGNvbHVuYXMgb3MgdmV0b3JlcyBkZSAKc2NvcmVzIGRvcyBjb21wb25lbnRlcyBwcmluY2lwYWlzLiBPdSBzZWphLCBhICRrJMOpc2ltYSBjb2x1bmEgZGUgYHhgIMOpIApvICRrJMOpc2ltbyB2ZXRvciBkZSBzY29yZSBkbyBjb21wb25lbnRlIHByaW5jaXBhbC4KCmBgYHtyIGNodW5rOX0KZGltKHByLm91dCR4KQpgYGAKClBvZGVtb3MgcmVwcmVzZW50YXIgZ3JhZmljYW1lbnRlIG9zIGRvaXMgcHJpbWVpcm9zIGNvbXBvbmVudGVzIHByaW5jaXBhaXMgZGEgc2VndWludGUgZm9ybWE6CgpgYGB7ciBjaHVuazEwfQpiaXBsb3QocHIub3V0LCBzY2FsZSA9IDApCmBgYAoKTyBhcmd1bWVudG8gYHNjYWxlID0gMGAgZGUgYGJpcGxvdCgpYCBnYXJhbnRlIHF1ZSBhcyBzZXRhcyBzZWphbSBkaW1lbnNpb25hZGFzIHBhcmEgcmVwcmVzZW50YXIgYXMgY2FyZ2FzOyBvdXRyb3MgdmFsb3JlcyBwYXJhIGBzY2FsZWAgZm9ybmVjZW0gYmlwbG90cyBsaWdlaXJhbWVudGUgZGlmZXJlbnRlcyBjb20gaW50ZXJwcmV0YcOnw7VlcyBkaWZlcmVudGVzLgoKT2JzZXJ2ZSBxdWUgZXN0YSBmaWd1cmEgw6kgdW1hIGltYWdlbSBlc3BlbGhhZGEgZGEgRmlnLiAyIGRvcyBzbGlkZXMuIAoKTGVtYnJlLXNlIGRlIHF1ZSBvcyBjb21wb25lbnRlcyBwcmluY2lwYWlzIHPDsyBzw6NvIMO6bmljb3Mgw6AgZXhjZcOnw6NvIGRlIHVtYSAKbXVkYW7Dp2EgZGUgc2luYWwsIHBvcnRhbnRvIHBvZGVtb3MgcmVwcm9kdXppciBhIEZpZy4gMiBmYXplbmRvIGFsZ3VtYXMgCnBlcXVlbmFzIGFsdGVyYcOnw7VlczoKCmBgYHtyIGNodW5rMTEsIG91dC53aWR0aCA9ICIxMDAlIn0KcHIub3V0JHJvdGF0aW9uID0gLXByLm91dCRyb3RhdGlvbgpwci5vdXQkeCA9IC1wci5vdXQkeApiaXBsb3QocHIub3V0LCBzY2FsZSA9IDApCmBgYAoKQSBmdW7Dp8OjbyBgcHJjb21wKClgIHRhbWLDqW0gZ2VyYSBvIGRlc3ZpbyBwYWRyw6NvIGRlIGNhZGEgY29tcG9uZW50ZSBwcmluY2lwYWwuIAoKUG9yIGV4ZW1wbG8sIHBhcmEgb3MgZGFkb3MgYFVTQXJyZXN0c2AsIHBvZGVtb3MgYWNlc3NhciBlc3NlcyBkZXN2aW9zIHBhZHLDo28gCmNvbToKCmBgYHtyIGNodW5rMTJ9CnByLm91dCRzZGV2CmBgYAoKQSB2YXJpw6JuY2lhIGV4cGxpY2FkYSBwb3IgY2FkYSBjb21wb25lbnRlIHByaW5jaXBhbCDDqSBvYnRpZGEgZWxldmFuZG8gb3MgCmRlc3Zpb3MgcGFkcsOjbyBhbyBxdWFkcmFkbzoKCmBgYHtyIGNodW5rMTN9CnByLnZhciA8LSBwci5vdXQkc2Rldl4yCnByLnZhcgpgYGAKClBhcmEgY2FsY3VsYXIgYSBwcm9wb3LDp8OjbyBkYSB2YXJpw6JuY2lhIGV4cGxpY2FkYSBwb3IgY2FkYSBjb21wb25lbnRlIHByaW5jaXBhbCwgc2ltcGxlc21lbnRlIGRpdmlkaW1vcyBhIHZhcmnDom5jaWEgZXhwbGljYWRhIHBvciBjYWRhIGNvbXBvbmVudGUgcHJpbmNpcGFsIHBlbGEgdmFyacOibmNpYSB0b3RhbCBleHBsaWNhZGEgcG9yIHRvZG9zIG9zIHF1YXRybyBjb21wb25lbnRlcyBwcmluY2lwYWlzOgoKYGBge3IgY2h1bmsxNH0KcHZlIDwtIHByLnZhciAvIHN1bShwci52YXIpCnB2ZQpgYGAKClZlbW9zIHF1ZSBvIHByaW1laXJvIGNvbXBvbmVudGUgcHJpbmNpcGFsIGV4cGxpY2EgJDYyLDBcLFwlJCBkYSB2YXJpYcOnw6NvIG5vcyBkYWRvcywgbyBzZWd1bmRvIGNvbXBvbmVudGUgcHJpbmNpcGFsIGV4cGxpY2EgJDI0LDdcLFwlJCBkYSB2YXJpYcOnw6NvIGUgYXNzaW0gcG9yIGRpYW50ZS4KClBvZGVtb3MgcGxvdGFyIGEgUFZFIGV4cGxpY2FkYSBwb3IgY2FkYSBjb21wb25lbnRlLCBiZW0gY29tbyBhIFBWRSBhY3VtdWxhZGEsIApmYXplbmRvOgoKYGBge3IgY2h1bmsxNX0KcGFyKG1mcm93ID0gYygxLCAyKSkKCnBsb3QocHZlLCAKICAgICB4bGFiID0gIkNvbXBvbmVudGUgUHJpbmNpcGFsIiwKICAgICB5bGFiID0gIlByb3BvcsOnw6NvIG9kYSBWYXJpw6JuY2lhIEV4cGxpY2FkYSIsIAogICAgIHlsaW0gPSBjKDAsIDEpLAogICAgIHR5cGUgPSAiYiIpCgpwbG90KGN1bXN1bShwdmUpLCAKICAgICB4bGFiID0gIkNvbXBvbmVudGUgUHJpbmNpcGFsIiwKICAgICB5bGFiID0gIlByb3BvcsOnw6NvIEFjdW11bGFkYSBkYSBWYXJpw6JuY2lhIEV4cGxpY2FkYSIsCiAgICAgeWxpbSA9IGMoMCwgMSksIAogICAgIHR5cGUgPSAiYiIpCmBgYAoKT2JzZXJ2ZSBxdWUgYSBmdW7Dp8OjbyBgY3Vtc3VtKClgIGNhbGN1bGEgYSBzb21hIGFjdW11bGFkYSBkb3MgZWxlbWVudG9zIGRlIHVtIHZldG9yIG51bcOpcmljby4gUG9yIGV4ZW1wbG86CgpgYGB7ciBjaHVuazE2fQphIDwtIGMoMSwgMiwgOCwgLTMpCmN1bXN1bShhKQpgYGAKCgoKCgoK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUENBIHZpYSBEZWNvbXBvc2nDp8OjbyBTVkQiCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KCiMjIFBDQSB2aWEgRGVjb21wb3Npw6fDo28gU1ZEIAoKUGFyYSBpbHVzdGFyIGEgYXBsaWNhw6fDo28gZGEgZGVjb21wb3Npw6fDo28gU1ZEIHBhcmEgb3MgY8OhbGN1bG9zIGRhIGFuw6FsaXNlIGRlIGNvbXBvbmVudGVzIHByaW5jaXBhaXMsIHZhbW9zIHRyYW5zZm9ybWFyIGEgZGF0YSBmcmFtZSBgVVNBcnJlc3RzYCBlbSB1bWEgCm1hdHJpeiwgYXDDs3MgcGFkcm9uaXphciBjYWRhIGNvbHVuYSBwYXJhIHRlciBtw6lkaWEgemVybyBlIHZhcmnDom5jaWEgdW0uCgpgYGB7ciBjaHVuazE3fQpYIDwtIGRhdGEubWF0cml4KHNjYWxlKFVTQXJyZXN0cykpCnBjb2IgPC0gcHJjb21wKFgpCnN1bW1hcnkocGNvYikKYGBgCgpWZW1vcyBxdWUgbyBwcmltZWlybyBjb21wb25lbnRlIHByaW5jaXBhbCBleHBsaWNhICQ2MlwlJCBkYSB2YXJpYWJpbGlkYWRlIApkb3MgZGFkb3MuCgpWaW1vcyBub3Mgc2xpZGVzIHF1ZSByZXNvbHZlciBvIHByb2JsZW1hIGRlIG90aW1pemHDp8OjbyBwYXJhIGF1bWEgCm1hdHJpeiBkZSBkYWRvcyBjZW50cmFkYSAkXGJmIFgkIMOpIGVxdWl2YWxlbnRlIGEgY29tcHV0YXIgb3MgcHJpbWVpcm9zICRNJCAKY29tcG9uZW50ZXMgcHJpbmNpcGFpcyBkb3MgZGFkb3MuICAKCkEgRGVjb21wb3Npw6fDo28gZW0gVmFsb3IgU2luZ3VsYXIgKFNWRCkgw6kgdW0gYWxnb3JpdG1vIGdlcmFsIHBhcmEgCnJlc29sdmVyIGEgRXEuIDI6CgpgYGB7ciBjaHVuazE4fQpzWCA8LSBzdmQoWCkKbmFtZXMoc1gpCnJvdW5kKHNYJHYsIDMpCmBgYAoKQSBmdW7Dp8OjbyBgc3ZkKClgIHJldG9ybmEgb3MgdHLDqnMgY29tcG9uZW50ZXMgZGEgZGVjb21wb3Npw6fDo286IGB1YCwgYGRgLCBlIGB2YC4gCgpBIG1hdHJpeiBgdmAgw6kgZXF1aXZhbGVudGUgw6AgbWF0cml6IGRlIGNhcmdhcyBkb3MgY29tcG9uZW50ZXMgcHJpbmNpcGFpcyAKKMOgIGV4ZWNlY8OjbyBkZSB1bWEgaW52ZXJzw6NvIGRlIHNpbmFsIHNlbSBpbXBvcnTDom5jaWEpLgoKYGBge3IgY2h1bmsxOX0KcGNvYiRyb3RhdGlvbgpgYGAKCkEgbWF0cml6IGB1YCDDqSBlcXVpdmFsZW50ZSDDoCBtYXRyaXogZGUgc2NvcmVzICpwYWRyb25pemFkb3MqLCBlIG9zIGRlc3Zpb3MgCnBhZHLDo28gZXN0w6NvIG5vIHZldG9yIGBkYC4KClBvZGVtb3MgcmVjdXBlcmFyIG9zIHZldG9yZXMgZGUgc2NvcmVzIHVzYW5kbyBhIHNhw61kYSBkZSBgc3ZkKClgLiBFbGVzIHPDo28gaWTDqm50aWNvcyBhb3MgdmV0b3JlcyBkZSBzY29yZXMgZ2VyYWRvcyBwZWxhIGZ1bsOnw6NvIGBwcmNvbXAoKWAuCgpgYGB7ciBjaHVuazIwfQp0KHNYJGQgKiB0KHNYJHUpKQpwY29iJHgKYGBg</div>
 
 
 
@@ -2021,7 +1856,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("componentes_principais.Rmd");
+  window.initializeSourceEmbed("svd_pca.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>
