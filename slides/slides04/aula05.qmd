@@ -1,0 +1,110 @@
+---
+title: "Análise Multivariada"
+subtitle: "Análise de Componentes Principais"
+author: "Prof. Washington Santos da Silva"
+institute: "IFMG - Campus Formiga"
+date: today
+date-format: long
+lang: "pt"
+format: 
+  revealjs:
+    slide-number: true
+    progress: true
+    incremental: true
+    transition: slide
+    code-link: true
+    self-contained: true
+    preview-links: false
+    chalkboard: false
+    overview: true
+    logo: img/logo.jpeg
+    css: logo.css
+editor: source
+crossref:
+  fig-title: '**Fig.**'
+  fig-labels: arabic
+  title-delim: "**.**"
+execute: 
+  echo: true
+bibliography: referencias.bib
+csl: associacao-brasileira-de-normas-tecnicas.csl
+---
+
+
+## Summário: Aula em 13/11 
+
+
+
+## Package: `FactoMineR` - Gráficos {.scrollable}
+
+- A função `plot.PCA` produz dois gráficos: 
+
+    - o mapa de fatores das variáveis (colunas).
+    - o mapa de fatores das indivíduos (observações), e; 
+   
+    
+- Mapa de fatores das variáveis:
+
+    - O mapa de fatores das variáveis apresenta uma visão da projeção das variáveis observadas  no plano abrangendo os dois primeiros componentes principais. 
+
+    - Isso nos mostra a relação estrutural entre as variáveis e os componentes, e nos ajuda a nomear os componentes. 
+
+    - A projeção de um vetor das variável no eixo do componente nos permite ver diretamente a correlação entre a variável e o componente.
+    
+    - A ideia desse gráfico é mostrar com qual direção (componete) as variáveis sào correlacionadas. O eixo que representa Dim 1 e Dim 2 contém o coeficiente de correlação de Pearson ($-1 \leq r \leq +1$).
+
+
+## `factoextra`: Mapa de fatores das variáveis
+
+```{r}
+fviz_pca_var(fmine_output, col.var = "orange")
+```
+
+
+
+## `FactoMineR`: Mapa de fatores das variáveis {.scrollable}
+
+- O mapa de fatores dos indivíduos exibe os indivíduos projetados sobre os 
+scores (z) dos componentes principais:
+
+```{r}
+plot.PCA(fmine_output, axes = c(1, 2), choix = "ind")
+```
+
+
+## `factoextra`: Mapa de fatores das variáveis e indivíduos
+
+```{r}
+#| output-location: slide
+
+fviz_pca_biplot(fmine_output, 
+                label = "all", 
+                col.var = "orange",
+                col.ind = "blue",,
+                repel = TRUE)
+```
+
+
+## Links
+    
+- Usando o pacote [`FactoMineR`](http://factominer.free.fr){target="_blank"} 
+    
+- Usando o pacote [`factoextra`](https://rpkgs.datanovia.com/factoextra/index.html){target="_blank"}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+

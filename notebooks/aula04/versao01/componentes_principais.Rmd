@@ -1,0 +1,341 @@
+---
+title: 'Análise de Componentes Principais em R'
+output: html_notebook
+---
+
+```{r setup, warning=FALSE, message=FALSE}
+library(FactoMineR)
+library(factoextra)
+```
+
+
+## Análise de Componentes Principais 
+
+A Análise de Componentes Principais (PCA) nos permite resumir e 
+visualizar as informações em um conjunto de dados multivariado contendo
+indivíduos (linhas)/observações (colunas) descritas por múltiplas variáveis quantitativas inter-correlacionados. 
+
+Cada variável pode ser considerada como uma dimensão diferente. Se você 
+tiver mais de três variáveis em seus dados, poderá ser muito difícil 
+(impossível) visualizar um hiperespaço multidimensional.
+
+A análise de componentes principais é usada para extrair as informações essenciais de dados multivariados e para expressar essas informações como 
+um conjunto de algumas novas variáveis chamadas componentes principais. 
+Estas novas variáveis correspondem a uma **combinação linear das originais**. 
+
+A "informação" contida em um determinado conjunto de dados corresponde à 
+variação total que ele contém. O objetivo da PCA é identificar as direções 
+(ou componentes principais) ao longo das quais a variação nos dados é máxima.
+
+Em outras palavras, a PCA reduz a dimensionalidade de dados multivariados a 
+dois ou três componentes principais, que podem ser visualizados graficamente, 
+com perda mínima de informação.
+
+
+## Análise de Componentes Principais em R
+
+Neste laboratório, vamos analisar os aspectos essenciais da Análise de 
+Componentes Principais analisando os dados  `USArrests`, que fazem parte do 
+pacote interno `datasets::R`. 
+
+As linhas da data frame contêm os nomes dos 50 estados dos EUA, em ordem alfabética:
+
+```{r chunk1}
+estados <- row.names(USArrests)
+estados
+```
+
+As colunas da data frame contêm as quatro variáveis relacionadas à 
+criminalidade:
+
+```{r chunk2}
+names(USArrests)
+```
+
+Inicialmente, examinamos brevemente os dados. Podemos notar que as variáveis 
+têm médias muito diferentes.
+
+```{r chunk3}
+apply(USArrests, 2, mean)
+```
+
+Observe que a função `apply()` nos permite aplicar uma função --- neste caso, a função `mean()` --- a cada linha ou coluna do conjunto de dados. 
+
+O segundo argumento aqui indica se desejamos calcular a média das linhas, 
+$1$, ou das colunas, $2$. 
+
+Vemos que há, em média, três vezes mais esturpos do que homicídios, e 
+mais de oito vezes mais agressões do que estupros.
+
+Também podemos examinar as variâncias das quatro variáveis usando a função `apply()`.
+
+```{r chunk4}
+apply(USArrests, 2, var)
+```
+
+Não surpreende que a variabilidade seja muito diferente.
+
+A variável `UrbanPop` mede a porcentagem da população de cada estado que 
+vive em área urbana, que não é um número comparável ao número de estupros
+em cada estado por 100.000 indivíduos.
+
+Se não padronizamos as variáveis antes de realizar a PCA, então a maioria 
+dos componentes principais que observamos seriam impulsionados pela variável `Assault`, uma vez que ela tem de longe as maiores média e variância.
+
+Assim, é importante padronizar as variáveis para que tenham média zero e desvio padrão um antes de realizar a PCA.
+
+Agora realizaremos a análise de componentes principais usando a função 
+`prcomp()`, que é uma das várias funções em `R` que executam PCA.
+
+
+### PCA com a funcão princomp()
+
+Agora realizamos a análise de componentes principais usando a função 
+`princomp()`, que é uma das várias funções em `R` que executam PCA. 
+Como vimos em aula, a função `princomp()` utiliza a 
+**Decomposição Espectral** para obter os componentes principais. 
+
+Como vimos anteriormente, as variáveis destes dados possuem unidades e 
+escalas de medidas muito diferentes, assim, é fundamental, além de 
+centralizar as variáveis, escaloná-las, ou seja, padronizar ou 
+normalizar os dados para fazer a PCA.
+
+```{r}
+pca_princomp <- princomp(scale(USArrests))
+summary(pca_princomp)
+```
+
+Vejamos os resultadso, caso as variáveis não fossem padronizadas:
+
+```{r}
+pca_princomp_np <- princomp(USArrests)
+summary(pca_princomp_np)
+```
+
+Podemos verificar, como previmos anteriormente, que caso a PCA fosse 
+realizada sobre os dados brutos, a maioria dos componentes principais 
+obtidos seriam impulsionados pela variável `Assault`, uma vez que ela 
+tem de longe as maiores média e variância.
+
+```{r}
+pca_princomp_np$loadings
+```
+
+Obervando as cargas (*loadings*) dos componentes, é fácil verificar que a 
+variável `Assault` domina o primeiro componente principal, o qual é 
+responsável por 97% da variação total dos dados, caso os dados não 
+sejam padronizados.
+
+
+### PCA com a funcão prcomp()
+
+A função `prcomp()` utiliza a **Decomposição em Valor Singular (SVD)** para 
+obter os componentes principais e os resultados relacionados. 
+
+Vamos implementar a PCA sobre os dados `USArrests` e analisar com certo 
+detalhe os resultados produzidos pela funcão.
+
+```{r chunk5}
+pca_prcomp <- prcomp(USArrests, scale = TRUE)
+summary(pca_prcomp)
+```
+
+Por padrão, a função `prcomp()` centraliza as variáveis para terem média zero. Usando a opção `scale = TRUE`, escalamos o variáveis para que tenham desvio padrão igual a um. 
+
+A saída de `prcomp()` contém uma série de quantidades úteis.
+
+```{r chunk6}
+names(pca_prcomp)
+```
+
+Os componentes `center` e `scalce` correspondem às médias e desvios padrão das variáveis que foram utilizadas para escalonamento antes da implementação da
+PCA.
+
+```{r chunk7}
+pca_prcomp$center
+pca_prcomp$scale
+```
+
+A matriz `rotation` contém as cargas dos componentes principais; cada coluna de `pr.out$rotation` contém o correspondente vetor de cargas do componente principal.
+
+```{r chunk8}
+pca_prcomp$rotation
+```
+
+**Obs.** Esta função é chamada de matriz de rotação, porque quando
+multiplicamos a matriz $\bf X$ pela matriz `pr.out$rotation`, obtemos as coordenadas dos dados no sistema de coordenadas rotacionado. Essas 
+coordenadas são os scores dos componentes principais.
+
+Vemos que existem quatro componentes principais distintos. Isso era esperado 
+porque em geral, existem $\min(n-1,p)$ componentes principais informativos em 
+um conjunto de dados com $n$ observações e $p$ variáveis.
+
+Usando a função `prcomp()`, não precisamos multiplicar explicitamente os dados pelos vetores de cargas do componente principal para obter os vetores de scores do componente principal. 
+
+Em vez disso, a matriz `x` ($50 \times 4$) tem como colunas os vetores de 
+scores dos componentes principais. Ou seja, a $k$ésima coluna de `x` é 
+o $k$ésimo vetor de scores do componente principal.
+
+```{r chunk9}
+dim(pca_prcomp$x)
+```
+
+Podemos representar graficamente os dois primeiros componentes principais da seguinte forma:
+
+```{r chunk10}
+biplot(pca_prcomp, scale = 0)
+```
+
+O argumento `scale = 0` de `biplot()` garante que as setas sejam dimensionadas para representar as cargas; outros valores para `scale` fornecem biplots ligeiramente diferentes com interpretações diferentes.
+
+Observe que esta figura é uma imagem espelhada da Fig. 2 dos slides. 
+
+Lembre-se de que os componentes principais são únicos à exceção de uma 
+mudança de sinal, portanto podemos tentar reproduzir a Fig. 2 fazendo algumas 
+pequenas alterações:
+
+```{r chunk11, out.width = "100%"}
+pca_prcomp$rotation = -pca_prcomp$rotation
+pca_prcomp$x = -pca_prcomp$x
+biplot(pca_prcomp, scale = 0)
+```
+
+A função `prcomp()` também gera o desvio padrão de cada componente principal. 
+
+Por exemplo, para os dados `USArrests`, podemos acessar esses desvios padrão 
+com:
+
+```{r chunk12}
+pca_prcomp$sdev
+```
+
+A variância explicada por cada componente principal é obtida elevando os 
+desvios padrão ao quadrado:
+
+```{r chunk13}
+prop_var <- pca_prcomp$sdev^2
+prop_var
+```
+
+Para calcular a proporção da variância explicada por cada componente principal, simplesmente dividimos a variância explicada por cada componente principal pela variância total explicada por todos os quatro componentes principais:
+
+```{r chunk14}
+pve <- prop_var / sum(prop_var)
+pve
+```
+
+Vemos que o primeiro componente principal explica $62,0\,\%$ da variação nos dados, o segundo componente principal explica $24,7\,\%$ da variação e assim por diante.
+
+Podemos plotar a PVE explicada por cada componente, bem como a PVE acumulada, 
+fazendo:
+
+```{r chunk15}
+par(mfrow = c(1, 2))
+
+plot(pve, 
+     xlab = "Componente Principal",
+     ylab = "Proporção oda Variância Explicada", 
+     ylim = c(0, 1),
+     type = "b")
+
+plot(cumsum(pve), 
+     xlab = "Componente Principal",
+     ylab = "Proporção Acumulada da Variância Explicada",
+     ylim = c(0, 1), 
+     type = "b")
+```
+
+Observe que a função `cumsum()` calcula a soma acumulada dos elementos de um vetor numérico. Por exemplo:
+
+```{r chunk16}
+a <- c(1, 2, 8, -3)
+cumsum(a)
+```
+
+Após analisar com certo detalhe o resultado produzido pela funcão 
+`prcomp`, podemos obter os principais resultados de uma PCA com 
+esta funcão fazendo:
+
+
+### PCA com os pacotes FactoMineR e factoextra
+
+#### O Pacote FactoMineR
+
+O pacote `FactoMineR` disponibiliza métodos exploratórios para resumir, visualizar e descrever dados multivariados. Os principais métodos de PCA são disponibilizados, além de outros: 
+
+- Análise de Componentes Principais (PCA) quando as variáveis são 
+  quantitativas, 
+    
+- Análise de Correspondência (CA) e Análise de Correspondência Múltipla  
+  (MCA) quando as variáveis são categóricas.
+  
+- Análise Fatorial quando se deseja encontrar variáveis latentes (fatores) 
+que expliquem as correlações entre grupos de variáveis, e;
+    
+- Aálise de Agrupamentos (Clusters) pelo método hierárquico.
+
+
+#### O Pacote factoextra
+
+O pacote `factoextra` fornece diversas funções simpes de usar para extrair e visualizar o resultado de análises de dados multivariados.
+
+As funções deste pacote são compatíveis com os resultados de diversas 
+funções para PCA, como `princomp`, `prcomp` e com a função PCA do pacote `FactoMineR`, entre outras.
+
+
+#### PCA com FactoMineR::PCA()
+
+PCA com `FactoMineR::PCA`
+
+```{r}
+facto_res <-
+        FactoMineR::PCA(USArrests,
+                        scale.unit = TRUE,
+                        ncp = 4,
+                        graph = F)
+summary(facto_res)
+```
+
+Scree Plot com `factoextra::fviz_screeplot`
+
+```{r}
+fviz_screeplot(
+        facto_res,
+        choice = "variance",
+        addlabels = TRUE,
+        ylim = c(0, 100)
+)
+```
+
+
+Mapa de fatores das variáveis com `factoextra::fviz_pca_var`.
+
+```{r}
+fviz_pca_var(facto_res, col.var = "orange")
+```
+
+
+Mapa de fatores dos indivíduos com `factoextra::fviz_pca_ind`. 
+
+```{r}
+fviz_pca_ind(facto_res, col.var = "blue")
+```
+
+
+Mapa de fatores das variáveis e indivíduos, que é o biplot, com 
+`factoextra::fviz_pca_biplot`.
+
+```{r}
+fviz_pca_biplot(facto_res, 
+                label = "all", 
+                col.var = "orange",
+                col.ind = "blue",
+                repel = TRUE)
+```
+
+
+
+
+
+
+
