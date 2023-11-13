@@ -33,63 +33,154 @@ csl: associacao-brasileira-de-normas-tecnicas.csl
 
 ## Summário: Aula em 13/11 
 
+- Finalizar os slides sobre Análise de Componentes Principais
+
+- Estes slides: complemento dos slides da última aula
+
+- Lab: Análise de Componentes Principais em R
 
 
-## Package: `FactoMineR` - Gráficos {.scrollable}
+## Package: `FactoMineR`
 
-- A função `plot.PCA` produz dois gráficos: 
+É um pacote que disponibiliza métodos exploratórios de análise de dados para resumir, visualizar e descrever dados multivariados. Os principais métodos implementados são: 
 
-    - o mapa de fatores das variáveis (colunas).
-    - o mapa de fatores das indivíduos (observações), e; 
-   
-    
-- Mapa de fatores das variáveis:
+- Análise de Componentes Principais (PCA) quando as variáveis são 
+  quantitativas, 
+  
+- Análise de Correspondência (CA) e Análise de Correspondência Múltipla  
+  (MCA) quando as variáveis são categóricas, 
 
-    - O mapa de fatores das variáveis apresenta uma visão da projeção das variáveis observadas  no plano abrangendo os dois primeiros componentes principais. 
+- Análise de Fatorial
 
-    - Isso nos mostra a relação estrutural entre as variáveis e os componentes, e nos ajuda a nomear os componentes. 
-
-    - A projeção de um vetor das variável no eixo do componente nos permite ver diretamente a correlação entre a variável e o componente.
-    
-    - A ideia desse gráfico é mostrar com qual direção (componete) as variáveis sào correlacionadas. O eixo que representa Dim 1 e Dim 2 contém o coeficiente de correlação de Pearson ($-1 \leq r \leq +1$).
+- Aálise de Clusters: método hierárquico
 
 
-## `factoextra`: Mapa de fatores das variáveis
+## PCA usando o pacote `FactoMineR`
 
 ```{r}
-fviz_pca_var(fmine_output, col.var = "orange")
+fmine_output = FactoMineR::PCA(USArrests,
+                               scale.unit = TRUE,
+                               ncp = 4,
+                               graph = F)
+summary(fmine_output)
+```
+
+
+## Package: `factoextra`
+
+É um pacote que fornece funções fáceis de usar para extrair e 
+**visualizar** o resultado de análises de dados multivariadas, incluindo:
+
+- Análise de Componentes Principais (PCA) quando as variáveis são 
+  quantitativas, 
+  
+- Análise de Correspondência (CA) e Análise de Correspondência Múltipla  
+  (MCA) quando as variáveis são categóricas, 
+
+- Análise de Fatorial
+
+- Aálise de Clusters: método hierárquico
+
+
+## `FactoMineR`: Scree Plot
+
+```{r}
+factoextra::fviz_screeplot(
+  fmine_output,
+  choice = "variance",
+  addlabels = TRUE,
+  ylim = c(0, 100)
+)
+```
+
+
+## Mapa das Variáveis {.scrollable}
+
+- O mapa de das variáveis apresenta uma visão da projeção das variáveis observadas no plano abrangendo os dois primeiros componentes principais. 
+
+- Isso nos mostra a relação estrutural entre as variáveis e os componentes, e nos ajuda a "nomear" os componentes. 
+
+- A projeção de um vetor da variável no eixo de um componente nos permite ver diretamente a correlação entre a variável e o componente.
+    
+- A ideia desse gráfico é mostrar com qual direção (componete) as 
+variáveis sào correlacionadas. 
+
+- O eixo que representa Dim 1 e Dim 2 c ontém o coeficiente de correlação de Pearson ($-1 \leq r \leq +1$).
+
+
+## `factoextra`: Mapa das variáveis
+
+```{r}
+factoextra::fviz_pca_var(fmine_output, col.var = "orange")
+```
+
+
+## Mapa dos Indivíduos {.scrollable}
+
+- O mapa dos indivíduos é uma representação gráfica das observações no espaço dos componentes principais
+
+- Isto é, o mapa dos indivíduos exibe os indivíduos projetados sobre 
+os scores ($z$) dos componentes principais.
+
+- Os indivíduos próximos no mapa compartilham padrões semelhantes nas variáveis originais, e vice-versa.
+
+- Se houver agrupamentos no mapa, isso sugere que os indivíduos dentro desses grupos são mais semelhantes entre si do que com indivíduos de 
+outros grupos.
+
+
+## `factoextra`: Mapa dos indivíduos
+
+```{r}
+factoextra::fviz_pca_ind(fmine_output, col.ind = "blue")
+```
+
+
+## `factoextra`: Mapa dos indivíduos
+
+```{r}
+factoextra::fviz_pca_ind(fmine_output, col.ind = "blue", repel = TRUE)
+```
+
+
+## Qualidade da Representação de uma Variável {.scrollable}
+
+- Na Análise de Componentes Principais (PCA), as medidas de qualidade da representação de uma variável indicam o quanto uma variável original é bem representada pelos componentes principais.
+
+- Uma dessas medidas é o cosseno quadrado ($\cos^2$) entre o vetor original da variável e o vetor no espaço das componentes principais.
+
+- Durante a PCA, as variáveis originais são projetadas no espaço das componentes principais. Isso significa que cada variável original é representada como uma combinação linear das demais variáveis.
+
+- O cosseno quadrado entre o vetor original da variável e seu vetor no espaço das componentes principais é uma medida da qualidade dessa representação.
+
+- O cosseno quadrado varia de 0 a 1, onde 1 indica uma representação perfeita e 0 indica que a variável original não está representada de forma alguma nps componentes principais.
+
+- Se o $\cos^2$ for próximo de 1, isso significa que a variável original contribui fortemente para a variabilidade capturada pelos componentes principais
+
+- Se o $\cos^2$ for próximo de 0, a variável original não está bem representada nas componentes principais, e sua contribuição para a variabilidade é mínima.
+
+- O $\cos^2$ pode ser usado como critério para selecionar as variáveis mais importantes. Variáveis com $\cos^2$ elevado são consideradas bem representadas e informativas no espaço dos componentes principais.
+
+
+## `factoextra`: $\cos^2$ das variáveis 
+
+```{r}
+factoextra::fviz_cos2(fmine_output, choice = "var", axes = 1)
+```
+
+
+## `factoextra`: $\cos^2$ das variáveis 
+
+```{r}
+factoextra::fviz_cos2(fmine_output, choice = "var", axes = 2)
 ```
 
 
 
-## `FactoMineR`: Mapa de fatores das variáveis {.scrollable}
-
-- O mapa de fatores dos indivíduos exibe os indivíduos projetados sobre os 
-scores (z) dos componentes principais:
-
-```{r}
-plot.PCA(fmine_output, axes = c(1, 2), choix = "ind")
-```
-
-
-## `factoextra`: Mapa de fatores das variáveis e indivíduos
-
-```{r}
-#| output-location: slide
-
-fviz_pca_biplot(fmine_output, 
-                label = "all", 
-                col.var = "orange",
-                col.ind = "blue",,
-                repel = TRUE)
-```
-
-
-## Links
+## Mais Informações sobre os Pacotes
     
-- Usando o pacote [`FactoMineR`](http://factominer.free.fr){target="_blank"} 
+- [`FactoMineR`](http://factominer.free.fr){target="_blank"} 
     
-- Usando o pacote [`factoextra`](https://rpkgs.datanovia.com/factoextra/index.html){target="_blank"}
+- [`factoextra`](https://rpkgs.datanovia.com/factoextra/index.html){target="_blank"}
 
 
 
