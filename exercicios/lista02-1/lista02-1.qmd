@@ -1,0 +1,100 @@
+---
+title: "Lista de Exercícios 2 - Parte 1"
+subtitle: "Análise Multivariada"
+author: "Prof. Dr. Washington S. da Silva"
+title-block-banner: "#27445C"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-location: left
+    code-copy: true
+    css: styles.css
+lang: "pt"
+date: today
+execute: 
+  warning: false
+  message: false
+---
+
+O [World Happiness Report](https://worldhappiness.report){target="_blank"} foi 
+realizado em 2021 como parte da Pesquisa mundial realizada pelo Gallup em 149 
+países. Este estudo internacional contém uma medida de felicidade em uma 
+escala de 0 a 10, chamada *Cantril ladder*, bem como vários indicadores que 
+possivelmente explicam essa pontuação de "felicidade". 
+
+Neste exercício, vamos considerar cinco destes indicadores: 1) *social support*, *healthy life expectancy*, *freedom to make your own life choices*, *generosity of the general population* e *perceptions of internal and external corruption levels*.
+
+A análise de componentes principais procura uma combinação linear dos 
+indicadores que possui variância máxima; em outras palavras, combina-os de uma
+maneira que reflete a maior variação entre os 149 países.
+
+
+## Questão 1
+
+1.1 Importe o arquivo `world-happiness-report-2021.csv` que contém os dados do 
+relatório de 2021 e nomeie o objeto que receberá os dados como `happy`.
+
+1.2 Selecione as colunas 8 até 12 que contém os indicadores `Social support`, 
+`Healthy life expectancy`, `Freedom to make life choices`, `Generosity` e 
+`Perceptions of corruption` e armazene os resultados novamente no objeto 
+`happy`.
+
+1.3 A coluna 1 do objeto `happy` contém os nomes dos 149 países. Utilize os 
+nomes dos países para nomera as linhas do objeto `happy`.
+
+
+## Questão 2
+
+2.1 Utilize a função `PCA()` do pacote FactoMineR para realizar uma análise dos 
+componentes principais, armazene os resultados no objeto `happy_pca`.
+
+2.2 Exiba o resultado da análise usando a função `summary()`. Qual 
+a porcentagem da variância explicada pelos dois primeiros componentes? Escreva 
+as equações dos dois primeiros componentes principais.
+
+2.3. Faça um Scree Plot usando a função `fviz_screeplot` do pacote 
+factoextra.
+
+
+## Questão 3
+
+3.1 Faça um mapa das variáveis usando a função `fviz_pca_var` do pacote 
+factoextra. Utilize `col.var = "red"`.
+
+
+## Questão 4
+
+4.1 Faça um mapa dos indivíduos usando a função `fviz_pca_var` do pacote 
+factoextra. Além dos argumentos vistos em aual, acrescente o argumento 
+`col.ind="cos2"`, essa opção irá fornecer uma cor a cada país proporcional 
+ao cosseno quadrático do país, com a cor mais escura correspondendo a um 
+cosseno quadrátivo próximo de zero, e uma cor mais clara correspondendo a 
+a um cosseno quadrático próximo de um. 
+
+4.2 Liste 5 países que, segundo o cosseno quadrático, contribuem muito 
+pouco para os dois componentes principais.
+
+
+## Questão 5
+
+5.1 Faça um biplot utilizando a função `fviz_pca_biplot` do pacote 
+factoextra. Além das opções vistas em aula, utilize os 
+argumentos `col.var = "red"` e `col.ind = "blue"`.
+
+
+## Questão 6
+
+Interprete os resultados. 
+
+
+
+
+
+
+
+
+
+
+
+

@@ -10,7 +10,7 @@ format:
   revealjs:
     slide-number: true
     progress: true
-    incremental: true
+    incremental: false
     transition: slide
     code-link: true
     self-contained: true
@@ -38,6 +38,8 @@ csl: associacao-brasileira-de-normas-tecnicas.csl
 - Estes slides: complemento dos slides da última aula
 
 - Lab: Análise de Componentes Principais em R
+
+- Lista de Exercícios 2 - Parte 1
 
 
 ## Package: `FactoMineR`
@@ -139,6 +141,17 @@ factoextra::fviz_pca_ind(fmine_output, col.ind = "blue")
 
 ```{r}
 factoextra::fviz_pca_ind(fmine_output, col.ind = "blue", repel = TRUE)
+```
+
+
+## `factoextra`: Biplot
+
+```{r}
+factoextra::fviz_pca_biplot(fmine_output, 
+                label = "all", 
+                col.var = "orange",
+                col.ind = "blue",
+                repel = TRUE)
 ```
 
 

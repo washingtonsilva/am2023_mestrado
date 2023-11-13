@@ -1,0 +1,90 @@
+---
+title: "R Notebook"
+author: "Seu Nome"
+output: html_notebook
+---
+
+```{r setup}
+library(here)
+library(tidyverse)
+library(FactoMineR)
+library(factoextra)
+```
+
+
+## Questão 1
+
+### 1.1 
+
+```{r}
+path_happy <- here::here("data_raw", "world-happiness-report-2021.csv")
+HAPPY <- read.csv(path_happy, check.names = FALSE)
+```
+
+verificando os dados importados:
+
+```{r}
+dplyr::glimpse(HAPPY)
+```
+
+
+### 1.2 
+
+```{r}
+happy <- HAPPY[ ,8:12]
+names(happy)
+```
+
+
+### 1.3 
+
+```{r}
+rownames(happy) <- HAPPY[ ,1]
+```
+
+verificando os dados:
+
+```{r}
+head(happy)
+```
+
+
+
+## Questão 2
+
+### 2.1 
+
+
+### 2.2 
+
+
+### 2.3
+
+
+
+## Questão 3
+
+### 3.1 
+
+
+
+## Questão 4
+
+### 4.1 
+
+
+### 4.2 
+
+
+
+## Questão 5
+
+### 5.1 
+
+
+
+## Questão 6
+
+
+
+
