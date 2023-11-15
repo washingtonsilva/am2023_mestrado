@@ -13,9 +13,9 @@ format:
     incremental: true
     transition: slide
     code-link: true
-    self-contained: true
+    self-contained: false
     preview-links: false
-    chalkboard: false
+    chalkboard: true
     overview: true
     logo: img/logo.jpeg
     css: logo.css
