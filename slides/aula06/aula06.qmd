@@ -1,0 +1,902 @@
+---
+title: "Análise Multivariada"
+subtitle: "Análise Fatorial"
+author: "Prof. Washington Santos da Silva"
+institute: "IFMG - Campus Formiga"
+date: today
+date-format: long
+lang: "pt"
+format: 
+  revealjs:
+    slide-number: true
+    progress: true
+    incremental: false
+    transition: slide
+    code-link: true
+    self-contained: false
+    preview-links: false
+    chalkboard: false
+    overview: true
+    logo: img/logo.jpeg
+    css: logo.css
+editor: source
+crossref:
+  fig-title: '**Fig.**'
+  fig-labels: arabic
+  title-delim: "**.**"
+execute: 
+  echo: true
+bibliography: referencias.bib
+csl: associacao-brasileira-de-normas-tecnicas.csl
+---
+
+
+## Visão Geral
+
+Esta apresentação é principalmente uma introdução *conceitual* à análise 
+fatorial.
+
+Vamos nos concentrar mais em conceitos e melhores práticas do que em detalhes técnicos:
+
+- Motivação e noções básicas
+- Análise Fatorial Exploratória (AFE)
+
+
+
+## Motivação
+
+- A Análise Fatorial (FA) é uma família de técnicas para avaliar 
+a presença de construtos (conceitos) em pesquisas e avaliações psicológicas.
+
+- **Fatores** são considerados **variáveis latentes**, variáveis que não 
+podem ser observadas diretamente, mas que podem ser imperfeitamente medidas através da sua relação com outras variáveis.
+
+- Podemos identificar exemplos canônicos de fatores em testes psicológicos e educacionais.
+
+
+
+## Motivação
+
+- Por exemplo, “inteligência” e “ansiedade” são conceitos abstratos 
+(construtos) que não são diretamente observáveis.
+
+- No entanto, considera-se que eles podem ser observados empiricamente 
+através de múltiplos comportamentos, cada um dos quais é um indicador 
+imperfeito da variável latente subjacente.
+
+- Estes valores observados são conhecidos como *variáveis manifestas* e 
+incluem indicadores como pontuações de testes, pesquisas
+respostas e outros comportamentos empíricos.
+
+
+
+## Motivação
+
+- A Análise Fatorial Exploratória (EFA) busca encontrar o grau em que 
+fatores latentes, são responsáveis pela variância observada
+das variáveis manifestas.
+
+- Em marketing, frequentemente observa-se um grande número de variáveis que, 
+acredita-se, poderiam estar relacionadas a um conjunto menor de construtos subjacentes. 
+
+
+
+## Motivação
+
+- Por exemplo, não podemos observar diretamente a **satisfação do cliente**, 
+mas podemos observar respostas em pesquisas que incluem perguntas sobre
+diferentes aspectos da experiência de um cliente, representando conjuntamente diferentes facetas do construto subjacente, satisfação. 
+
+- Da mesma forma, não podemos observar diretamente a intenção de compra, 
+sensibilidade ao preço ou engajamento, mas é possível observar vários
+comportamentos que estão relacionados a esses construtos.
+
+
+
+## O Conceito Geral - Versão 1 {.smaller}
+
+- A partir das variáveis originais, a análise fatorial (FA) busca encontrar
+um número menor de variáveis derivadas (*fatores*) que atendem às seguintes
+condições:
+
+1. Capturem ao máximo as correlações entre as variáveis originais 
+   (após contabilizar o erro).
+2. Cada fator está claramente associado a um subconjunto de variáveis.
+3. Cada variável está claramente associada (idealmente) a apenas um fator.
+4. Os fatores são diferenciados ao máximo uns dos outros.
+
+- Estas condições raramente são verificadas perfeitamente na prática.
+
+- Entretanto, é possível obter soluções aproximadas, que podem fornecer uma 
+estrutura de fatores "simples" e interpretável.
+
+
+
+## Exemplo da Versão 1 {.smaller}
+
+Considere a análise fatorial (fictícia) de um teste escolar padronizado:
+
+  Variável                  | Fator 1  | Fator 2  | Fator 3  
+--------------------------:|:--------:|:--------:|:--------:
+Pontuação aritmética        | 0,45     | **0,88** | 0,25
+Pontuação álgebra           | 0,51     | **0,82** | 0,03
+Pontuação lógica            | 0,41     | 0,50     | 0,11
+Pontuação quebra-cabeça     | 0,25     | 0,42     | 0,07
+Pontuação vocabulário       | 0,43     | 0,09     | **0,93**
+Pontuação leitura           | 0,50     | 0,14     | **0,85**
+
+Podemos interpretar os fatores produzidos como:
+
+- Fator 1: aptidão geral
+- Fator 2: habilidades matemáticas
+- Fator 3: competências linguísticas
+
+
+
+## O Conceito Geral - Versão 2 {.smaller}
+
+- Outra maneira de olhar para a FA é que ela busca estimar 
+  *variáveis latentes*. 
+
+- Uma variável latente é um processo de geração de dados não observável --- 
+como um estado mental  --- que se manifesta em quantidades mensuráveis, como 
+itens de pesquisas.
+
+- Um artigo propos uma escala para avaliar o interesse em um produto, essa 
+escalar foi projetada para avaliar três variáveis latentes:
+
+- Interesse geral em uma categoria de produto
+- Interesse detalhado em características específicas
+- Interesse no produto como um produto de “imagem”
+
+- Busca-se mensurar uma variável latente avaliando vários itens 
+relacionados (manifestações), uma vez que qualquer item único, muito 
+provavelmente irá capturar a variável latente de forma imperfeita.
+
+
+
+## Exemplo da Versão 2
+
+```{r, echo = FALSE, results ="hide", message = FALSE, warning = FALSE }
+# specifica o modelo
+piesDataModel <- "Geral =~ 0.9*i1 + 0.7*i2 + 0.5*i3
+                  Caracteristica =~ 0.3*i3 + 0.7*i4 + 0.9*i5 + 0.5*i6  + 0.9*i7
+                  Imagem =~ 0.2*i3 + 0.8*i8 + 0.9*i9 + 0.8*i10 + 0.7*i11 
+                  PIES =~ 0.7*General + 0.8*Feature + 0.8*Image"
+
+# dados simulados
+library(lavaan)
+set.seed(10001)    
+piesSimData.norm <- simulateData(piesDataModel, sample.nobs = 3600)
+print(head(piesSimData.norm), digits = 2)
+
+# converter os números reais em itens do tipo Likert na escala de 1 a 7
+piesSimData <- data.frame(lapply(piesSimData.norm, 
+                          function(x) { cut(x, breaks = 7, labels = FALSE) } ))
+
+# ajusta o modelo estrutural aos dados simulados
+# definir o modelo estrutural hierárquico 
+piesModel0 <- "Geral =~ i1 + i2 + i3
+               Caracteristica =~ i4 + i5 + i6  + i7
+               Imagem =~ i8 + i9 + i10 + i11"
+
+pies.fit <- cfa(piesModel0, data = piesSimData, warn = FALSE)
+
+# figura do modelo
+library(semPlot)
+semPaths(pies.fit, what = "path", fade = FALSE, residuals = FALSE,
+         edge.label.cex = 0.75, fixedStyle = 1, edge.color = "darkblue")
+```
+
+
+
+## Analise Fatorial {.scrollable}
+
+### 1. Modelo Estatístico
+
+O modelo da análise fatoria pode ser representado por:
+
+$$
+x = \Lambda f + \epsilon
+$$
+sendo:
+
+- $X = (X_1, X_2,\ldots,X_p)^{'}$ um vetor aleatório com vetor de médias 
+$\mu$ e matriz de covariância $\Sigma$.
+
+- $\Sigma = \{l_{ij}\}_{p \times k}$ é a matriz ($p \times k$) das cargas 
+fatoriais.  
+
+    - $l_{ij}$ é a carga da i-ésima variável em relação ao $j-$ésimo fator.
+
+- $f = (f_1, f_2,\ldots,f_k)^{'}$ é um vetor de scores fatoriais.
+
+- $\epsilon = (\epsilon _1, \epsilon _2,\ldots,\epsilon_p)^{'}$ é um vetor de 
+erros.
+
+
+### 2. Hipóteses
+
+- $f \sim (0, I_k)$, i.e, Os fatores latentes têm média zero, variância 
+unitária e são não correlacionados.
+
+- $\epsilon \sim (0, \varepsilon_k)$, sendo $\varepsilon = diag(\epsilon _1, \epsilon _2,\ldots,\epsilon_p)^{'}$ com $\epsilon_j$ denotando a j-ésima 
+variância específica.
+
+- $\epsilon_j$ e $f_k$ são independentes para todo par $j,k$.
+
+- Nenhum dos componentes além de $x$ é observado, mas a principal restrição 
+é que os fatores não sejam correlacionadas e tenham média zero e variância unitária, e que os erros sejam independentes com variância $\epsilon$.
+
+
+### 3. Estrutura de Covariância Implícita de X
+
+$$
+\begin{align*}
+V(X) = \Sigma &= E[(X - \mu)(X - \mu)^{'}], \\
+     &= E[(\Lambda f + \epsilon)(\Lambda f + \epsilon)^{'}], \\
+     &= E[\Lambda f f^{'} \Lambda^{'}] + E[\Lambda f \epsilon^{'}] + 
+        E[\epsilon f^{'} \Lambda^{'}] + E[\epsilon \epsilon^{'}], \\
+     &= \Lambda E[ff^{'}] \Lambda^{'} + \Lambda E[f\epsilon^{'}] + 
+         E[\epsilon f^{'}]\Lambda^{'} + E[\epsilon \epsilon^{'}], \\
+\Sigma &= \Lambda \Lambda^{'} + \varepsilon
+\end{align*}
+$$
+
+- Visto que: $E[ff^{'}] = I_k$, $E[f\epsilon^{'}] = 0_{k \times p}$, 
+$E[\epsilon f^{'}] = 0_{p \times k}$ e $E[\epsilon \epsilon^{'}] = \varepsilon$.
+
+- Isto implica que a covariância entre $X$ e $f$ tem a forma:
+
+$$
+\begin{align*}
+Cov(X,f) &=  E[(X - \mu)f^{'}], \\
+         &= E[(\Lambda f + \epsilon)f^{'}], \\
+         &= \Lambda
+\end{align*}
+$$
+
+- Assim, podemos notar que o modelo da análise fatorial é em essência um 
+modelo para a matriz de correlação de $x$.
+
+
+### 4. Variância Explicada pelos Fatores Comuns
+
+A porção da variância da $i-$ésima variável que é explicada pelos k 
+fatores comuns é chamada de comunalidade da i-ésima variável:
+
+$$
+\underbrace{\sigma_{ii}}_{V(X_i)} = \underbrace{h_{i}^2}_{\text{communality}} + \underbrace{\varepsilon_i}_{\text{uniqueness}}
+$$
+sendo:
+
+- $\sigma_{ii}$ a variância de $X_i$
+
+- $h_{i}^2 = (\Lambda \Lambda^{'})_{ii} = \lambda_{i1}^2 + \lambda_{i2}^2 + \ldots + \lambda_{ik}^2$ é a *communality* de $X_i$.
+
+- $\varepsilon_i = $ é a variância específica, ou *uniqueness*, de $X_i$.
+
+- Note que a *communality* $h_{i}^2$ é a soma das cargas quadráticas de $X_i$.
+
+
+### Estimação por Máxima Verossimilhança do Modelo Fatorial 
+
+- Note que os parâmetros de interesse são as cargas fatoriais ($\Lambda$) e 
+as variâncias específicas (*uniqueness*) da diagonal de $\varepsilon$.
+
+- Suponha que $x \overset{\text{i.i.d.}}{\sim} N(\mu, \Lambda \Lambda^{'} + \varepsilon)$ seja um vetor normal multivariado.
+
+- A função log-verossimilhança para uma amostra de n observações tem a forma:
+
+$$
+\log L_n(\mu, \Lambda, \varepsilon;x) = \frac{np\log(2\pi)}{2} + 
+                                        \frac{n\log(|\Sigma^{-1}|)}{2} + 
+                \frac{\sum_{i=1}^{n} (x_i - \mu)^{'} \Sigma^{-1}(x_i - \mu))}{2}
+$$
+
+- sendo $\Sigma = \Lambda \Lambda^{'} + \varepsilon$.
+
+- Utilizamos um algoritmo iterativo para maximizar $\log L_n(\mu, \Lambda, \varepsilon;x) $.
+
+- Este é o método implementado na função `factanal()` da linguagem R e na 
+função `psych::fa()` do pacote psych.
+
+- Há outros métodos:
+
+    - Via Componentes Principais/Decomposição em Valor Singular (SVD)
+    - Mínimos Quadrados Ordinários
+    - Método Iterativo de Fatoração do Eixo Principal
+    
+
+### Solução Indeterminada 
+
+Ainda há alguma indeterminação no modelo, pois ele permanece inalterado se 
+$\Lambda$ for substituída por $G\Lambda$ para qualquer matriz 
+ortogonal $G$. 
+
+Estas matrizes $G$ são conhecidas como **rotações**, embora o termo também 
+seja aplicado a matrizes invertíveis não ortogonais.
+
+
+
+## Tipos de Análise Fatorial {.scrollable}
+
+#### Análise Fatorial Exploratória (EFA)
+
+- Pergunta quais são os fatores nos dados observados
+- Requer interpretação
+- Antes de assumir que está correto, necessário confirmar com a CFA
+
+#### Análise Fatorial Confirmatória (CFA)
+
+- Pergunta quão bem um modelo proposto *se ajusta* a determinados dados
+- É um tipo de Modelo de Equações Estruturais (SEM)
+- Não fornece uma resposta absoluta; é necessário comparar modelos
+
+
+
+## Termos e símbolos principais
+
+- **Variável latente**: um suposto processo cognitivo ou de geração de dados que
+leva a dados observáveis. Muitas vezes é uma *construção* teórica. Exemplo:
+*Interesse no produto*. Símbolo: círculo/oval.
+
+- **Variável manifesta**: variáveis observáveis que expressam variáveis latentes.
+Exemplo: "Quão interessado você está neste produto? [1-5]" Símbolo: caixa.
+  
+- **Fator**: redução dimensional que estima uma variável latente e seu
+relacionamento com variáveis manifestas. Exemplo: Interesse geral em uma 
+categoria de produto.
+
+
+
+## Termos e símbolos principais
+  
+**Cargas**: a força do relacionamento entre um fator e uma variável.
+Exemplo: *F1 $\rightarrow$ v1 = 0,45*. Intervalo [-1,0 ... 1,0], 
+iguais ao *r* de Pearson.
+
+
+
+## Visualização
+
+```{r, echo=FALSE, results="hide", message=FALSE, warning=FALSE }
+library(semPlot)
+semPaths(pies.fit, what = "path", fade = FALSE, residuals = FALSE,
+         edge.label.cex = 0.75, fixedStyle = 1, edge.color = "darkblue")
+```
+
+
+
+## Etadas para EFA
+
+1. Importar e preparar os dados (padronização e lidar com assimetrias).
+   
+2. Examine a matriz de correlação para ter uma ideia dos possíveis fatores.
+
+3. Determine o número de fatores.
+
+4. Escolha uma *rotação* dos fatores (mais em instantes).
+
+5. Ajuste o modelo e interprete os fatores resultantes.
+
+6. Repita 3-5 se os resultados não forem claros, selecione o mais útil.
+
+7. Use os scores fatoriais como melhor estimativa do construto/variável 
+  latente.
+  
+  
+
+## Agora ... dados!
+
+- O arquivo `brand.csv` contém dados típicos de pesquisas sobre **percepção de marcas** (brand perception survey).
+
+- Esses dados refletem as avaliações dos consumidores sobre as marcas em 
+relação aos adjetivos ou atributos perceptivos expressos nos itens 
+da pesquisa.
+
+- Uma questão desse tipo de pesquisa possui, em geral, a seguinte forma:
+
+*Em uma escala de 1 a 10 – onde 1 é o mínimo e 10 é o máximo – quão [ADJETIVO ou ATRIBUTO] é a [MARCA A]?*
+
+
+
+## Brand perception survey
+
+- Nos dados produzidas por este tipo de pesquisa, uma observação (linha) é a avaliação que um entrevistado faz de uma marca em um dos adjetivos. 
+Dois exemplos de questões deste tipo são:
+
+- Quão última moda (trendy) é o Café Dona Maria?
+
+- Quão líder de categoria é o Café Três Coracões?
+
+
+
+## Brand perception survey
+
+- Os dados envolvem classificações simuladas de 10 marcas (*brands*) 
+(nomeadas como `a` a `j`) em 9 adjetivos, para $N = 100$ entrevistados.
+
+- Os 9 adjetivos são: `perform`, `leader`, `latest`, `fun`, `serious`, 
+`bargain`, `value`, `trendy` e `rebuy`.
+
+
+
+## Brand perception survey
+
+::: {.panel-tabset}
+
+### Importação dos dados
+
+```{r}
+url <- "http://goo.gl/IQl8nc"
+brand_ratings <- read.csv(url)
+head(brand_ratings)
+```
+
+### Estrutura
+
+```{r}
+dplyr::glimpse(brand_ratings)
+```
+
+:::
+
+
+
+## Brand perception survey
+
+Estatísticas Descritivas
+
+```{r}
+summary(brand_ratings)
+```
+
+
+
+## Brand perception survey
+
+Padronizando as primeiras 9 colunas:
+
+```{r}
+brand_df <- brand_ratings
+brand_df[, 1:9] <- scale(brand_ratings[, 1:9])
+summary(brand_df)
+```
+
+
+
+## Análise Fatorial Exploratória {.scrollable}
+
+Para determinarmos o número de fatores, podemos visualizar a matriz de 
+correlações:
+
+```{r}
+#| fig-cap: "Podemos visualizar a formação de 3 clusters envolvendo variáveis similares, o primeiro envolve `fun`, `latest` e `trendy`, o segundo `rebuy`, `bargain` e `value`, e o terceiro `perform`, `leader` e `serious`."
+
+corrplot::corrplot(cor(brand_df[ , 1:9]) , order = "hclust")
+```
+
+
+
+## Análise Fatorial Exploratória
+
+- Outra possibilidade para determinarmos o número de fatores é usar um *Scree Plot*.
+
+- Neste caso, retemos o número de fatores que apresentam o autovalor (uma métrica para proporção de variância explicada) maior que 1,0. 
+
+- Um autovalor igual a 1,0 corresponde à quantidade de variância que pode ser atribuída a uma única variável manifesta. Assim, um fator que capture menos variância do que tal item pode ser considerado relativamente sem importância.
+
+
+
+## Análise Fatorial Exploratória
+
+*Scree Plot*
+
+```{r}
+nFactors::nScree(brand_df[, 1:9])
+```
+
+- A função `nScree()` do pacote `nFactors` aplica vários métodos para estimar o número de fatores e, no presente caso, três dos quatro métodos sugerem 
+utilizarmos 3 fatores para modelar os dados.
+
+
+
+## Análise Fatorial Exploratória {.scrollable}
+
+- Podemos examinar os autovalores aplicando a função `eigen()` a uma matriz de correlação:
+
+```{r}
+eigen(cor(brand_df[, 1:9]))
+```
+
+- Os três primeiros autovalores são maiores que 1,0, embora dificilmente 
+o seja para o terceiro valor.
+
+- Isto novamente sugere 3 ou, talvez, 2 fatores.
+
+
+
+## Análise Fatorial Exploratória
+
+- A escolha de um modelo final depende da sua utilidade. 
+
+- Para a EFA, uma prática recomendada é testar algumas soluções fatoriais, 
+incluindo aquelas sugeridas pelos resultados do scree plot e dos autovalores
+
+- Assim, testaremos uma solução com 3 fatores e outra com 2 fatores para ver 
+qual delas é mais útil.
+
+- Podemos estimar o modelo fatorial com a função `factanal(x, factors = K)`, 
+sendo $K$ o número de fatores a serem ajustados. 
+
+
+
+## Modelo Fatorial: 2 fatores
+
+```{r}
+factanal(brand_df[, 1:9], factors = 2)
+```
+
+
+
+## Modelo Fatorial: 2 fatores
+
+- As cargas fatoriais do Fator 1 com `bargain` e `value` são altas. Assim, 
+podemos interpretá-lo como um fator relacionado a “valor”.
+
+- O Fator 2 possui altas cargas fatoriais associadas com `leader` e `serious`. 
+Podemos interpretá-lo como um fator relacionado a “líder de categoria”.
+
+- Esta não é uma má interpretação, mas vamos compará-la a uma solução de 3 fatores.
+
+
+
+## Modelo Fatorial: 3 fatores
+
+```{r}
+factanal(brand_df[, 1:9], factors = 3)
+```
+
+
+
+## Modelo Fatorial: 3 fatores
+
+- A solução de 3 fatores mantém os fatores associados a “valor” e “líder de categoria”.
+
+- Mas adiciona um claro fator associado a “mais recente” que possui altas 
+cargas fatoriais com `latest` e `trendy`. 
+
+- Isso adiciona um conceito interpretável à nossa compreensão dos dados. 
+
+- Ele também se alinha com a maior parte das sugestões dos testes scree e autovalores.
+
+- Portanto, consideramos o modelo com 3 fatores superior ao com 2 fatores, 
+porque os fatores são mais interpretáveis.
+
+
+
+## Rotações
+
+- O resultado da EFA é simiar ao da PCA: uma matriz de fatores (semelhante a 
+matriz de rotação da PCA) e sua relação com as variáveis originais (cargas dos fatores nas variáveis).
+
+- Mas ao contrário da PCA, a EFA tenta encontrar soluções que sejam maximamente interpretáveis em termos das variáveis manifestas.
+
+- Em geral, tenta encontrar soluções nas quais um pequeno número de cargas para 
+cada fator sejam altas, enquanto outras cargas para esse fator sejam baixas.
+
+- Quando isso é possível, esse fator pode ser interpretado em termos desse 
+pequeno conjunto de variáveis manifestas.
+
+
+
+## Rotações
+
+- Para conseguir isso, a EFA usa **rotações** que começam com uma solução matemática não correlacionada (ortogonal) e depois alteram matematicamente a solução que explica a mesma prop. da variância, mas com cargas diferentes nas variáveis originais.
+
+- Existem muitas rotações disponíveis e elas normalmente compartilham o 
+objetivo de maximizar as cargas em algumas variáveis, ao mesmo tempo em que 
+tornam os fatores tão distintos quanto possível uns dos outros.
+
+- No entanto, algumas rotações são mais úteis do que outras porque ficam 
+entre os itens grandes, em vez de dividi-los.
+
+
+
+## Rotações
+
+- Quando isso ocorre, pode-se ter uma “fatia de tomate”, uma “fatia de 
+cogumelo”, uma “fatia meio a meio de tomate e cogumelo” e assim por diante.
+
+- Ao girar e cortar de forma diferente, torna-se a substância subjacente mais interpretável em relação aos seus objetivos (como ter fatias de pizza diferenciadas).
+
+- Nenhuma rotação é inerentemente melhor ou pior, mas algumas são mais úteis 
+que outras. 
+
+- Da mesma forma, as variáveis manifestas na EFA podem ser divididas de várias maneiras, de acordo com os objetivos de interpretação dos fatores latentes.
+
+
+
+## Rotações {.scrollable}
+
+- Isto posto, uma solução de análise fatorial pode ser rotacionada para ter novas cargas que representem a mesma proporção de variância. 
+
+- Embora uma análise completa sobre rotações esteja fora do escopo deste 
+curso, há uma questão que vale a pena considerar em qualquer EFA: **você deseja permitir que os fatores sejam correlacionados entre si ou não?**
+
+- Podemos pensar que devemos deixar os dados decidirem. No entanto, a questão de permitir fatores correlacionados é menos uma questão sobre os dados do que 
+sobre o conceito dos fatores latentes subjacentes.
+
+- Consideramos que os fatores deveriam ser conceitualmente independentes ou faz mais sentido considerá-los relacionados? Uma rotação EFA pode ser obtida sob qualquer hipótese.
+
+
+
+## Rotações {.scrollable}
+
+- O padrão da função `factanal()` é encontrar fatores que tenham correlação 
+zero (usando uma rotação `varimax`).
+
+- Voltando aos nossos dados, podemos julgar que é razoavelmente esperado que 
+os fatores "valor" e "líder de categoria" estejam relacionados. 
+
+- Em muitas categorias, o líder pode obter um prêmio no preço e, portanto, 
+poderíamos esperar que essas duas construções latentes estivessem 
+negativamente correlacionadas, em vez de serem independentes uma da outra.
+
+- Isso sugere que poderíamos permitir fatores correlacionados em nossa solução.
+
+- A rotação a ser usado neste caso é a rotação **oblíqua** (“oblíqua” porque os eixos dimensionais não são perpendiculares, mas "distorcidos" pela correlação 
+entre os fatores).
+
+
+
+## Rotação Oblíqua {.scrollable}
+
+- Uma rotação oblíqua comum é a rotação `oblimin` do pacote GPArotation.
+
+```{r}
+library(GPArotation)
+
+# modelo fatorial com rotação oblíqua
+(brand_fa_ob <- factanal(brand_df[, 1:9], factors = 3, rotation = "oblimin"))
+```
+
+
+
+## Rotação Oblíqua 
+
+Quando comparamos o resultado da rotação oblimin com a rotação varimax, 
+há duas diferenças principais:
+
+1. As cargas fatoriais são ligeiramente diferentes para os relacionamentos
+dos fatores com os adjetivos. No entanto, as cargas são suficientemente semelhantes para que não haja mudança substancial na forma como 
+interpretaríamos os factores. Há ainda fatores para “valor,” “líder,” e 
+“mais recente”.
+
+2. O resultado inclui uma matriz de correlação de fatores que mostra as 
+relações entre os fatores latentes estimados. O Fator 1 (valor) 
+é negativamente correlacionado com o Fator 2 (líder), r = −0,39, e é essencialmente não correlacionado com o Fator 3 (mais recente),
+r = 0,037.
+
+
+
+## Rotação Oblíqua 
+
+- A correlação negativa entre os fatores 1 e 2 é consistente com a nossa teoria 
+de que marcas "líderes" tendem a não serem marcas de "valor" e, portanto, 
+pensamos que este é um resultado mais interpretável.
+
+- No entanto, em outros casos, uma rotação correlacionada pode, ou não, ser 
+uma solução melhor do que uma rotação ortogonal. 
+
+- Esta é em grande parte uma questão a ser decidida com base no conhecimento do domínio e na utilidade interpretativa, e não em Estatística.
+
+
+
+## EFA: Visualização
+
+- As cargas fatoriais (fator-item) são exibidas no resultado anterior. 
+
+- No objeto `brand_fa_ob`, elas estão armazenadas no elemento 
+`brand_fa_ob$loadings`. 
+
+- Podemos visualizar o relacionamento fator-item com um mapa de calor das 
+cargas.
+
+
+
+## EFA: Visualização
+
+```{r}
+#| output-location: slide
+library(gplots)
+library(RColorBrewer)
+
+heatmap.2(
+  brand_fa_ob$loadings,
+  col = brewer.pal(9, "Blues"),
+  trace = "none",
+  key = FALSE,
+  dend = "none",
+  Colv = FALSE,
+  cexCol = 1.2,
+  main = "\n\n\n\n\nCargas Fatorias para os Adjetivos das Marcas"
+)
+```
+
+
+
+## EFA: Visualização
+
+- O mapa de calor mostra uma separação distinta de itens em três fatores, que podem ser interpretados aproximadamente como "valor", "líder" e "mais recente".
+
+- Observe que o item `rebuy`, que reflete a intenção declarada de recompra, 
+possui cargas relevantes tanto no Fator1 (valor) quanto no Fator2 (líder).
+
+- Isto sugere que, com base nesses dados, os consumidores indicam que 
+recomprariam uma marca tanto por ter um bom valor ou porque é líder.
+
+
+
+## EFA: Visualização
+
+- Outro gráfico útil para modelos de análise fatorial é um *path diagram*, que mostra as variáveis latentes e os itens individuais que possuem altas 
+cargas associadas às variáveis latentes.
+
+- O função `semPaths()` do pacote semPlot produz uma representação visual de um modelo de análise fatorial.
+
+```{r}
+#| output-location: slide
+library(semPlot)
+
+semPaths(brand_fa_ob,
+  what = "est", residuals = FALSE,
+  cut = 0.3, posCol = c("white", "darkgreen"), negCol = c("white", "red"),
+  edge.label.cex = 0.75, nCharNodes = 7
+)
+```
+
+
+
+## Função `semPlot::semPaths()` {.scrollable}
+
+- Plotamos o modelo `brand_fa_ob` ajustado anteriormente.
+
+- Para plotar as estimativas das cargas, usamos `what = "est"`. 
+
+- Omitimos as estimativas residuais para variáveis manifestas usando 
+`residuals = FALSE`.
+
+- Em seguida, cortamos cargas com magnitude absoluta < 0,3 adicionando 
+`cut = 0.3` e as opções `posCol = c("white", "darkgreen")` e 
+`negCol = c("white", "red")`.
+
+- O argumento `posCol` faz com que cargas positivas < 0,3 sejam coloridas em branco (e, portanto, não aparecem na saída), enquanto cargas > 0,3 devem ser verdes escuras.
+
+- O argumento `negCol` exclui ou usa vermelho para cargas < 0. 
+
+- Ajustamos o tamanho do texto das cargas com `edge.label.cex` e criamos 
+espaço para os nomes completos de variáveis com `nCharNodes`.
+
+
+
+## EFA: Pesquisa sobre a Percepcão de Marcas
+
+- No geral, o resultado da EFA para este conjunto de dados é que, em vez de utilizar 9 variáveis, poderíamos representar os dados com 3 fatores latentes subjacentes.
+
+- Vimos que cada fator é mapeado para 2–4 das variáveis manifestas.
+
+- No entanto, esta análise modelou apenas as relações das variáveis de classificação entre si. 
+
+- Na próxima seção, usaremos os *scores* dos fatores estimados para 
+aprendermos sobre as marcas.
+
+
+
+## EFA: Scores dos Fatores
+
+- Além de estimar a estrutura fatorial, a EFA também estima os *scores dos fatores latentes* para cada observação.
+
+- Para nossa pesquisa, isto fornece as melhores estimativas das classificações latentes de cada consumidor para os fatores “valor”, “líder” e “mais recentes”.
+
+- Podemos então usar os scores dos fatores para determinar as posições das 
+marcas em relação aos fatores.
+
+- A interpretação dos scores dos fatores permite nos concentrarmos em 
+um conjunto menor e interpretável de dimensões que mapeiam construtos 
+ao invés de itens individuais.
+
+
+
+## EFA: Scores dos Fatores
+
+```{r}
+brand_fa_ob <- factanal(brand_df[, 1:9],
+  factors = 3, rotation = "oblimin",
+  scores = "Bartlett"
+)
+brand_scores <- data.frame(brand_fa_ob$scores)
+brand_scores$brand <- brand_df$brand
+head(brand_scores)
+```
+
+- Obtemos os scores dos fatores usando o argumento `scores = ....`
+
+- Utilizamos os scores de Bartlett e os extraímos do
+objeto `factanal()` com `brand_fa_ob$scores`, e armazenamos os scores 
+na data frame `brand_scores`.
+
+
+
+## EFA: Scores dos Fatores
+
+- O resultado são scores estimados para cada respondente em cada fator e marca. 
+
+- Se desejarmos investigar correlações dos fatores com dados demográficos ou comportamento de compra, poderíamos usar essas estimativas dos scores dos
+fatores.
+
+- Isto pode ser muito útil em análises como regressão e segmentação porque 
+reduz a complexidade do modelo (número de dimensões), pois ao invés de 9 
+itens, temos três fatores.
+
+
+
+## EFA: Scores dos Fatores {.scrollable}
+
+Para encontrar a posição geral de uma marca, odemos usar a função 
+`aggregate()` para calcular as avaliações médias agregadas por marca, 
+ou seja, a média de cada variável (adjetivo) por marca.
+
+```{r}
+# calulca avaliacoes medias agregadas por marca
+brand_fa_media <- aggregate(. ~ brand, data = brand_scores, mean)
+
+# nomes das marcas como nome das linhas,
+rownames(brand_fa_media) <- brand_fa_media[, 1]
+
+# elimina a primeira coluna contendo os nomes
+brand_fa_media <- brand_fa_media[, -1]
+
+# nomeando as colunas com o nome dos fatores estimados
+names(brand_fa_media) <- c("Leader", "Value", "Latest")
+brand_fa_media
+```
+
+
+
+## EFA: Scores dos Fatores {.scrollable}
+
+Finalmente, um mapa de calor pode representar graficamente os scores médios por marca:
+
+```{r}
+#| output-location: slide
+#| fig-cap: "marcas similares: f e g, b e c, e assim por diante"
+heatmap.2(as.matrix(brand_fa_media),
+  col = brewer.pal(9, "GnBu"), trace = "none", key = FALSE, dend = "none",
+  cexCol = 1.2, main = "\n\n\nScore Fatorial Médio por Marca"
+)
+```
+
+
+
+## Conclusões
+
+- Podemos concluir que a Análise Fatorial Exploratória é uma forma útil de examinar a estrutura subjacente e o relacionamento entre as variáveis. 
+
+- Quando os itens estão relacionados aos construtos subjacentes, a EFA reduz a
+complexidade dos dados, agregando variáveis para criar criar variáveis 
+latentes mais simples e interpretáveis.
+
+
+
+
+
+
+
+
+
+
+
+
+

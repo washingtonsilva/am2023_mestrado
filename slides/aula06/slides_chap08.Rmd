@@ -96,6 +96,7 @@ We might interpret this as showing:
 
 In short: the factor loading matrix, times itself (its own transpose), 
 closely recreates the variable-variable covariance matrix.
+
 $$
 LL' (+ E) = C
 $$
