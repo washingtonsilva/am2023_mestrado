@@ -192,12 +192,68 @@ semPaths(pies.fit, what = "path", fade = FALSE, residuals = FALSE,
 
 ## Analise Fatorial {.scrollable}
 
-### 1. Modelo Estatístico
-
-O modelo da análise fatoria pode ser representado por:
+### Modelo Fatorial: 1 fator comum
 
 $$
-x = \Lambda f + \epsilon
+\begin{align}
+X_1 &= \lambda_{1}f_1 + \epsilon_1 \\
+X_2 &= \lambda_{2}f_1 + \epsilon_2 \\
+X_3 &= \lambda_{3}f_1 + \epsilon_3 
+\end{align}
+$$
+
+- O fator $f$ não é observado, somente $X_1$, $X_2$, $X_3$ são observadas.
+
+- $\epsilon_i$ representa a variabilidade de $X_i$ não explicada por $f$.
+
+- $X_i$ é uma função linear de $f$ e $\epsilon$
+
+
+### Modelo Fatorial: 2 fatores comuns
+
+Um modelo com 2 fatores pode ser representado por:
+
+$$
+\begin{align}
+X_1 &= \lambda_{11}f_1 + \lambda_{12}f_2 + \epsilon_1 \\
+X_2 &= \lambda_{21}f_1 + \lambda_{22}f_2 + \epsilon_2 \\
+X_3 &= \lambda_{31}f_1 + \lambda_{32}f_2 + \epsilon_3 \\
+X_4 &= \lambda_{41}f_1 + \lambda_{42}f_2 + \epsilon_4 \\
+\end{align}
+$$
+
+Generalizando para $p$ observações e $k$ fatores, temos:
+
+$$
+\begin{bmatrix}
+x_1 \\
+x_2 \\
+\vdots \\
+x_p
+\end{bmatrix}_{p \times 1} = 
+\begin{bmatrix}
+    \lambda_{11} & \lambda_{12} & \dots & \lambda_{1k} \\
+    \lambda_{21} & \lambda_{22} & \dots & \lambda_{2k} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    \lambda_{p1} & \lambda_{p2} & \dots & \lambda_{pk}
+\end{bmatrix}_{p \times k} 
+\begin{bmatrix}
+f_1 \\
+f_2 \\
+\vdots \\
+f_k
+\end{bmatrix}_{k \times 1} + 
+\begin{bmatrix}
+\epsilon_1 \\
+\epsilon_2 \\
+\vdots \\
+\epsilon_p
+\end{bmatrix}_{p \times 1}
+$$
+
+### Notação Matricial 
+$$
+X = \Lambda F + \epsilon
 $$
 sendo:
 
@@ -209,7 +265,7 @@ fatoriais.
 
     - $l_{ij}$ é a carga da i-ésima variável em relação ao $j-$ésimo fator.
 
-- $f = (f_1, f_2,\ldots,f_k)^{'}$ é um vetor de scores fatoriais.
+- $F = (f_1, f_2,\ldots,f_k)^{'}$ é um vetor de scores fatoriais.
 
 - $\epsilon = (\epsilon _1, \epsilon _2,\ldots,\epsilon_p)^{'}$ é um vetor de 
 erros.
@@ -217,7 +273,7 @@ erros.
 
 ### 2. Hipóteses
 
-- $f \sim (0, I_k)$, i.e, Os fatores latentes têm média zero, variância 
+- $F \sim (0, I_k)$, i.e, Os fatores latentes têm média zero, variância 
 unitária e são não correlacionados.
 
 - $\epsilon \sim (0, \varepsilon_k)$, sendo $\varepsilon = diag(\epsilon _1, \epsilon _2,\ldots,\epsilon_p)^{'}$ com $\epsilon_j$ denotando a j-ésima 
@@ -234,24 +290,24 @@ variância específica.
 $$
 \begin{align*}
 V(X) = \Sigma &= E[(X - \mu)(X - \mu)^{'}], \\
-     &= E[(\Lambda f + \epsilon)(\Lambda f + \epsilon)^{'}], \\
-     &= E[\Lambda f f^{'} \Lambda^{'}] + E[\Lambda f \epsilon^{'}] + 
-        E[\epsilon f^{'} \Lambda^{'}] + E[\epsilon \epsilon^{'}], \\
-     &= \Lambda E[ff^{'}] \Lambda^{'} + \Lambda E[f\epsilon^{'}] + 
-         E[\epsilon f^{'}]\Lambda^{'} + E[\epsilon \epsilon^{'}], \\
-\Sigma &= \Lambda \Lambda^{'} + \varepsilon
+     &= E[(\Lambda F + \epsilon)(\Lambda F + \epsilon)^{'}], \\
+     &= E[\Lambda F F^{'} \Lambda^{'}] + E[\Lambda F \epsilon^{'}] + 
+        E[\epsilon F^{'} \Lambda^{'}] + E[\epsilon \epsilon^{'}], \\
+     &= \Lambda E[FF^{'}] \Lambda^{'} + \Lambda E[F\epsilon^{'}] + 
+         E[\epsilon F^{'}]\Lambda^{'} + E[\epsilon \epsilon^{'}], \\
+\hat{\Sigma} &= \hat{\Lambda} \hat{\Lambda}^{'} + \hat{\varepsilon}
 \end{align*}
 $$
 
-- Visto que: $E[ff^{'}] = I_k$, $E[f\epsilon^{'}] = 0_{k \times p}$, 
-$E[\epsilon f^{'}] = 0_{p \times k}$ e $E[\epsilon \epsilon^{'}] = \varepsilon$.
+- Visto que: $E[FF^{'}] = I_k$, $E[F\epsilon^{'}] = 0_{k \times p}$, 
+$E[\epsilon F^{'}] = 0_{p \times k}$ e $E[\epsilon \epsilon^{'}] = \varepsilon$.
 
-- Isto implica que a covariância entre $X$ e $f$ tem a forma:
+- Isto implica que a covariância entre $X$ e $F$ é:
 
 $$
 \begin{align*}
-Cov(X,f) &=  E[(X - \mu)f^{'}], \\
-         &= E[(\Lambda f + \epsilon)f^{'}], \\
+Cov(X,F) &=  E[(X - \mu)F^{'}], \\
+         &= E[(\Lambda F + \epsilon)F^{'}], \\
          &= \Lambda
 \end{align*}
 $$
@@ -274,7 +330,7 @@ sendo:
 
 - $h_{i}^2 = (\Lambda \Lambda^{'})_{ii} = \lambda_{i1}^2 + \lambda_{i2}^2 + \ldots + \lambda_{ik}^2$ é a *communality* de $X_i$.
 
-- $\varepsilon_i = $ é a variância específica, ou *uniqueness*, de $X_i$.
+- $\varepsilon_i$ =  é a variância específica, ou *uniqueness*, de $X_i$.
 
 - Note que a *communality* $h_{i}^2$ é a soma das cargas quadráticas de $X_i$.
 
@@ -284,7 +340,7 @@ sendo:
 - Note que os parâmetros de interesse são as cargas fatoriais ($\Lambda$) e 
 as variâncias específicas (*uniqueness*) da diagonal de $\varepsilon$.
 
-- Suponha que $x \overset{\text{i.i.d.}}{\sim} N(\mu, \Lambda \Lambda^{'} + \varepsilon)$ seja um vetor normal multivariado.
+- Suponha que $X \overset{\text{i.i.d.}}{\sim} N(\mu, \Lambda \Lambda^{'} + \varepsilon)$ seja um vetor normal multivariado.
 
 - A função log-verossimilhança para uma amostra de n observações tem a forma:
 
@@ -368,23 +424,23 @@ semPaths(pies.fit, what = "path", fade = FALSE, residuals = FALSE,
 
 
 
-## Etadas para EFA
+## Etapas para a EFA {.scrollable}
 
 1. Importar e preparar os dados (padronização e lidar com assimetrias).
    
-2. Examine a matriz de correlação para ter uma ideia dos possíveis fatores.
+2. Examinar a matriz de correlação para ter uma ideia dos possíveis fatores.
 
-3. Determine o número de fatores.
+3. **Determinar o número de fatores**.
 
-4. Escolha uma *rotação* dos fatores (mais em instantes).
+4. **Escolher um método de estimação**.
 
-5. Ajuste o modelo e interprete os fatores resultantes.
+4. Escolher uma *rotação* dos fatores.
 
-6. Repita 3-5 se os resultados não forem claros, selecione o mais útil.
+5. Estimar o modelo e interpretar os fatores resultantes.
 
-7. Use os scores fatoriais como melhor estimativa do construto/variável 
-  latente.
-  
+6. Repetir as etaps 3-5 se os resultados não forem claros, selecionar o 
+modelo mais útil.
+
   
 
 ## Agora ... dados!
@@ -519,13 +575,13 @@ o seja para o terceiro valor.
 
 ## Análise Fatorial Exploratória
 
-- A escolha de um modelo final depende da sua utilidade. 
+- A escolha de um modelo final depende da sua "interpretabilidade". 
 
 - Para a EFA, uma prática recomendada é testar algumas soluções fatoriais, 
 incluindo aquelas sugeridas pelos resultados do scree plot e dos autovalores
 
-- Assim, testaremos uma solução com 3 fatores e outra com 2 fatores para ver 
-qual delas é mais útil.
+- Assim, testaremos uma solução com 2 fatores e outra com 3 fatores para ver 
+qual delas é mais "útil".
 
 - Podemos estimar o modelo fatorial com a função `factanal(x, factors = K)`, 
 sendo $K$ o número de fatores a serem ajustados. 
@@ -535,12 +591,132 @@ sendo $K$ o número de fatores a serem ajustados.
 ## Modelo Fatorial: 2 fatores
 
 ```{r}
-factanal(brand_df[, 1:9], factors = 2)
+fa_brand <- factanal(brand_df[, 1:9], factors = 2, rotation = "varimax")
+fa_brand
 ```
 
 
+## `factanal`: Compreendendo os resultados
 
-## Modelo Fatorial: 2 fatores
+### `Uniquenesses`
+
+- A primeiro parte fornece as estimativas das "Uniquenesses", 
+que variam de 0 a 1. É $\varepsilon$ do modelo estatístico.
+
+- Ficamos atentos $\varepsilon$ altos. Uma alta singularidade para uma variável pode significar que ela não se encaixa perfeitamente em nossos fatores. 
+
+- Por exemplo, `latest` possui $\varepsilon = 0.796$ 
+
+- Se subtrairmos as singularidades de 1, obteremos a estimativa da 
+comunalidade, 1 - 0.796 = 0.204, que implica que 20,4% da variância 
+de `latest` é explicada pelos dois fatores comuns.
+
+- Em geral, deseja-se baixas singularidades ou altas comunalidades.
+
+- **Nota**: A estimativa de máxima verossimilhança pode implicar em 
+singularidades iguais a zero ou negativos. Estes são chamados de casos Heywood.
+
+
+### `Loadings`
+
+- A próxima seção contém as "Cargas", que variam de -1 a +1. Estas constituem 
+$\hat{\Lambda}$. 
+
+- Os fatores são ordenados em ordem decrescente das somas dos quadrados 
+das cargas.
+
+- O que estamos procurando são grupos de cargas altas. 
+
+- Na primeira coluna, chamada `Factor1`, vemos que `bargain`, `value` e, um 
+pouco `rebuy` possuem cargas altas em relação aos outros itens.
+
+- Assim, poderíamos pensar nesse fator como relacionado a "valor".
+
+- Observe que não há entrada para certos itens. Isso porque `factanal` 
+não exibe cargas inferiores a 0,1. 
+
+- Isso é para nos ajudar a identificar grupos de variáveis. O `cutoff = 0.1` 
+pode ser alterado.
+
+- O que são exatamente as cargas? Elas são simplesmente correlações com os 
+fatores não observados. 
+
+- `value` tem uma correlação de 0,873 com o Fator 1 e correlação 
+insignificante com o outro fator. 
+
+- Os valores precisos não são nossa principal preocupação. Estamos procurando 
+grupos de correlações "altas" que esperamos que façam sentido e levem a um 
+fator descritivo como "valor".
+
+- O que constitui valores altos? Isso é difícil de dizer, que é uma das razões pelas quais a análise fatorial é tão subjetiva. 
+
+- Não há um `cutoff` definido. O que você acha que é alto, outra pessoa pode pensar que é baixo.
+
+
+### Variância
+
+- A próxima seção é tecnicamente parte das cargas. 
+
+- Os números aqui resumem os fatores. A linha em que geralmente estamos mais interessados é a última, `Cumulative Var`. 
+
+- Isso nos diz a proporção acumulada da variância explicada, então esses 
+números variam de 0 a 1. Gostaríamos de ver um número final alto, onde mais 
+uma vez "alto" é subjetivo. Nosso número final de 0,445 parece baixo.
+
+- Parece que devemos considerar mais de dois fatores
+
+- A linha acima, `Proportion Var`, é simplesmente a proporção da variância explicada por cada fator. 
+
+- A linha `SS loadings` é a soma das cargas ao quadrado. Isso às vezes é usado para determinar o valor de um determinado fator. Dizemos que vale a \pena manter um fator se a `SS loadings` for maior que 1. Em nosso exemplo, todas são 
+maiores que 1.
+
+
+
+## Teste de Hipótese {.scrollable}
+
+- A última seção apresenta os resultados de um teste de hipótese. 
+
+- A hipótese nula deste teste é que 2 fatores são suficientes para o nosso 
+modelo. 
+
+- O baixo valor-p nos leva a rejeitar a hipótese e considerar a adição de mais fatores. 
+
+- Este teste de hipótese é possível devido ao método de estimação por máxima verossimilhança. 
+
+- Lembre-se do modelo estimado da análise fatorial:
+
+$$
+\hat{\Sigma} = \hat{\Lambda} \hat{\Lambda}^{'} + \hat{\varepsilon}
+$$
+
+- Vamos ver o quão bem nosso modelo de dois fatores aproxima 
+a matriz de correlação observada.
+
+- Podemos extrair as cargas e singularidades do objeto `fa_brand` e executar a álgebra matricial necessária. 
+
+- O operador `%*%` executa a multiplicação de matrizes. 
+
+- A função `t()` transpõe uma matriz. 
+
+- A função `diag()` pega um vetor de k números e cria uma matriz k x k com os números na diagonal e 0s em todos os outros lugares. 
+
+- Abaixo, subtraímos a matriz de correlação estimada pelo modelo da 
+matriz de correlação observada e arredondamos o resultado para 3 dígitos
+
+
+```{r}
+round(cor(as.matrix(brand_df[, 1:9])) - (fa_brand$loadings %*% t(fa_brand$loadings) + diag(fa_brand$uniquenesses)), 3)
+```
+
+
+- Esta é a `residual matrix`. 
+
+- Gostaríamos de ver muitos números próximos de 0. Neste caso, temos vários números maiores que 0,05, indicando que nosso modelo de 2 fatores não é 
+tão bom.
+
+
+
+## Modelo Fatorial 2 fatores: Resumo
 
 - As cargas fatoriais do Fator 1 com `bargain` e `value` são altas. Assim, 
 podemos interpretá-lo como um fator relacionado a “valor”.
@@ -560,7 +736,14 @@ factanal(brand_df[, 1:9], factors = 3)
 
 
 
-## Modelo Fatorial: 3 fatores
+## Modelo Fatorial: 3 fatores {.scrollable}
+
+- O modelo com 3 fatores explica uma proporção maior da variância 
+do que o modelo com 2 fatores.
+
+- Entretanto, o teste de hipótese de que 3 fatores são suficientes 
+ainda apresenta um valor-p muito pequeno, o que nos leva a rejeitar a
+hipótese de que 3 fatores são suficientes.
 
 - A solução de 3 fatores mantém os fatores associados a “valor” e “líder de categoria”.
 
@@ -572,11 +755,12 @@ cargas fatoriais com `latest` e `trendy`.
 - Ele também se alinha com a maior parte das sugestões dos testes scree e autovalores.
 
 - Portanto, consideramos o modelo com 3 fatores superior ao com 2 fatores, 
-porque os fatores são mais interpretáveis.
+devido a PVE maior, mais consistentes com o número de fatores 
+sugerido pelos dados e produz uma solução mais interpretável.
 
 
 
-## Rotações
+## Rotações: Motivação
 
 - O resultado da EFA é simiar ao da PCA: uma matriz de fatores (semelhante a 
 matriz de rotação da PCA) e sua relação com as variáveis originais (cargas dos fatores nas variáveis).
@@ -606,15 +790,7 @@ entre os itens grandes, em vez de dividi-los.
 
 ## Rotações
 
-- Quando isso ocorre, pode-se ter uma “fatia de tomate”, uma “fatia de 
-cogumelo”, uma “fatia meio a meio de tomate e cogumelo” e assim por diante.
 
-- Ao girar e cortar de forma diferente, torna-se a substância subjacente mais interpretável em relação aos seus objetivos (como ter fatias de pizza diferenciadas).
-
-- Nenhuma rotação é inerentemente melhor ou pior, mas algumas são mais úteis 
-que outras. 
-
-- Da mesma forma, as variáveis manifestas na EFA podem ser divididas de várias maneiras, de acordo com os objetivos de interpretação dos fatores latentes.
 
 
 
@@ -637,14 +813,14 @@ sobre o conceito dos fatores latentes subjacentes.
 - O padrão da função `factanal()` é encontrar fatores que tenham correlação 
 zero (usando uma rotação `varimax`).
 
-- Voltando aos nossos dados, podemos julgar que é razoavelmente esperado que 
-os fatores "valor" e "líder de categoria" estejam relacionados. 
+- Voltando aos nossos dados, podemos julgar que seria razoavelmente esperado 
+que os fatores "valor" e "líder de categoria" estejam relacionados. 
 
 - Em muitas categorias, o líder pode obter um prêmio no preço e, portanto, 
 poderíamos esperar que essas duas construções latentes estivessem 
 negativamente correlacionadas, em vez de serem independentes uma da outra.
 
-- Isso sugere que poderíamos permitir fatores correlacionados em nossa solução.
+- Isso sugere que poderíamos permitir fatores correlacionados na solução.
 
 - A rotação a ser usado neste caso é a rotação **oblíqua** (“oblíqua” porque os eixos dimensionais não são perpendiculares, mas "distorcidos" pela correlação 
 entre os fatores).
@@ -666,7 +842,7 @@ library(GPArotation)
 
 ## Rotação Oblíqua 
 
-Quando comparamos o resultado da rotação oblimin com a rotação varimax, 
+Quando comparamos o resultado da rotação `oblimin` com a rotação varimax, 
 há duas diferenças principais:
 
 1. As cargas fatoriais são ligeiramente diferentes para os relacionamentos
@@ -882,11 +1058,31 @@ heatmap.2(as.matrix(brand_fa_media),
 
 ## Conclusões
 
+- A análise fatorial é desafiadora com tantas opções de estimação e 
+métodos de rotação, juntamente com quantidades gigantescas de resultados (A saída da função factanal() é bastante pequena em comparação com outros programas.) 
+
+- No entanto, a decisão mais importante é o número de fatores. A escolha do método de estimação e rotação é menos crucial de acordo com Johnson e Wichern (2007). 
+
+- Se uma análise fatorial for bem-sucedida, várias combinações de métodos de 
+estimação e rotações devem resultar na mesma conclusão.
+
+- Em uma nota decepcionante, Johnson e Wichern (2007) também afirmam que a "a grande maioria das tentativas de análises fatoriais não produz resultados 
+claros" (p. 526). 
+
+- Não há garantia de que uma análise fatorial levará a uma descoberta satisfatória de fatores latentes significativos. 
+
+- Se você se ficar intrigado com os resultados de uma análise fatorial porque 
+não parecia "funcionar", há uma boa chance de você não ter feito nada de 
+errado e que a análise fatorial simplesmente não tenha encontrado nada interessante. 
+
+- Um bom lugar para começar é examinar a matriz de correlação dos seus dados. 
+Se houver poucas ou nenhuma correlações altas, realmente não adianta 
+tentar uma análise fatorial.
+
 - Podemos concluir que a Análise Fatorial Exploratória é uma forma útil de examinar a estrutura subjacente e o relacionamento entre as variáveis. 
 
-- Quando os itens estão relacionados aos construtos subjacentes, a EFA reduz a
-complexidade dos dados, agregando variáveis para criar criar variáveis 
-latentes mais simples e interpretáveis.
+- Quando os itens estão relacionados aos construtos subjacentes, a EFA 
+pode reduzir a complexidade dos dados, agregando variáveis para criar criar variáveis latentes mais simples e interpretáveis.
 
 
 

@@ -404,7 +404,7 @@ Prof.&nbsp;Washington Santos da Silva
     </div>
 </div>
 
-  <p class="date">16 de novembro de 2023</p>
+  <p class="date">19 de novembro de 2023</p>
 </section><section id="visão-geral" class="slide level2"><h2>Visão Geral</h2>
 <p>Esta apresentação é principalmente uma introdução <em>conceitual</em> à análise fatorial.</p>
 <p>Vamos nos concentrar mais em conceitos e melhores práticas do que em detalhes técnicos:</p>
@@ -507,10 +507,59 @@ Prof.&nbsp;Washington Santos da Silva
 </ul></section><section id="exemplo-da-versão-2" class="slide level2"><h2>Exemplo da Versão 2</h2>
 
 <img data-src="aula06_files/figure-revealjs/unnamed-chunk-1-1.png" width="960" class="r-stretch"></section><section id="analise-fatorial" class="slide level2 scrollable"><h2>Analise Fatorial</h2>
-<h3 id="modelo-estatístico">1. Modelo Estatístico</h3>
-<p>O modelo da análise fatoria pode ser representado por:</p>
+<h3 id="modelo-fatorial-1-fator-comum">Modelo Fatorial: 1 fator comum</h3>
 <p><span class="math display">\[
-x = \Lambda f + \epsilon
+\begin{align}
+X_1 &amp;= \lambda_{1}f_1 + \epsilon_1 \\
+X_2 &amp;= \lambda_{2}f_1 + \epsilon_2 \\
+X_3 &amp;= \lambda_{3}f_1 + \epsilon_3
+\end{align}
+\]</span></p>
+<ul>
+<li><p>O fator <span class="math inline">\(f\)</span> não é observado, somente <span class="math inline">\(X_1\)</span>, <span class="math inline">\(X_2\)</span>, <span class="math inline">\(X_3\)</span> são observadas.</p></li>
+<li><p><span class="math inline">\(\epsilon_i\)</span> representa a variabilidade de <span class="math inline">\(X_i\)</span> não explicada por <span class="math inline">\(f\)</span>.</p></li>
+<li><p><span class="math inline">\(X_i\)</span> é uma função linear de <span class="math inline">\(f\)</span> e <span class="math inline">\(\epsilon\)</span></p></li>
+</ul>
+<h3 id="modelo-fatorial-2-fatores-comuns">Modelo Fatorial: 2 fatores comuns</h3>
+<p>Um modelo com 2 fatores pode ser representado por:</p>
+<p><span class="math display">\[
+\begin{align}
+X_1 &amp;= \lambda_{11}f_1 + \lambda_{12}f_2 + \epsilon_1 \\
+X_2 &amp;= \lambda_{21}f_1 + \lambda_{22}f_2 + \epsilon_2 \\
+X_3 &amp;= \lambda_{31}f_1 + \lambda_{32}f_2 + \epsilon_3 \\
+X_4 &amp;= \lambda_{41}f_1 + \lambda_{42}f_2 + \epsilon_4 \\
+\end{align}
+\]</span></p>
+<p>Generalizando para <span class="math inline">\(p\)</span> observações e <span class="math inline">\(k\)</span> fatores, temos:</p>
+<p><span class="math display">\[
+\begin{bmatrix}
+x_1 \\
+x_2 \\
+\vdots \\
+x_p
+\end{bmatrix}_{p \times 1} =
+\begin{bmatrix}
+    \lambda_{11} &amp; \lambda_{12} &amp; \dots &amp; \lambda_{1k} \\
+    \lambda_{21} &amp; \lambda_{22} &amp; \dots &amp; \lambda_{2k} \\
+    \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+    \lambda_{p1} &amp; \lambda_{p2} &amp; \dots &amp; \lambda_{pk}
+\end{bmatrix}_{p \times k}
+\begin{bmatrix}
+f_1 \\
+f_2 \\
+\vdots \\
+f_k
+\end{bmatrix}_{k \times 1} +
+\begin{bmatrix}
+\epsilon_1 \\
+\epsilon_2 \\
+\vdots \\
+\epsilon_p
+\end{bmatrix}_{p \times 1}
+\]</span></p>
+<h3 id="notação-matricial">Notação Matricial</h3>
+<p><span class="math display">\[
+X = \Lambda F + \epsilon
 \]</span> sendo:</p>
 <ul>
 <li><p><span class="math inline">\(X = (X_1, X_2,\ldots,X_p)^{'}\)</span> um vetor aleatório com vetor de médias <span class="math inline">\(\mu\)</span> e matriz de covariância <span class="math inline">\(\Sigma\)</span>.</p></li>
@@ -521,12 +570,12 @@ x = \Lambda f + \epsilon
 <span class="math inline">\(l_{ij}\)</span> é a carga da i-ésima variável em relação ao <span class="math inline">\(j-\)</span>ésimo fator.</li>
 </ul>
 </li>
-<li><p><span class="math inline">\(f = (f_1, f_2,\ldots,f_k)^{'}\)</span> é um vetor de scores fatoriais.</p></li>
+<li><p><span class="math inline">\(F = (f_1, f_2,\ldots,f_k)^{'}\)</span> é um vetor de scores fatoriais.</p></li>
 <li><p><span class="math inline">\(\epsilon = (\epsilon _1, \epsilon _2,\ldots,\epsilon_p)^{'}\)</span> é um vetor de erros.</p></li>
 </ul>
 <h3 id="hipóteses">2. Hipóteses</h3>
 <ul>
-<li><p><span class="math inline">\(f \sim (0, I_k)\)</span>, i.e, Os fatores latentes têm média zero, variância unitária e são não correlacionados.</p></li>
+<li><p><span class="math inline">\(F \sim (0, I_k)\)</span>, i.e, Os fatores latentes têm média zero, variância unitária e são não correlacionados.</p></li>
 <li><p><span class="math inline">\(\epsilon \sim (0, \varepsilon_k)\)</span>, sendo <span class="math inline">\(\varepsilon = diag(\epsilon _1, \epsilon _2,\ldots,\epsilon_p)^{'}\)</span> com <span class="math inline">\(\epsilon_j\)</span> denotando a j-ésima variância específica.</p></li>
 <li><p><span class="math inline">\(\epsilon_j\)</span> e <span class="math inline">\(f_k\)</span> são independentes para todo par <span class="math inline">\(j,k\)</span>.</p></li>
 <li><p>Nenhum dos componentes além de <span class="math inline">\(x\)</span> é observado, mas a principal restrição é que os fatores não sejam correlacionadas e tenham média zero e variância unitária, e que os erros sejam independentes com variância <span class="math inline">\(\epsilon\)</span>.</p></li>
@@ -535,22 +584,22 @@ x = \Lambda f + \epsilon
 <p><span class="math display">\[
 \begin{align*}
 V(X) = \Sigma &amp;= E[(X - \mu)(X - \mu)^{'}], \\
-     &amp;= E[(\Lambda f + \epsilon)(\Lambda f + \epsilon)^{'}], \\
-     &amp;= E[\Lambda f f^{'} \Lambda^{'}] + E[\Lambda f \epsilon^{'}] +
-        E[\epsilon f^{'} \Lambda^{'}] + E[\epsilon \epsilon^{'}], \\
-     &amp;= \Lambda E[ff^{'}] \Lambda^{'} + \Lambda E[f\epsilon^{'}] +
-         E[\epsilon f^{'}]\Lambda^{'} + E[\epsilon \epsilon^{'}], \\
-\Sigma &amp;= \Lambda \Lambda^{'} + \varepsilon
+     &amp;= E[(\Lambda F + \epsilon)(\Lambda F + \epsilon)^{'}], \\
+     &amp;= E[\Lambda F F^{'} \Lambda^{'}] + E[\Lambda F \epsilon^{'}] +
+        E[\epsilon F^{'} \Lambda^{'}] + E[\epsilon \epsilon^{'}], \\
+     &amp;= \Lambda E[FF^{'}] \Lambda^{'} + \Lambda E[F\epsilon^{'}] +
+         E[\epsilon F^{'}]\Lambda^{'} + E[\epsilon \epsilon^{'}], \\
+\hat{\Sigma} &amp;= \hat{\Lambda} \hat{\Lambda}^{'} + \hat{\varepsilon}
 \end{align*}
 \]</span></p>
 <ul>
-<li><p>Visto que: <span class="math inline">\(E[ff^{'}] = I_k\)</span>, <span class="math inline">\(E[f\epsilon^{'}] = 0_{k \times p}\)</span>, <span class="math inline">\(E[\epsilon f^{'}] = 0_{p \times k}\)</span> e <span class="math inline">\(E[\epsilon \epsilon^{'}] = \varepsilon\)</span>.</p></li>
-<li><p>Isto implica que a covariância entre <span class="math inline">\(X\)</span> e <span class="math inline">\(f\)</span> tem a forma:</p></li>
+<li><p>Visto que: <span class="math inline">\(E[FF^{'}] = I_k\)</span>, <span class="math inline">\(E[F\epsilon^{'}] = 0_{k \times p}\)</span>, <span class="math inline">\(E[\epsilon F^{'}] = 0_{p \times k}\)</span> e <span class="math inline">\(E[\epsilon \epsilon^{'}] = \varepsilon\)</span>.</p></li>
+<li><p>Isto implica que a covariância entre <span class="math inline">\(X\)</span> e <span class="math inline">\(F\)</span> é:</p></li>
 </ul>
 <p><span class="math display">\[
 \begin{align*}
-Cov(X,f) &amp;=  E[(X - \mu)f^{'}], \\
-         &amp;= E[(\Lambda f + \epsilon)f^{'}], \\
+Cov(X,F) &amp;=  E[(X - \mu)F^{'}], \\
+         &amp;= E[(\Lambda F + \epsilon)F^{'}], \\
          &amp;= \Lambda
 \end{align*}
 \]</span></p>
@@ -565,13 +614,13 @@ Cov(X,f) &amp;=  E[(X - \mu)f^{'}], \\
 <ul>
 <li><p><span class="math inline">\(\sigma_{ii}\)</span> a variância de <span class="math inline">\(X_i\)</span></p></li>
 <li><p><span class="math inline">\(h_{i}^2 = (\Lambda \Lambda^{'})_{ii} = \lambda_{i1}^2 + \lambda_{i2}^2 + \ldots + \lambda_{ik}^2\)</span> é a <em>communality</em> de <span class="math inline">\(X_i\)</span>.</p></li>
-<li><p>$_i = $ é a variância específica, ou <em>uniqueness</em>, de <span class="math inline">\(X_i\)</span>.</p></li>
+<li><p><span class="math inline">\(\varepsilon_i\)</span> = é a variância específica, ou <em>uniqueness</em>, de <span class="math inline">\(X_i\)</span>.</p></li>
 <li><p>Note que a <em>communality</em> <span class="math inline">\(h_{i}^2\)</span> é a soma das cargas quadráticas de <span class="math inline">\(X_i\)</span>.</p></li>
 </ul>
 <h3 id="estimação-por-máxima-verossimilhança-do-modelo-fatorial">Estimação por Máxima Verossimilhança do Modelo Fatorial</h3>
 <ul>
 <li><p>Note que os parâmetros de interesse são as cargas fatoriais (<span class="math inline">\(\Lambda\)</span>) e as variâncias específicas (<em>uniqueness</em>) da diagonal de <span class="math inline">\(\varepsilon\)</span>.</p></li>
-<li><p>Suponha que <span class="math inline">\(x \overset{\text{i.i.d.}}{\sim} N(\mu, \Lambda \Lambda^{'} + \varepsilon)\)</span> seja um vetor normal multivariado.</p></li>
+<li><p>Suponha que <span class="math inline">\(X \overset{\text{i.i.d.}}{\sim} N(\mu, \Lambda \Lambda^{'} + \varepsilon)\)</span> seja um vetor normal multivariado.</p></li>
 <li><p>A função log-verossimilhança para uma amostra de n observações tem a forma:</p></li>
 </ul>
 <p><span class="math display">\[
@@ -616,15 +665,15 @@ Cov(X,f) &amp;=  E[(X - \mu)f^{'}], \\
 <p><strong>Cargas</strong>: a força do relacionamento entre um fator e uma variável. Exemplo: <em>F1 <span class="math inline">\(\rightarrow\)</span> v1 = 0,45</em>. Intervalo [-1,0 … 1,0], iguais ao <em>r</em> de Pearson.</p>
 </section><section id="visualização" class="slide level2"><h2>Visualização</h2>
 
-<img data-src="aula06_files/figure-revealjs/unnamed-chunk-2-1.png" width="960" class="r-stretch"></section><section id="etadas-para-efa" class="slide level2"><h2>Etadas para EFA</h2>
+<img data-src="aula06_files/figure-revealjs/unnamed-chunk-2-1.png" width="960" class="r-stretch"></section><section id="etapas-para-a-efa" class="slide level2 scrollable"><h2>Etapas para a EFA</h2>
 <ol type="1">
 <li><p>Importar e preparar os dados (padronização e lidar com assimetrias).</p></li>
-<li><p>Examine a matriz de correlação para ter uma ideia dos possíveis fatores.</p></li>
-<li><p>Determine o número de fatores.</p></li>
-<li><p>Escolha uma <em>rotação</em> dos fatores (mais em instantes).</p></li>
-<li><p>Ajuste o modelo e interprete os fatores resultantes.</p></li>
-<li><p>Repita 3-5 se os resultados não forem claros, selecione o mais útil.</p></li>
-<li><p>Use os scores fatoriais como melhor estimativa do construto/variável latente.</p></li>
+<li><p>Examinar a matriz de correlação para ter uma ideia dos possíveis fatores.</p></li>
+<li><p><strong>Determinar o número de fatores</strong>.</p></li>
+<li><p><strong>Escolher um método de estimação</strong>.</p></li>
+<li><p>Escolher uma <em>rotação</em> dos fatores.</p></li>
+<li><p>Estimar o modelo e interpretar os fatores resultantes.</p></li>
+<li><p>Repetir as etaps 3-5 se os resultados não forem claros, selecionar o modelo mais útil.</p></li>
 </ol></section><section id="agora-dados" class="slide level2"><h2>Agora … dados!</h2>
 <ul>
 <li><p>O arquivo <code>brand.csv</code> contém dados típicos de pesquisas sobre <strong>percepção de marcas</strong> (brand perception survey).</p></li>
@@ -805,17 +854,18 @@ $vectors
 <li><p>Isto novamente sugere 3 ou, talvez, 2 fatores.</p></li>
 </ul></section><section id="análise-fatorial-exploratória-4" class="slide level2"><h2>Análise Fatorial Exploratória</h2>
 <ul>
-<li><p>A escolha de um modelo final depende da sua utilidade.</p></li>
+<li><p>A escolha de um modelo final depende da sua “interpretabilidade”.</p></li>
 <li><p>Para a EFA, uma prática recomendada é testar algumas soluções fatoriais, incluindo aquelas sugeridas pelos resultados do scree plot e dos autovalores</p></li>
-<li><p>Assim, testaremos uma solução com 3 fatores e outra com 2 fatores para ver qual delas é mais útil.</p></li>
+<li><p>Assim, testaremos uma solução com 2 fatores e outra com 3 fatores para ver qual delas é mais “útil”.</p></li>
 <li><p>Podemos estimar o modelo fatorial com a função <code>factanal(x, factors = K)</code>, sendo <span class="math inline">\(K\)</span> o número de fatores a serem ajustados.</p></li>
 </ul></section><section id="modelo-fatorial-2-fatores" class="slide level2"><h2>Modelo Fatorial: 2 fatores</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">factanal</span>(brand_df[, <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>], <span class="at">factors =</span> <span class="dv">2</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>fa_brand <span class="ot">&lt;-</span> <span class="fu">factanal</span>(brand_df[, <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>], <span class="at">factors =</span> <span class="dv">2</span>, <span class="at">rotation =</span> <span class="st">"varimax"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2"></a>fa_brand</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-factanal(x = brand_df[, 1:9], factors = 2)
+factanal(x = brand_df[, 1:9], factors = 2, rotation = "varimax")
 
 Uniquenesses:
 perform  leader  latest     fun serious bargain   value  trendy   rebuy 
@@ -843,14 +893,85 @@ The chi square statistic is 556.19 on 19 degrees of freedom.
 The p-value is 8.66e-106 </code></pre>
 </div>
 </div>
-</section><section id="modelo-fatorial-2-fatores-1" class="slide level2"><h2>Modelo Fatorial: 2 fatores</h2>
+</section><section id="factanal-compreendendo-os-resultados" class="slide level2"><h2>
+<code>factanal</code>: Compreendendo os resultados</h2>
+<h3 id="uniquenesses"><code>Uniquenesses</code></h3>
+<ul>
+<li><p>A primeiro parte fornece as estimativas das “Uniquenesses”, que variam de 0 a 1. É <span class="math inline">\(\varepsilon\)</span> do modelo estatístico.</p></li>
+<li><p>Ficamos atentos <span class="math inline">\(\varepsilon\)</span> altos. Uma alta singularidade para uma variável pode significar que ela não se encaixa perfeitamente em nossos fatores.</p></li>
+<li><p>Por exemplo, <code>latest</code> possui <span class="math inline">\(\varepsilon = 0.796\)</span></p></li>
+<li><p>Se subtrairmos as singularidades de 1, obteremos a estimativa da comunalidade, 1 - 0.796 = 0.204, que implica que 20,4% da variância de <code>latest</code> é explicada pelos dois fatores comuns.</p></li>
+<li><p>Em geral, deseja-se baixas singularidades ou altas comunalidades.</p></li>
+<li><p><strong>Nota</strong>: A estimativa de máxima verossimilhança pode implicar em singularidades iguais a zero ou negativos. Estes são chamados de casos Heywood.</p></li>
+</ul>
+<h3 id="loadings"><code>Loadings</code></h3>
+<ul>
+<li><p>A próxima seção contém as “Cargas”, que variam de -1 a +1. Estas constituem <span class="math inline">\(\hat{\Lambda}\)</span>.</p></li>
+<li><p>Os fatores são ordenados em ordem decrescente das somas dos quadrados das cargas.</p></li>
+<li><p>O que estamos procurando são grupos de cargas altas.</p></li>
+<li><p>Na primeira coluna, chamada <code>Factor1</code>, vemos que <code>bargain</code>, <code>value</code> e, um pouco <code>rebuy</code> possuem cargas altas em relação aos outros itens.</p></li>
+<li><p>Assim, poderíamos pensar nesse fator como relacionado a “valor”.</p></li>
+<li><p>Observe que não há entrada para certos itens. Isso porque <code>factanal</code> não exibe cargas inferiores a 0,1.</p></li>
+<li><p>Isso é para nos ajudar a identificar grupos de variáveis. O <code>cutoff = 0.1</code> pode ser alterado.</p></li>
+<li><p>O que são exatamente as cargas? Elas são simplesmente correlações com os fatores não observados.</p></li>
+<li><p><code>value</code> tem uma correlação de 0,873 com o Fator 1 e correlação insignificante com o outro fator.</p></li>
+<li><p>Os valores precisos não são nossa principal preocupação. Estamos procurando grupos de correlações “altas” que esperamos que façam sentido e levem a um fator descritivo como “valor”.</p></li>
+<li><p>O que constitui valores altos? Isso é difícil de dizer, que é uma das razões pelas quais a análise fatorial é tão subjetiva.</p></li>
+<li><p>Não há um <code>cutoff</code> definido. O que você acha que é alto, outra pessoa pode pensar que é baixo.</p></li>
+</ul>
+<h3 id="variância">Variância</h3>
+<ul>
+<li><p>A próxima seção é tecnicamente parte das cargas.</p></li>
+<li><p>Os números aqui resumem os fatores. A linha em que geralmente estamos mais interessados é a última, <code>Cumulative Var</code>.</p></li>
+<li><p>Isso nos diz a proporção acumulada da variância explicada, então esses números variam de 0 a 1. Gostaríamos de ver um número final alto, onde mais uma vez “alto” é subjetivo. Nosso número final de 0,445 parece baixo.</p></li>
+<li><p>Parece que devemos considerar mais de dois fatores</p></li>
+<li><p>A linha acima, <code>Proportion Var</code>, é simplesmente a proporção da variância explicada por cada fator.</p></li>
+<li><p>A linha <code>SS loadings</code> é a soma das cargas ao quadrado. Isso às vezes é usado para determinar o valor de um determinado fator. Dizemos que vale a manter um fator se a <code>SS loadings</code> for maior que 1. Em nosso exemplo, todas são maiores que 1.</p></li>
+</ul></section><section id="teste-de-hipótese" class="slide level2 scrollable"><h2>Teste de Hipótese</h2>
+<ul>
+<li><p>A última seção apresenta os resultados de um teste de hipótese.</p></li>
+<li><p>A hipótese nula deste teste é que 2 fatores são suficientes para o nosso modelo.</p></li>
+<li><p>O baixo valor-p nos leva a rejeitar a hipótese e considerar a adição de mais fatores.</p></li>
+<li><p>Este teste de hipótese é possível devido ao método de estimação por máxima verossimilhança.</p></li>
+<li><p>Lembre-se do modelo estimado da análise fatorial:</p></li>
+</ul>
+<p><span class="math display">\[
+\hat{\Sigma} = \hat{\Lambda} \hat{\Lambda}^{'} + \hat{\varepsilon}
+\]</span></p>
+<ul>
+<li><p>Vamos ver o quão bem nosso modelo de dois fatores aproxima a matriz de correlação observada.</p></li>
+<li><p>Podemos extrair as cargas e singularidades do objeto <code>fa_brand</code> e executar a álgebra matricial necessária.</p></li>
+<li><p>O operador <code>%*%</code> executa a multiplicação de matrizes.</p></li>
+<li><p>A função <code><a href="https://rdrr.io/r/base/t.html">t()</a></code> transpõe uma matriz.</p></li>
+<li><p>A função <code><a href="https://rdrr.io/r/base/diag.html">diag()</a></code> pega um vetor de k números e cria uma matriz k x k com os números na diagonal e 0s em todos os outros lugares.</p></li>
+<li><p>Abaixo, subtraímos a matriz de correlação estimada pelo modelo da matriz de correlação observada e arredondamos o resultado para 3 dígitos</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">round</span>(<span class="fu">cor</span>(<span class="fu">as.matrix</span>(brand_df[, <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>])) <span class="sc">-</span> (fa_brand<span class="sc">$</span>loadings <span class="sc">%*%</span> <span class="fu">t</span>(fa_brand<span class="sc">$</span>loadings) <span class="sc">+</span> <span class="fu">diag</span>(fa_brand<span class="sc">$</span>uniquenesses)), <span class="dv">3</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        perform leader latest    fun serious bargain  value trendy  rebuy
+perform   0.000  0.009 -0.075 -0.018  -0.049  -0.018 -0.025 -0.005  0.088
+leader    0.009  0.000  0.052  0.023   0.011  -0.001  0.020  0.002 -0.041
+latest   -0.075  0.052  0.000  0.172   0.004   0.109  0.054  0.389 -0.132
+fun      -0.018  0.023  0.172  0.000  -0.027   0.058  0.019  0.086 -0.044
+serious  -0.049  0.011  0.004 -0.027   0.000   0.018 -0.005  0.034  0.007
+bargain  -0.018 -0.001  0.109  0.058   0.018   0.000  0.034  0.075 -0.001
+value    -0.025  0.020  0.054  0.019  -0.005   0.034  0.000  0.022 -0.026
+trendy   -0.005  0.002  0.389  0.086   0.034   0.075  0.022  0.000 -0.019
+rebuy     0.088 -0.041 -0.132 -0.044   0.007  -0.001 -0.026 -0.019  0.000</code></pre>
+</div>
+</div>
+<ul>
+<li><p>Esta é a <code>residual matrix</code>.</p></li>
+<li><p>Gostaríamos de ver muitos números próximos de 0. Neste caso, temos vários números maiores que 0,05, indicando que nosso modelo de 2 fatores não é tão bom.</p></li>
+</ul></section><section id="modelo-fatorial-2-fatores-resumo" class="slide level2"><h2>Modelo Fatorial 2 fatores: Resumo</h2>
 <ul>
 <li><p>As cargas fatoriais do Fator 1 com <code>bargain</code> e <code>value</code> são altas. Assim, podemos interpretá-lo como um fator relacionado a “valor”.</p></li>
 <li><p>O Fator 2 possui altas cargas fatoriais associadas com <code>leader</code> e <code>serious</code>. Podemos interpretá-lo como um fator relacionado a “líder de categoria”.</p></li>
 <li><p>Esta não é uma má interpretação, mas vamos compará-la a uma solução de 3 fatores.</p></li>
 </ul></section><section id="modelo-fatorial-3-fatores" class="slide level2"><h2>Modelo Fatorial: 3 fatores</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">factanal</span>(brand_df[, <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>], <span class="at">factors =</span> <span class="dv">3</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">factanal</span>(brand_df[, <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>], <span class="at">factors =</span> <span class="dv">3</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -882,52 +1003,49 @@ The chi square statistic is 64.57 on 12 degrees of freedom.
 The p-value is 3.28e-09 </code></pre>
 </div>
 </div>
-</section><section id="modelo-fatorial-3-fatores-1" class="slide level2"><h2>Modelo Fatorial: 3 fatores</h2>
+</section><section id="modelo-fatorial-3-fatores-1" class="slide level2 scrollable"><h2>Modelo Fatorial: 3 fatores</h2>
 <ul>
+<li><p>O modelo com 3 fatores explica uma proporção maior da variância do que o modelo com 2 fatores.</p></li>
+<li><p>Entretanto, o teste de hipótese de que 3 fatores são suficientes ainda apresenta um valor-p muito pequeno, o que nos leva a rejeitar a hipótese de que 3 fatores são suficientes.</p></li>
 <li><p>A solução de 3 fatores mantém os fatores associados a “valor” e “líder de categoria”.</p></li>
 <li><p>Mas adiciona um claro fator associado a “mais recente” que possui altas cargas fatoriais com <code>latest</code> e <code>trendy</code>.</p></li>
 <li><p>Isso adiciona um conceito interpretável à nossa compreensão dos dados.</p></li>
 <li><p>Ele também se alinha com a maior parte das sugestões dos testes scree e autovalores.</p></li>
-<li><p>Portanto, consideramos o modelo com 3 fatores superior ao com 2 fatores, porque os fatores são mais interpretáveis.</p></li>
-</ul></section><section id="rotações" class="slide level2"><h2>Rotações</h2>
+<li><p>Portanto, consideramos o modelo com 3 fatores superior ao com 2 fatores, devido a PVE maior, mais consistentes com o número de fatores sugerido pelos dados e produz uma solução mais interpretável.</p></li>
+</ul></section><section id="rotações-motivação" class="slide level2"><h2>Rotações: Motivação</h2>
 <ul>
 <li><p>O resultado da EFA é simiar ao da PCA: uma matriz de fatores (semelhante a matriz de rotação da PCA) e sua relação com as variáveis originais (cargas dos fatores nas variáveis).</p></li>
 <li><p>Mas ao contrário da PCA, a EFA tenta encontrar soluções que sejam maximamente interpretáveis em termos das variáveis manifestas.</p></li>
 <li><p>Em geral, tenta encontrar soluções nas quais um pequeno número de cargas para cada fator sejam altas, enquanto outras cargas para esse fator sejam baixas.</p></li>
 <li><p>Quando isso é possível, esse fator pode ser interpretado em termos desse pequeno conjunto de variáveis manifestas.</p></li>
-</ul></section><section id="rotações-1" class="slide level2"><h2>Rotações</h2>
+</ul></section><section id="rotações" class="slide level2"><h2>Rotações</h2>
 <ul>
 <li><p>Para conseguir isso, a EFA usa <strong>rotações</strong> que começam com uma solução matemática não correlacionada (ortogonal) e depois alteram matematicamente a solução que explica a mesma prop. da variância, mas com cargas diferentes nas variáveis originais.</p></li>
 <li><p>Existem muitas rotações disponíveis e elas normalmente compartilham o objetivo de maximizar as cargas em algumas variáveis, ao mesmo tempo em que tornam os fatores tão distintos quanto possível uns dos outros.</p></li>
 <li><p>No entanto, algumas rotações são mais úteis do que outras porque ficam entre os itens grandes, em vez de dividi-los.</p></li>
-</ul></section><section id="rotações-2" class="slide level2"><h2>Rotações</h2>
-<ul>
-<li><p>Quando isso ocorre, pode-se ter uma “fatia de tomate”, uma “fatia de cogumelo”, uma “fatia meio a meio de tomate e cogumelo” e assim por diante.</p></li>
-<li><p>Ao girar e cortar de forma diferente, torna-se a substância subjacente mais interpretável em relação aos seus objetivos (como ter fatias de pizza diferenciadas).</p></li>
-<li><p>Nenhuma rotação é inerentemente melhor ou pior, mas algumas são mais úteis que outras.</p></li>
-<li><p>Da mesma forma, as variáveis manifestas na EFA podem ser divididas de várias maneiras, de acordo com os objetivos de interpretação dos fatores latentes.</p></li>
-</ul></section><section id="rotações-3" class="slide level2 scrollable"><h2>Rotações</h2>
+</ul></section><section id="rotações-1" class="slide level2"><h2>Rotações</h2>
+</section><section id="rotações-2" class="slide level2 scrollable"><h2>Rotações</h2>
 <ul>
 <li><p>Isto posto, uma solução de análise fatorial pode ser rotacionada para ter novas cargas que representem a mesma proporção de variância.</p></li>
 <li><p>Embora uma análise completa sobre rotações esteja fora do escopo deste curso, há uma questão que vale a pena considerar em qualquer EFA: <strong>você deseja permitir que os fatores sejam correlacionados entre si ou não?</strong></p></li>
 <li><p>Podemos pensar que devemos deixar os dados decidirem. No entanto, a questão de permitir fatores correlacionados é menos uma questão sobre os dados do que sobre o conceito dos fatores latentes subjacentes.</p></li>
 <li><p>Consideramos que os fatores deveriam ser conceitualmente independentes ou faz mais sentido considerá-los relacionados? Uma rotação EFA pode ser obtida sob qualquer hipótese.</p></li>
-</ul></section><section id="rotações-4" class="slide level2 scrollable"><h2>Rotações</h2>
+</ul></section><section id="rotações-3" class="slide level2 scrollable"><h2>Rotações</h2>
 <ul>
 <li><p>O padrão da função <code><a href="https://rdrr.io/r/stats/factanal.html">factanal()</a></code> é encontrar fatores que tenham correlação zero (usando uma rotação <code>varimax</code>).</p></li>
-<li><p>Voltando aos nossos dados, podemos julgar que é razoavelmente esperado que os fatores “valor” e “líder de categoria” estejam relacionados.</p></li>
+<li><p>Voltando aos nossos dados, podemos julgar que seria razoavelmente esperado que os fatores “valor” e “líder de categoria” estejam relacionados.</p></li>
 <li><p>Em muitas categorias, o líder pode obter um prêmio no preço e, portanto, poderíamos esperar que essas duas construções latentes estivessem negativamente correlacionadas, em vez de serem independentes uma da outra.</p></li>
-<li><p>Isso sugere que poderíamos permitir fatores correlacionados em nossa solução.</p></li>
+<li><p>Isso sugere que poderíamos permitir fatores correlacionados na solução.</p></li>
 <li><p>A rotação a ser usado neste caso é a rotação <strong>oblíqua</strong> (“oblíqua” porque os eixos dimensionais não são perpendiculares, mas “distorcidos” pela correlação entre os fatores).</p></li>
 </ul></section><section id="rotação-oblíqua" class="slide level2 scrollable"><h2>Rotação Oblíqua</h2>
 <ul>
 <li>Uma rotação oblíqua comum é a rotação <code>oblimin</code> do pacote GPArotation.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">library</span>(GPArotation)</span>
-<span id="cb18-2"><a href="#cb18-2"></a></span>
-<span id="cb18-3"><a href="#cb18-3"></a><span class="co"># modelo fatorial com rotação oblíqua</span></span>
-<span id="cb18-4"><a href="#cb18-4"></a>(brand_fa_ob <span class="ot">&lt;-</span> <span class="fu">factanal</span>(brand_df[, <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>], <span class="at">factors =</span> <span class="dv">3</span>, <span class="at">rotation =</span> <span class="st">"oblimin"</span>))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">library</span>(GPArotation)</span>
+<span id="cb20-2"><a href="#cb20-2"></a></span>
+<span id="cb20-3"><a href="#cb20-3"></a><span class="co"># modelo fatorial com rotação oblíqua</span></span>
+<span id="cb20-4"><a href="#cb20-4"></a>(brand_fa_ob <span class="ot">&lt;-</span> <span class="fu">factanal</span>(brand_df[, <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>], <span class="at">factors =</span> <span class="dv">3</span>, <span class="at">rotation =</span> <span class="st">"oblimin"</span>))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -966,7 +1084,7 @@ The p-value is 3.28e-09 </code></pre>
 </div>
 </div>
 </section><section id="rotação-oblíqua-1" class="slide level2"><h2>Rotação Oblíqua</h2>
-<p>Quando comparamos o resultado da rotação oblimin com a rotação varimax, há duas diferenças principais:</p>
+<p>Quando comparamos o resultado da rotação <code>oblimin</code> com a rotação varimax, há duas diferenças principais:</p>
 <ol type="1">
 <li><p>As cargas fatoriais são ligeiramente diferentes para os relacionamentos dos fatores com os adjetivos. No entanto, as cargas são suficientemente semelhantes para que não haja mudança substancial na forma como interpretaríamos os factores. Há ainda fatores para “valor,” “líder,” e “mais recente”.</p></li>
 <li><p>O resultado inclui uma matriz de correlação de fatores que mostra as relações entre os fatores latentes estimados. O Fator 1 (valor) é negativamente correlacionado com o Fator 2 (líder), r = −0,39, e é essencialmente não correlacionado com o Fator 3 (mais recente), r = 0,037.</p></li>
@@ -982,24 +1100,24 @@ The p-value is 3.28e-09 </code></pre>
 <li><p>Podemos visualizar o relacionamento fator-item com um mapa de calor das cargas.</p></li>
 </ul></section><section id="efa-visualização-1" class="slide level2"><h2>EFA: Visualização</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">library</span>(gplots)</span>
-<span id="cb20-2"><a href="#cb20-2"></a><span class="fu">library</span>(RColorBrewer)</span>
-<span id="cb20-3"><a href="#cb20-3"></a></span>
-<span id="cb20-4"><a href="#cb20-4"></a><span class="fu">heatmap.2</span>(</span>
-<span id="cb20-5"><a href="#cb20-5"></a>  brand_fa_ob<span class="sc">$</span>loadings,</span>
-<span id="cb20-6"><a href="#cb20-6"></a>  <span class="at">col =</span> <span class="fu">brewer.pal</span>(<span class="dv">9</span>, <span class="st">"Blues"</span>),</span>
-<span id="cb20-7"><a href="#cb20-7"></a>  <span class="at">trace =</span> <span class="st">"none"</span>,</span>
-<span id="cb20-8"><a href="#cb20-8"></a>  <span class="at">key =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb20-9"><a href="#cb20-9"></a>  <span class="at">dend =</span> <span class="st">"none"</span>,</span>
-<span id="cb20-10"><a href="#cb20-10"></a>  <span class="at">Colv =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb20-11"><a href="#cb20-11"></a>  <span class="at">cexCol =</span> <span class="fl">1.2</span>,</span>
-<span id="cb20-12"><a href="#cb20-12"></a>  <span class="at">main =</span> <span class="st">"</span><span class="sc">\n\n\n\n\n</span><span class="st">Cargas Fatorias para os Adjetivos das Marcas"</span></span>
-<span id="cb20-13"><a href="#cb20-13"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="fu">library</span>(gplots)</span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb22-3"><a href="#cb22-3"></a></span>
+<span id="cb22-4"><a href="#cb22-4"></a><span class="fu">heatmap.2</span>(</span>
+<span id="cb22-5"><a href="#cb22-5"></a>  brand_fa_ob<span class="sc">$</span>loadings,</span>
+<span id="cb22-6"><a href="#cb22-6"></a>  <span class="at">col =</span> <span class="fu">brewer.pal</span>(<span class="dv">9</span>, <span class="st">"Blues"</span>),</span>
+<span id="cb22-7"><a href="#cb22-7"></a>  <span class="at">trace =</span> <span class="st">"none"</span>,</span>
+<span id="cb22-8"><a href="#cb22-8"></a>  <span class="at">key =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb22-9"><a href="#cb22-9"></a>  <span class="at">dend =</span> <span class="st">"none"</span>,</span>
+<span id="cb22-10"><a href="#cb22-10"></a>  <span class="at">Colv =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb22-11"><a href="#cb22-11"></a>  <span class="at">cexCol =</span> <span class="fl">1.2</span>,</span>
+<span id="cb22-12"><a href="#cb22-12"></a>  <span class="at">main =</span> <span class="st">"</span><span class="sc">\n\n\n\n\n</span><span class="st">Cargas Fatorias para os Adjetivos das Marcas"</span></span>
+<span id="cb22-13"><a href="#cb22-13"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 </section><section id="efa-visualização-1-output" class="slide level2 output-location-slide"><h2>EFA: Visualização</h2><div class="cell output-location-slide">
 <div class="cell-output-display">
-<p><img data-src="aula06_files/figure-revealjs/unnamed-chunk-13-1.png" width="960"></p>
+<p><img data-src="aula06_files/figure-revealjs/unnamed-chunk-14-1.png" width="960"></p>
 </div>
 </div></section><section id="efa-visualização-2" class="slide level2"><h2>EFA: Visualização</h2>
 <ul>
@@ -1012,18 +1130,18 @@ The p-value is 3.28e-09 </code></pre>
 <li><p>O função <code>semPaths()</code> do pacote semPlot produz uma representação visual de um modelo de análise fatorial.</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">library</span>(semPlot)</span>
-<span id="cb21-2"><a href="#cb21-2"></a></span>
-<span id="cb21-3"><a href="#cb21-3"></a><span class="fu">semPaths</span>(brand_fa_ob,</span>
-<span id="cb21-4"><a href="#cb21-4"></a>  <span class="at">what =</span> <span class="st">"est"</span>, <span class="at">residuals =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb21-5"><a href="#cb21-5"></a>  <span class="at">cut =</span> <span class="fl">0.3</span>, <span class="at">posCol =</span> <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"darkgreen"</span>), <span class="at">negCol =</span> <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"red"</span>),</span>
-<span id="cb21-6"><a href="#cb21-6"></a>  <span class="at">edge.label.cex =</span> <span class="fl">0.75</span>, <span class="at">nCharNodes =</span> <span class="dv">7</span></span>
-<span id="cb21-7"><a href="#cb21-7"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="fu">library</span>(semPlot)</span>
+<span id="cb23-2"><a href="#cb23-2"></a></span>
+<span id="cb23-3"><a href="#cb23-3"></a><span class="fu">semPaths</span>(brand_fa_ob,</span>
+<span id="cb23-4"><a href="#cb23-4"></a>  <span class="at">what =</span> <span class="st">"est"</span>, <span class="at">residuals =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb23-5"><a href="#cb23-5"></a>  <span class="at">cut =</span> <span class="fl">0.3</span>, <span class="at">posCol =</span> <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"darkgreen"</span>), <span class="at">negCol =</span> <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"red"</span>),</span>
+<span id="cb23-6"><a href="#cb23-6"></a>  <span class="at">edge.label.cex =</span> <span class="fl">0.75</span>, <span class="at">nCharNodes =</span> <span class="dv">7</span></span>
+<span id="cb23-7"><a href="#cb23-7"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 </section><section id="efa-visualização-3-output" class="slide level2 output-location-slide"><h2>EFA: Visualização</h2><div class="cell output-location-slide">
 <div class="cell-output-display">
-<p><img data-src="aula06_files/figure-revealjs/unnamed-chunk-14-1.png" width="960"></p>
+<p><img data-src="aula06_files/figure-revealjs/unnamed-chunk-15-1.png" width="960"></p>
 </div>
 </div></section><section id="função-semplotsempaths" class="slide level2 scrollable"><h2>Função <code>semPlot::semPaths()</code>
 </h2>
@@ -1049,13 +1167,13 @@ The p-value is 3.28e-09 </code></pre>
 <li><p>A interpretação dos scores dos fatores permite nos concentrarmos em um conjunto menor e interpretável de dimensões que mapeiam construtos ao invés de itens individuais.</p></li>
 </ul></section><section id="efa-scores-dos-fatores-1" class="slide level2"><h2>EFA: Scores dos Fatores</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>brand_fa_ob <span class="ot">&lt;-</span> <span class="fu">factanal</span>(brand_df[, <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>],</span>
-<span id="cb22-2"><a href="#cb22-2"></a>  <span class="at">factors =</span> <span class="dv">3</span>, <span class="at">rotation =</span> <span class="st">"oblimin"</span>,</span>
-<span id="cb22-3"><a href="#cb22-3"></a>  <span class="at">scores =</span> <span class="st">"Bartlett"</span></span>
-<span id="cb22-4"><a href="#cb22-4"></a>)</span>
-<span id="cb22-5"><a href="#cb22-5"></a>brand_scores <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(brand_fa_ob<span class="sc">$</span>scores)</span>
-<span id="cb22-6"><a href="#cb22-6"></a>brand_scores<span class="sc">$</span>brand <span class="ot">&lt;-</span> brand_df<span class="sc">$</span>brand</span>
-<span id="cb22-7"><a href="#cb22-7"></a><span class="fu">head</span>(brand_scores)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>brand_fa_ob <span class="ot">&lt;-</span> <span class="fu">factanal</span>(brand_df[, <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>],</span>
+<span id="cb24-2"><a href="#cb24-2"></a>  <span class="at">factors =</span> <span class="dv">3</span>, <span class="at">rotation =</span> <span class="st">"oblimin"</span>,</span>
+<span id="cb24-3"><a href="#cb24-3"></a>  <span class="at">scores =</span> <span class="st">"Bartlett"</span></span>
+<span id="cb24-4"><a href="#cb24-4"></a>)</span>
+<span id="cb24-5"><a href="#cb24-5"></a>brand_scores <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(brand_fa_ob<span class="sc">$</span>scores)</span>
+<span id="cb24-6"><a href="#cb24-6"></a>brand_scores<span class="sc">$</span>brand <span class="ot">&lt;-</span> brand_df<span class="sc">$</span>brand</span>
+<span id="cb24-7"><a href="#cb24-7"></a><span class="fu">head</span>(brand_scores)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     Factor1    Factor2    Factor3 brand
 1  1.6521364 -0.6886749  0.5256104     a
@@ -1077,18 +1195,18 @@ The p-value is 3.28e-09 </code></pre>
 </ul></section><section id="efa-scores-dos-fatores-3" class="slide level2 scrollable"><h2>EFA: Scores dos Fatores</h2>
 <p>Para encontrar a posição geral de uma marca, odemos usar a função <code><a href="https://rdrr.io/r/stats/aggregate.html">aggregate()</a></code> para calcular as avaliações médias agregadas por marca, ou seja, a média de cada variável (adjetivo) por marca.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="co"># calulca avaliacoes medias agregadas por marca</span></span>
-<span id="cb24-2"><a href="#cb24-2"></a>brand_fa_media <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(. <span class="sc">~</span> brand, <span class="at">data =</span> brand_scores, mean)</span>
-<span id="cb24-3"><a href="#cb24-3"></a></span>
-<span id="cb24-4"><a href="#cb24-4"></a><span class="co"># nomes das marcas como nome das linhas,</span></span>
-<span id="cb24-5"><a href="#cb24-5"></a><span class="fu">rownames</span>(brand_fa_media) <span class="ot">&lt;-</span> brand_fa_media[, <span class="dv">1</span>]</span>
-<span id="cb24-6"><a href="#cb24-6"></a></span>
-<span id="cb24-7"><a href="#cb24-7"></a><span class="co"># elimina a primeira coluna contendo os nomes</span></span>
-<span id="cb24-8"><a href="#cb24-8"></a>brand_fa_media <span class="ot">&lt;-</span> brand_fa_media[, <span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb24-9"><a href="#cb24-9"></a></span>
-<span id="cb24-10"><a href="#cb24-10"></a><span class="co"># nomeando as colunas com o nome dos fatores estimados</span></span>
-<span id="cb24-11"><a href="#cb24-11"></a><span class="fu">names</span>(brand_fa_media) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Leader"</span>, <span class="st">"Value"</span>, <span class="st">"Latest"</span>)</span>
-<span id="cb24-12"><a href="#cb24-12"></a>brand_fa_media</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="co"># calulca avaliacoes medias agregadas por marca</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a>brand_fa_media <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(. <span class="sc">~</span> brand, <span class="at">data =</span> brand_scores, mean)</span>
+<span id="cb26-3"><a href="#cb26-3"></a></span>
+<span id="cb26-4"><a href="#cb26-4"></a><span class="co"># nomes das marcas como nome das linhas,</span></span>
+<span id="cb26-5"><a href="#cb26-5"></a><span class="fu">rownames</span>(brand_fa_media) <span class="ot">&lt;-</span> brand_fa_media[, <span class="dv">1</span>]</span>
+<span id="cb26-6"><a href="#cb26-6"></a></span>
+<span id="cb26-7"><a href="#cb26-7"></a><span class="co"># elimina a primeira coluna contendo os nomes</span></span>
+<span id="cb26-8"><a href="#cb26-8"></a>brand_fa_media <span class="ot">&lt;-</span> brand_fa_media[, <span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb26-9"><a href="#cb26-9"></a></span>
+<span id="cb26-10"><a href="#cb26-10"></a><span class="co"># nomeando as colunas com o nome dos fatores estimados</span></span>
+<span id="cb26-11"><a href="#cb26-11"></a><span class="fu">names</span>(brand_fa_media) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Leader"</span>, <span class="st">"Value"</span>, <span class="st">"Latest"</span>)</span>
+<span id="cb26-12"><a href="#cb26-12"></a>brand_fa_media</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       Leader       Value      Latest
 a  0.23158792 -1.06993703  0.39326652
@@ -1106,23 +1224,30 @@ j -0.15279666 -1.04119340 -0.15362952</code></pre>
 </section><section id="efa-scores-dos-fatores-4" class="slide level2 scrollable"><h2>EFA: Scores dos Fatores</h2>
 <p>Finalmente, um mapa de calor pode representar graficamente os scores médios por marca:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="fu">heatmap.2</span>(<span class="fu">as.matrix</span>(brand_fa_media),</span>
-<span id="cb26-2"><a href="#cb26-2"></a>  <span class="at">col =</span> <span class="fu">brewer.pal</span>(<span class="dv">9</span>, <span class="st">"GnBu"</span>), <span class="at">trace =</span> <span class="st">"none"</span>, <span class="at">key =</span> <span class="cn">FALSE</span>, <span class="at">dend =</span> <span class="st">"none"</span>,</span>
-<span id="cb26-3"><a href="#cb26-3"></a>  <span class="at">cexCol =</span> <span class="fl">1.2</span>, <span class="at">main =</span> <span class="st">"</span><span class="sc">\n\n\n</span><span class="st">Score Fatorial Médio por Marca"</span></span>
-<span id="cb26-4"><a href="#cb26-4"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="fu">heatmap.2</span>(<span class="fu">as.matrix</span>(brand_fa_media),</span>
+<span id="cb28-2"><a href="#cb28-2"></a>  <span class="at">col =</span> <span class="fu">brewer.pal</span>(<span class="dv">9</span>, <span class="st">"GnBu"</span>), <span class="at">trace =</span> <span class="st">"none"</span>, <span class="at">key =</span> <span class="cn">FALSE</span>, <span class="at">dend =</span> <span class="st">"none"</span>,</span>
+<span id="cb28-3"><a href="#cb28-3"></a>  <span class="at">cexCol =</span> <span class="fl">1.2</span>, <span class="at">main =</span> <span class="st">"</span><span class="sc">\n\n\n</span><span class="st">Score Fatorial Médio por Marca"</span></span>
+<span id="cb28-4"><a href="#cb28-4"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 </section><section id="efa-scores-dos-fatores-4-output" class="slide level2 scrollable output-location-slide"><h2>EFA: Scores dos Fatores</h2><div class="cell output-location-slide">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img data-src="aula06_files/figure-revealjs/unnamed-chunk-17-1.png" width="960"></p>
+<figure><p><img data-src="aula06_files/figure-revealjs/unnamed-chunk-18-1.png" width="960"></p>
 <figcaption>marcas similares: f e g, b e c, e assim por diante</figcaption></figure>
 </div>
 </div>
 </div></section><section id="conclusões" class="slide level2"><h2>Conclusões</h2>
 <ul>
+<li><p>A análise fatorial é desafiadora com tantas opções de estimação e métodos de rotação, juntamente com quantidades gigantescas de resultados (A saída da função factanal() é bastante pequena em comparação com outros programas.)</p></li>
+<li><p>No entanto, a decisão mais importante é o número de fatores. A escolha do método de estimação e rotação é menos crucial de acordo com Johnson e Wichern (2007).</p></li>
+<li><p>Se uma análise fatorial for bem-sucedida, várias combinações de métodos de estimação e rotações devem resultar na mesma conclusão.</p></li>
+<li><p>Em uma nota decepcionante, Johnson e Wichern (2007) também afirmam que a “a grande maioria das tentativas de análises fatoriais não produz resultados claros” (p.&nbsp;526).</p></li>
+<li><p>Não há garantia de que uma análise fatorial levará a uma descoberta satisfatória de fatores latentes significativos.</p></li>
+<li><p>Se você se ficar intrigado com os resultados de uma análise fatorial porque não parecia “funcionar”, há uma boa chance de você não ter feito nada de errado e que a análise fatorial simplesmente não tenha encontrado nada interessante.</p></li>
+<li><p>Um bom lugar para começar é examinar a matriz de correlação dos seus dados. Se houver poucas ou nenhuma correlações altas, realmente não adianta tentar uma análise fatorial.</p></li>
 <li><p>Podemos concluir que a Análise Fatorial Exploratória é uma forma útil de examinar a estrutura subjacente e o relacionamento entre as variáveis.</p></li>
-<li><p>Quando os itens estão relacionados aos construtos subjacentes, a EFA reduz a complexidade dos dados, agregando variáveis para criar criar variáveis latentes mais simples e interpretáveis.</p></li>
+<li><p>Quando os itens estão relacionados aos construtos subjacentes, a EFA pode reduzir a complexidade dos dados, agregando variáveis para criar criar variáveis latentes mais simples e interpretáveis.</p></li>
 </ul>
 
 <img src="img/logo.jpeg" class="slide-logo r-stretch"><div class="footer footer-default">
