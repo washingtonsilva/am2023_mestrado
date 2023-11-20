@@ -13,7 +13,7 @@ format:
     incremental: false
     transition: slide
     code-link: true
-    self-contained: false
+    self-contained: true
     preview-links: false
     chalkboard: false
     overview: true
@@ -39,14 +39,14 @@ fatorial.
 Vamos nos concentrar mais em conceitos e melhores práticas do que em detalhes técnicos:
 
 - Motivação e noções básicas
-- Análise Fatorial Exploratória (AFE)
+- Análise Fatorial Exploratória (*Exploratory Factorial Analysis*, *EFA*)
 
 
 
 ## Motivação
 
 - A Análise Fatorial (FA) é uma família de técnicas para avaliar 
-a presença de construtos (conceitos) em pesquisas e avaliações psicológicas.
+a presença de construtos (conceitos) em pesquisas de mercado, avaliações psicológicas...
 
 - **Fatores** são considerados **variáveis latentes**, variáveis que não 
 podem ser observadas diretamente, mas que podem ser imperfeitamente medidas através da sua relação com outras variáveis.
@@ -143,7 +143,7 @@ como um estado mental  --- que se manifesta em quantidades mensuráveis, como
 itens de pesquisas.
 
 - Um artigo propos uma escala para avaliar o interesse em um produto, essa 
-escalar foi projetada para avaliar três variáveis latentes:
+escala foi projetada para avaliar três variáveis latentes:
 
 - Interesse geral em uma categoria de produto
 - Interesse detalhado em características específicas
@@ -260,10 +260,10 @@ sendo:
 - $X = (X_1, X_2,\ldots,X_p)^{'}$ um vetor aleatório com vetor de médias 
 $\mu$ e matriz de covariância $\Sigma$.
 
-- $\Sigma = \{l_{ij}\}_{p \times k}$ é a matriz ($p \times k$) das cargas 
+- $\Lambda = \{\lambda_{ij}\}_{p \times k}$ é a matriz ($p \times k$) das cargas 
 fatoriais.  
 
-    - $l_{ij}$ é a carga da i-ésima variável em relação ao $j-$ésimo fator.
+    - $\lambda_{ij}$ é a carga da i-ésima variável em relação ao $j-$ésimo fator.
 
 - $F = (f_1, f_2,\ldots,f_k)^{'}$ é um vetor de scores fatoriais.
 
@@ -277,7 +277,7 @@ erros.
 unitária e são não correlacionados.
 
 - $\epsilon \sim (0, \varepsilon_k)$, sendo $\varepsilon = diag(\epsilon _1, \epsilon _2,\ldots,\epsilon_p)^{'}$ com $\epsilon_j$ denotando a j-ésima 
-variância específica.
+variância específica ou singularidade.
 
 - $\epsilon_j$ e $f_k$ são independentes para todo par $j,k$.
 
@@ -295,7 +295,7 @@ V(X) = \Sigma &= E[(X - \mu)(X - \mu)^{'}], \\
         E[\epsilon F^{'} \Lambda^{'}] + E[\epsilon \epsilon^{'}], \\
      &= \Lambda E[FF^{'}] \Lambda^{'} + \Lambda E[F\epsilon^{'}] + 
          E[\epsilon F^{'}]\Lambda^{'} + E[\epsilon \epsilon^{'}], \\
-\hat{\Sigma} &= \hat{\Lambda} \hat{\Lambda}^{'} + \hat{\varepsilon}
+\Sigma &= \Lambda \Lambda^{'} + \varepsilon
 \end{align*}
 $$
 
@@ -350,23 +350,24 @@ $$
                 \frac{\sum_{i=1}^{n} (x_i - \mu)^{'} \Sigma^{-1}(x_i - \mu))}{2}
 $$
 
-- sendo $\Sigma = \Lambda \Lambda^{'} + \varepsilon$.
+- sendo $\hat{\Sigma} = \hat{\Lambda} \hat{\Lambda}^{'} + \hat{\varepsilon}$.
 
-- Utilizamos um algoritmo iterativo para maximizar $\log L_n(\mu, \Lambda, \varepsilon;x) $.
+- Utilizamos um algoritmo iterativo para maximizar $\log L_n(\mu, \Lambda,\varepsilon;x) $.
 
-- Este é o método implementado na função `factanal()` da linguagem R e na 
-função `psych::fa()` do pacote psych.
+- Este é o método implementado na função `factanal()` da linguagem R 
 
-- Há outros métodos:
+- Uma outra função muito utilizada é `fa()` do pacote psych. Esta função 
+possui diversos métodos possíveis de estimação programados:
 
     - Via Componentes Principais/Decomposição em Valor Singular (SVD)
     - Mínimos Quadrados Ordinários
     - Método Iterativo de Fatoração do Eixo Principal
+    - ...
     
 
 ### Solução Indeterminada 
 
-Ainda há alguma indeterminação no modelo, pois ele permanece inalterado se 
+Há uma indeterminação no modelo, pois ele permanece inalterado se 
 $\Lambda$ for substituída por $G\Lambda$ para qualquer matriz 
 ortogonal $G$. 
 
@@ -379,7 +380,7 @@ seja aplicado a matrizes invertíveis não ortogonais.
 
 #### Análise Fatorial Exploratória (EFA)
 
-- Pergunta quais são os fatores nos dados observados
+- Pergunta quais são os fatores presentes nos dados observados
 - Requer interpretação
 - Antes de assumir que está correto, necessário confirmar com a CFA
 
@@ -391,30 +392,25 @@ seja aplicado a matrizes invertíveis não ortogonais.
 
 
 
-## Termos e símbolos principais
+## Termos e símbolos principais {.scrollable}
 
 - **Variável latente**: um suposto processo cognitivo ou de geração de dados que
 leva a dados observáveis. Muitas vezes é uma *construção* teórica. Exemplo:
 *Interesse no produto*. Símbolo: círculo/oval.
 
 - **Variável manifesta**: variáveis observáveis que expressam variáveis latentes.
-Exemplo: "Quão interessado você está neste produto? [1-5]" Símbolo: caixa.
+Exemplo: "Quão interessado você está neste produto?" Símbolo: caixa.
   
-- **Fator**: redução dimensional que estima uma variável latente e seu
-relacionamento com variáveis manifestas. Exemplo: Interesse geral em uma 
+- **Fator**: estimativa de uma variável latente e de seu relacionamento com variáveis manifestas. Exemplo: Interesse geral em uma 
 categoria de produto.
 
-
-
-## Termos e símbolos principais
-  
-**Cargas**: a força do relacionamento entre um fator e uma variável.
+- **Cargas**: a força do relacionamento entre um fator e uma variável.
 Exemplo: *F1 $\rightarrow$ v1 = 0,45*. Intervalo [-1,0 ... 1,0], 
 iguais ao *r* de Pearson.
 
 
 
-## Visualização
+## Modelo Fatorial: Visualização
 
 ```{r, echo=FALSE, results="hide", message=FALSE, warning=FALSE }
 library(semPlot)
@@ -434,11 +430,11 @@ semPaths(pies.fit, what = "path", fade = FALSE, residuals = FALSE,
 
 4. **Escolher um método de estimação**.
 
-4. Escolher uma *rotação* dos fatores.
+5. **Escolher uma rotação dos fatores**.
 
-5. Estimar o modelo e interpretar os fatores resultantes.
+6. Estimar o modelo e interpretar os fatores resultantes.
 
-6. Repetir as etaps 3-5 se os resultados não forem claros, selecionar o 
+7. Repetir as etaps 3-5 se os resultados não forem claros, selecionar o 
 modelo mais útil.
 
   
@@ -459,12 +455,12 @@ da pesquisa.
 
 ## Brand perception survey
 
-- Nos dados produzidas por este tipo de pesquisa, uma observação (linha) é a avaliação que um entrevistado faz de uma marca em um dos adjetivos. 
+- Nos dados produzidos por este tipo de pesquisa, uma observação (linha) é a avaliação que um entrevistado faz de uma marca em um dos adjetivos. 
 Dois exemplos de questões deste tipo são:
 
-- Quão última moda (trendy) é o Café Dona Maria?
+- Quão última moda (`trendy`) é o Café Dona Maria?
 
-- Quão líder de categoria é o Café Três Coracões?
+- Quão líder de categoria (`leader`) é o Café Três Coracões?
 
 
 
@@ -566,8 +562,8 @@ utilizarmos 3 fatores para modelar os dados.
 eigen(cor(brand_df[, 1:9]))
 ```
 
-- Os três primeiros autovalores são maiores que 1,0, embora dificilmente 
-o seja para o terceiro valor.
+- Os três primeiros autovalores são maiores que 1,0, embora o terceiro valor 
+dificilmente seja.
 
 - Isto novamente sugere 3 ou, talvez, 2 fatores.
 
@@ -601,14 +597,14 @@ fa_brand
 ### `Uniquenesses`
 
 - A primeiro parte fornece as estimativas das "Uniquenesses", 
-que variam de 0 a 1. É $\varepsilon$ do modelo estatístico.
+que variam de 0 a 1. São as estimativas $\hat{\varepsilon}$ do modelo estatístico.
 
-- Ficamos atentos $\varepsilon$ altos. Uma alta singularidade para uma variável pode significar que ela não se encaixa perfeitamente em nossos fatores. 
+- Ficamos atentos a altas singularidades. Uma alta singularidade para uma variável pode significar que ela não se encaixa perfeitamente em nossos fatores. 
 
-- Por exemplo, `latest` possui $\varepsilon = 0.796$ 
+- Por exemplo, `latest` possui $\hat{\varepsilon} = 0.796$ 
 
 - Se subtrairmos as singularidades de 1, obteremos a estimativa da 
-comunalidade, 1 - 0.796 = 0.204, que implica que 20,4% da variância 
+**comunalidade**, 1 - 0.796 = 0.204, que implica que 20,4% da variância 
 de `latest` é explicada pelos dois fatores comuns.
 
 - Em geral, deseja-se baixas singularidades ou altas comunalidades.
@@ -653,7 +649,7 @@ fator descritivo como "valor".
 - Não há um `cutoff` definido. O que você acha que é alto, outra pessoa pode pensar que é baixo.
 
 
-### Variância
+### SS Loadings
 
 - A próxima seção é tecnicamente parte das cargas. 
 
@@ -667,7 +663,7 @@ uma vez "alto" é subjetivo. Nosso número final de 0,445 parece baixo.
 
 - A linha acima, `Proportion Var`, é simplesmente a proporção da variância explicada por cada fator. 
 
-- A linha `SS loadings` é a soma das cargas ao quadrado. Isso às vezes é usado para determinar o valor de um determinado fator. Dizemos que vale a \pena manter um fator se a `SS loadings` for maior que 1. Em nosso exemplo, todas são 
+- A linha `SS loadings` é a soma das cargas ao quadrado. Isso às vezes é usado para determinar o valor de um determinado fator. Dizemos que vale a pena manter um fator se a `SS loadings` for maior que 1. Em nosso exemplo, todas são 
 maiores que 1.
 
 
@@ -759,8 +755,142 @@ devido a PVE maior, mais consistentes com o número de fatores
 sugerido pelos dados e produz uma solução mais interpretável.
 
 
+## Rotação Ortogonal {.scrollable}
 
-## Rotações: Motivação
+Suponho que tenhamos $z = (x,y)^{'} \in \mathbb{R}^2$, i.e, pontos em um 
+espaço euclidiano 2D.
+
+Uma rotação ortogonal $2 \times 2$ de $(x,y)$ da forma:
+
+$$
+\begin{pmatrix} x^{\ast} \\ y^{\ast} \end{pmatrix} = 
+\begin{pmatrix}
+\cos(\theta) & -\sin(\theta) \\
+\sin(\theta) & \cos(\theta)
+\end{pmatrix}
+\begin{pmatrix} x \\ y \end{pmatrix}
+$$
+
+gira $(x,y)$ no sentido anti-horário em torno da origem por um ângulo $\theta$.
+
+E uma rotação ortogonal $2 \times 2$ de $(x,y)$ da forma:
+
+$$
+\begin{pmatrix} x^{\ast} \\ y^{\ast} \end{pmatrix} = 
+\begin{pmatrix}
+\cos(\theta) & \sin(\theta) \\
+-\sin(\theta) & \cos(\theta)
+\end{pmatrix}
+\begin{pmatrix} x \\ y \end{pmatrix}
+$$
+
+gira $(x,y)$ no sentido horário em torno da origem por um ângulo $\theta$.
+
+Note que a matriz de rotação $2 \times 2$
+
+$$
+R = 
+\begin{pmatrix}
+\cos(\theta) & -\sin(\theta) \\
+\sin(\theta) & \cos(\theta)
+\end{pmatrix}
+$$
+
+é uma matriz ortogonal para todo $\theta$:
+
+$$
+\begin{align}
+R^{'}R &= 
+\begin{pmatrix}
+\cos(\theta) & \sin(\theta) \\
+-\sin(\theta) & \cos(\theta)
+\end{pmatrix}
+\begin{pmatrix}
+\cos(\theta) & -\sin(\theta) \\
+\sin(\theta) & \cos(\theta)
+\end{pmatrix} \\
+    &= 
+\begin{pmatrix}
+\cos^2(\theta) + \sin^2(\theta)  & \cos(\theta)\sin(\theta) - \cos(\theta)\sin(\theta)\\
+\cos(\theta)\sin(\theta) - \cos(\theta)\sin(\theta) & \cos^2(\theta) + \sin^2(\theta)
+\end{pmatrix} \\
+  &=
+\begin{pmatrix}
+1 & 0 \\
+0 & 1
+\end{pmatrix}
+\end{align}
+$$
+Suponha que temos uma matriz de dados $X$ com $p$ colunas:
+
+- As linhas de $X$ são as coordenadas dos pontos no espaço p-dimensional
+
+Uma rotação ortogonal $p \times p$ é uma transformação linear ortogonal
+
+- $R^{'}R = RR^{'} = I_p$, sendo $I_p$ uma matriz identidade $p \times p$
+- Se $\tilde{X} = XR$ é uma matriz de dados rotacionada, $\tilde{X}\tilde{X}^{'} = XX^{'}$.
+- Rotações ortogonais preservam as relações entre os pontos.
+
+
+
+## Indeterminação rotacional do Modelo de Análise Fatorial {.scrollable}
+
+Suponha que $R$ seja uma matriz de rotação ortogonal, e note que:
+
+$$
+\begin{align}
+X &= \Lambda F + \epsilon, \\
+  &= \tilde{\Lambda} \tilde{F} + \epsilon
+\end{align}
+$$
+Sendo:
+
+- $\tilde{\Lambda} = \Lambda R$ as cargas fatoriais rotacionadas, e;
+- $\tilde{F} = R^{'}F$ os scores fatoriais rotacionados
+
+Temos que $\tilde{\Lambda} \tilde{\Lambda}^{'} = \Lambda \Lambda{'}$.
+
+- Então podemos girar ortogonalmente a solução do modelo fatorial sem alterar a estrutura de covariância implícita.
+
+- Os métodos de rotação fatorial deveriam tentar encontrar alguma rotação 
+de uma solução de um modelo fatorial que forneça uma interpretação mais parcimoniosa.
+
+- Entretanto, o que se observa muitas vezes, é que aplicam rotações buscando 
+uma solução mais "interpretável".
+
+
+
+## Rotação Ortogonal
+
+```{r}
+#| output-location: slide
+#| fig-cap: "Rotação ortogonal no sentio horário"
+rotmat2d <- function(theta) {
+  matrix(c(cos(theta), sin(theta), -sin(theta), cos(theta)), 2, 2)
+}
+x <- seq(-2, 2, length = 11)
+y <- 4 * exp(-x ^ 2) - 2
+xy <- cbind(x, y)
+rang <- c(30, 45, 60, 90, 180)
+par(mfrow = c(2, 3))
+plot(x,
+     y,
+     xlim = c(-3, 3),
+     ylim = c(-3, 3),
+     main = "Sem Rotacão")
+text(x, y, labels = letters[1:11], cex = 1.5)
+for (j in 1:5) {
+  rmat <- rotmat2d(rang[j] * 2 * pi / 360)
+  xyrot <- xy %*% rmat
+  plot(xyrot, xlim = c(-3, 3), ylim = c(-3, 3))
+  text(xyrot, labels = letters[1:11], cex = 1.5)
+  title(paste(rang[j], " graus"))
+}
+```
+
+
+
+## Rotações: Motivação {.scrollable}
 
 - O resultado da EFA é simiar ao da PCA: uma matriz de fatores (semelhante a 
 matriz de rotação da PCA) e sua relação com as variáveis originais (cargas dos fatores nas variáveis).
@@ -785,12 +915,6 @@ tornam os fatores tão distintos quanto possível uns dos outros.
 
 - No entanto, algumas rotações são mais úteis do que outras porque ficam 
 entre os itens grandes, em vez de dividi-los.
-
-
-
-## Rotações
-
-
 
 
 
@@ -840,9 +964,9 @@ library(GPArotation)
 
 
 
-## Rotação Oblíqua 
+## Rotação Oblíqua {.scrollable}
 
-Quando comparamos o resultado da rotação `oblimin` com a rotação varimax, 
+Quando comparamos o resultado da rotação `oblimin` com a rotação `varimax`, 
 há duas diferenças principais:
 
 1. As cargas fatoriais são ligeiramente diferentes para os relacionamentos
@@ -859,7 +983,7 @@ r = 0,037.
 
 ## Rotação Oblíqua 
 
-- A correlação negativa entre os fatores 1 e 2 é consistente com a nossa teoria 
+- A correlação negativa entre os fatores 1 e 2 é consistente com a teoria 
 de que marcas "líderes" tendem a não serem marcas de "valor" e, portanto, 
 pensamos que este é um resultado mais interpretável.
 
@@ -872,7 +996,7 @@ uma solução melhor do que uma rotação ortogonal.
 
 ## EFA: Visualização
 
-- As cargas fatoriais (fator-item) são exibidas no resultado anterior. 
+- As cargas fatoriais são exibidas no resultado. 
 
 - No objeto `brand_fa_ob`, elas estão armazenadas no elemento 
 `brand_fa_ob$loadings`. 
@@ -1056,17 +1180,17 @@ heatmap.2(as.matrix(brand_fa_media),
 
 
 
-## Conclusões
+## Conclusões {.scrollable}
 
 - A análise fatorial é desafiadora com tantas opções de estimação e 
-métodos de rotação, juntamente com quantidades gigantescas de resultados (A saída da função factanal() é bastante pequena em comparação com outros programas.) 
+métodos de rotação, juntamente com quantidades gigantescas de resultados (A saída da função `factanal()` é bastante pequena em comparação a outros programas.) 
 
-- No entanto, a decisão mais importante é o número de fatores. A escolha do método de estimação e rotação é menos crucial de acordo com Johnson e Wichern (2007). 
+- No entanto, a decisão mais importante é o número de fatores. A escolha do método de estimação e rotação é menos crucial de acordo com @jw2007 . 
 
 - Se uma análise fatorial for bem-sucedida, várias combinações de métodos de 
 estimação e rotações devem resultar na mesma conclusão.
 
-- Em uma nota decepcionante, Johnson e Wichern (2007) também afirmam que a "a grande maioria das tentativas de análises fatoriais não produz resultados 
+- Em uma nota decepcionante, @jw2007 também afirmam que a "a grande maioria das tentativas de análises fatoriais não produz resultados 
 claros" (p. 526). 
 
 - Não há garantia de que uma análise fatorial levará a uma descoberta satisfatória de fatores latentes significativos. 
@@ -1084,6 +1208,11 @@ tentar uma análise fatorial.
 - Quando os itens estão relacionados aos construtos subjacentes, a EFA 
 pode reduzir a complexidade dos dados, agregando variáveis para criar criar variáveis latentes mais simples e interpretáveis.
 
+
+## Referências
+
+::: {#refs}
+:::
 
 
 

@@ -1,0 +1,244 @@
+---
+title: "Análise Fatorial em R"
+output: html_notebook
+---
+
+```{r setup, warning=FALSE, message=FALSE}
+library(dplyr)
+library(nFactors)
+library(GPArotation)
+library(gplots)
+library(RColorBrewer)
+library(semPlot)
+```
+
+
+## Brand perception survey
+
+### Importação dos dados
+
+```{r}
+url <- "http://goo.gl/IQl8nc"
+brand_ratings <- read.csv(url)
+head(brand_ratings)
+```
+
+### Estrutura
+
+```{r}
+dplyr::glimpse(brand_ratings)
+```
+
+
+### Estatísticas Descritivas
+
+```{r}
+summary(brand_ratings)
+```
+
+
+### Preparação dos Dados
+
+Padronizando as primeiras 9 colunas:
+
+```{r}
+brand_df <- brand_ratings
+brand_df[, 1:9] <- scale(brand_ratings[, 1:9])
+summary(brand_df)
+```
+
+
+### Número de Fatores {.scrollable}
+
+Para determinarmos o número de fatores, podemos visualizar a matriz de 
+correlações:
+
+```{r}
+corrplot::corrplot(cor(brand_df[ , 1:9]) , order = "hclust")
+```
+
+
+Outra possibilidade para determinarmos o número de fatores é usar um 
+*Scree Plot*.
+
+Neste caso, retemos o número de fatores que apresentam o autovalor (uma métrica para proporção de variância explicada) maior que 1,0. 
+
+Um autovalor igual a 1,0 corresponde à quantidade de variância que pode ser atribuída a uma única variável manifesta. Assim, um fator que capture menos variância do que tal item pode ser considerado relativamente sem importância.\
+
+
+```{r}
+nFactors::nScree(brand_df[, 1:9])
+```
+
+A função `nScree()` do pacote `nFactors` aplica vários métodos para estimar o número de fatores e, no presente caso, três dos quatro métodos sugerem 
+utilizarmos 3 fatores para modelar os dados.
+
+Podemos examinar os autovalores aplicando a função `eigen()` a uma matriz de correlação:
+
+```{r}
+eigen(cor(brand_df[, 1:9]))
+```
+
+Os três primeiros autovalores são maiores que 1,0, embora o terceiro valor 
+dificilmente seja.
+
+Isto novamente sugere 3 ou, talvez, 2 fatores.
+
+
+## Modelo Fatorial: 2 fatores
+
+```{r}
+fa_brand <- factanal(brand_df[, 1:9], factors = 2, rotation = "varimax")
+fa_brand
+```
+
+Abaixo, subtraímos a matriz de correlação estimada pelo modelo da 
+matriz de correlação observada e arredondamos o resultado para 3 dígitos
+
+```{r}
+round(cor(as.matrix(brand_df[, 1:9])) - (
+  fa_brand$loadings %*% t(fa_brand$loadings) + diag(fa_brand$uniquenesses)
+), 3)
+```
+
+## Modelo Fatorial: 3 fatores
+
+```{r}
+factanal(brand_df[, 1:9], factors = 3)
+```
+
+
+## Rotações Ortogonais 
+
+```{r}
+rotmat2d <- function(theta) {
+  matrix(c(cos(theta), sin(theta), -sin(theta), cos(theta)), 2, 2)
+}
+x <- seq(-2, 2, length = 11)
+y <- 4 * exp(-x ^ 2) - 2
+xy <- cbind(x, y)
+rang <- c(30, 45, 60, 90, 180)
+dev.new(width = 12,
+        height = 8,
+        noRStudioGD = TRUE)
+par(mfrow = c(2, 3))
+plot(x,
+     y,
+     xlim = c(-3, 3),
+     ylim = c(-3, 3),
+     main = "Sem rotação")
+text(x, y, labels = letters[1:11], cex = 1.5)
+for (j in 1:5) {
+  rmat <- rotmat2d(rang[j] * 2 * pi / 360)
+  xyrot <- xy %*% rmat
+  plot(xyrot, xlim = c(-3, 3), ylim = c(-3, 3))
+  text(xyrot, labels = letters[1:11], cex = 1.5)
+  title(paste(rang[j], " graus"))
+}
+```
+
+
+## Rotação Oblíqua
+
+Uma rotação oblíqua comum é a rotação `oblimin` do pacote GPArotation.
+
+```{r}
+library(GPArotation)
+
+# modelo fatorial com rotação oblíqua
+(brand_fa_ob <- factanal(brand_df[, 1:9], factors = 3, rotation = "oblimin"))
+```
+
+
+## EFA: Visualização
+
+Mapa de calor:
+
+```{r} 
+library(gplots)
+library(RColorBrewer)
+
+heatmap.2(
+  brand_fa_ob$loadings,
+  col = brewer.pal(9, "Blues"),
+  trace = "none",
+  key = FALSE,
+  dend = "none",
+  Colv = FALSE,
+  cexCol = 1.2,
+  main = "\n\n\n\n\n Cargas Fatorias para os Adjetivos das Marcas"
+)
+```
+
+Outro gráfico útil para modelos de análise fatorial é um *path diagram*, que mostra as variáveis latentes e os itens individuais que possuem altas 
+cargas associadas às variáveis latentes.
+
+O função `semPaths()` do pacote semPlot produz uma representação visual de um modelo de análise fatorial.
+
+```{r}
+library(semPlot)
+
+semPaths(
+  brand_fa_ob,
+  what = "est",
+  residuals = FALSE,
+  cut = 0.3,
+  posCol = c("white", "darkgreen"),
+  negCol = c("white", "red"),
+  edge.label.cex = 0.75,
+  nCharNodes = 7
+)
+```
+
+
+## EFA: Scores dos Fatores
+
+```{r}
+brand_fa_ob <- factanal(brand_df[, 1:9],
+  factors = 3, rotation = "oblimin",
+  scores = "Bartlett"
+)
+brand_scores <- data.frame(brand_fa_ob$scores)
+brand_scores$brand <- brand_df$brand
+head(brand_scores)
+```
+
+Obtemos os scores dos fatores usando o argumento `scores = ....`
+
+Utilizamos os scores de Bartlett e os extraímos do
+objeto `factanal()` com `brand_fa_ob$scores`, e armazenamos os scores 
+na data frame `brand_scores`.
+
+Para encontrar a posição geral de uma marca, odemos usar a função 
+`aggregate()` para calcular as avaliações médias agregadas por marca, 
+ou seja, a média de cada variável (adjetivo) por marca.
+
+```{r}
+# calulca avaliacoes medias agregadas por marca
+brand_fa_media <- aggregate(. ~ brand, data = brand_scores, mean)
+
+# nomes das marcas como nome das linhas,
+rownames(brand_fa_media) <- brand_fa_media[, 1]
+
+# elimina a primeira coluna contendo os nomes
+brand_fa_media <- brand_fa_media[, -1]
+
+# nomeando as colunas com o nome dos fatores estimados
+names(brand_fa_media) <- c("Leader", "Value", "Latest")
+brand_fa_media
+```
+
+Finalmente, um mapa de calor pode representar graficamente os scores médios 
+por marca:
+
+```{r}
+heatmap.2(
+  as.matrix(brand_fa_media),
+  col = brewer.pal(9, "GnBu"),
+  trace = "none",
+  key = FALSE,
+  dend = "none",
+  cexCol = 1.2,
+  main = "\n\n\nScore Fatorial Médio por Marca"
+)
+```
