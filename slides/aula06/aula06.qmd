@@ -13,9 +13,9 @@ format:
     incremental: false
     transition: slide
     code-link: true
-    self-contained: true
+    self-contained: false
     preview-links: false
-    chalkboard: false
+    chalkboard: true
     overview: true
     logo: img/logo.jpeg
     css: logo.css
@@ -592,7 +592,7 @@ fa_brand
 ```
 
 
-## `factanal`: Compreendendo os resultados
+## `factanal`: Compreendendo os resultados {.scrollable}
 
 ### `Uniquenesses`
 
