@@ -1,0 +1,253 @@
+---
+title: "Análise Fatorial Confirmatória em R"
+output: html_notebook
+---
+
+```{r setup, warning=FALSE, message=FALSE}
+library(lavaan)
+library(semTools)
+library(semPlot)
+library(car)
+library(psych)
+library(PerformanceAnalytics)
+```
+
+
+## Simulando dados da PIES
+
+Especificando o modelo estrutural:
+
+```{r}
+piesModel <- "General =~ i1 + i2 + i3
+              Feature =~ i3 + i4 + i5 + i6  + i7
+              Image =~ i3 + i8 + i9 + i10 + i11 
+              PIES =~ General + Feature + Image"
+```
+
+Especificando o modelo gerador dos dados
+
+```{r}
+piesDataModel <- "General =~ 0.9*i1 + 0.7*i2 + 0.5*i3
+                  Feature =~ 0.7*i4 + 0.9*i5 + 0.5*i6  + 0.9*i7
+                  Image   =~ 0.8*i8 + 0.9*i9 + 0.8*i10 + 0.7*i11 
+                  PIES =~ 0.7*General + 0.8*Feature + 0.8*Image"
+```
+
+Simulando os dados:
+
+```{r}
+if (getRversion() >= "3.6.0") suppressWarnings(RNGversion("3.5.0"))
+set.seed(10001) 
+piesSimData.norm <- lavaan::simulateData(piesDataModel, sample.nobs = 3600)
+print(head(piesSimData.norm), digits = 2)
+```
+
+Cada linha representa um conjunto de respostas hipotéticas da pesquisa de um entrevistado.
+
+Observe que os dados gerados são contínuos (extraídos de uma distribuição 
+normal com valores decimais), portanto ainda não são apropriados para PIES; 
+
+Porque itens PIES são pontuações do tipo Likert entre 1 e 7.
+
+Para converter os dados contínuos em dados de pesquisa discretos, usaremos a 
+função `cut(data, breaks = k)` que divide dados contínuos em `K` grupos, 
+expressos como `K` níveis de fator.
+ 
+Poderíamos fazer isso separadamente para cada uma das 11 colunas de dados, 
+mas é mais eficiente fazê-lo de uma forma que seja generalizável.
+
+
+```{r}
+#| echo: true 
+piesSimData <- data.frame(lapply(piesSimData.norm, function(x) {
+  cut(x, breaks = 7, labels = FALSE)
+}))
+```
+
+Usamos `cut()` para converter um vetor de dados numéricos contínuos em 7 
+intervalos, usamos `labels = FALSE` para manter o resultado como números 
+inteiros em vez de valores nominais rotulados.
+
+Em seguida, incluímos isso em uma função anônima que pode ser usada 
+repetidamente por lapply(). 
+
+Aplicamos essa função de recodificação anônima a cada uma das colunas do 
+do conjunto de dados usando `lapply()` e armazenamos o resultado em uma nova 
+data frame chamada `piesSimData`.
+
+Vamos verificar a qualidade dos dados simulados.
+
+1. Vamos selecionar aleatoriamente 10 observações de `piesSimData` 
+usando a função `some()` do pacote `car`:
+
+```{r}
+#| echo: true 
+car::some(piesSimData)
+```
+
+2. Analisando estatísticas descritivas usano a função `describe()` do 
+pacote `psych`:
+
+```{r}
+#| echo: true 
+psych::describe(piesSimData)
+```
+
+Podemos verificar que o conjunto de dados compreende valores discretos de 
+1 a 7, com média aproximada igual a 4.
+
+Podemos Visualizar as relações entre os itens usando a função 
+`PerformanceAnalytics::chart.Correlation`, selecionando um subconjunto dos 
+itens – dois itens de cada fator – para tornar a inspeção mais fácil:
+
+```{r}
+PerformanceAnalytics::chart.Correlation(piesSimData[, c(1, 2, 4, 5, 8, 9)])
+```
+
+Analisando os gráficos de dispersão, vemos o esperado: 
+
+- os itens são discretos, conforme mostrado nos gráficos de densidade na 
+diagonal, e;
+
+- os itens têm maior correlação dentro de uma subescala, como entre 
+`i1` vs. `i2`, do que entre as subescalas, como `i1` vs. `i4`.
+
+Como são dados simulados de um modelo fatorial, também podemos fazer uma 
+rápida inspeção da estrutura fatorial aparente. 
+
+Embora usemos CFA para fazer um teste forte de estrutura fatorial, é útil 
+realizar uma breve verificação usando a função `factanal()` para realizar 
+uma EFA
+
+```{r}
+factanal(piesSimData, factors = 3)
+```
+
+Vemos três fatores plausíveis compreendendo os itens `i8–i11`, `i4–i7` e 
+`i1–i3`, respectivamente, como seria de esperar (a ordem dos fatores é 
+irrelevante).
+
+Para recapitular, os dados simulados – criados usando poucas 
+funções em R – têm o tipo de estrutura que se poderia esperar de uma 
+pesquisa que utilizou o instrumento (@fig-piestab) proposto pelo modelo PIES. 
+
+Passamos agora para a CFA.
+
+
+## Estimando o Modelo CFA para PIES 
+
+A avaliação da CFA começa definindo o modelo que desejamos avaliar.
+
+Nesse caso, modelamos os três fatores PIES (variáveis latentes): `General`, 
+`Feature` e `Image` como manifestados pelos itens i1–i11.
+
+Em seguida, modelamos a variável latente PIES geral como a combinação dos outros três fatores.
+
+```{r}
+library(lavaan)
+piesModel <- "General =~ i1 + i2 + i3
+              Feature =~ i4 + i5 + i6 + i7
+              Image =~ i8 + i9 + i10 + i11 
+              PIES =~ General + Feature + Image"
+```
+
+Ajustamos este modelo aos dados usando `cfa(MODEL, data=DATA)` e 
+inspecionamos o resultado com `summary(FIT, fit.measures=TRUE)`.
+
+
+## Estimando o Modelo CFA para PIES 
+
+```{r}
+pies.fit <- lavaan::cfa(piesModel , data = piesSimData)
+summary(pies.fit, fit.measures = TRUE)
+```
+
+
+## Visualizando o Modelo CFA Estimado {.scrollable}
+
+O modelo final com as estimativas de parâmetros é plotado pela 
+função `semPlot::semPaths()`.
+
+Esta figura expressa algumas das informações cruciais
+da saída da estimacão do modelo CFA de uma forma mais legível. 
+
+A versão gráfica facilita ver as relações entre as variáveis latentes e m
+anifestas e para navegar pelos valores dos coeficientes
+
+```{r}
+library(semPlot)
+semPaths(pies.fit, what = "est", fade = FALSE, residuals = FALSE, 
+         edge.label.cex = 0.75)
+```
+
+
+## Avaliando o modelo CFA PIES {.scrollable}
+
+Especifacando e estimando o modelo PIES 1
+
+```{r}
+# Modelo 1-fator:
+piesModelNH1 <- "PIES =~ i1 + i2 + i3 + i4 + i5 + i6 + 
+                         i7 + i8 + i9 + i10 + i11"
+
+# Estimacao
+pies.fit.NH1 <- lavaan::cfa(piesModelNH1, data = piesSimData)
+```
+
+Especifacando e estimando o modelo PIES 3
+
+```{r}
+# Modelo 3-fatores:
+piesModelNH3 <- "General =~ i1 + i2 + i3
+                 Feature =~ i4 + i5 + i6  + i7
+                 Image   =~ i8 + i9 + i10 + i11
+                 General ~~ 0.1*Feature
+                 General ~~ 0.1*Image
+                 Feature ~~ 0.1*Image"
+
+# Estimacao
+pies.fit.NH3 <- lavaan::cfa(piesModelNH3, data = piesSimData)
+```
+
+- O operador `∼∼` especifica uma correlação entre variáveis.
+
+Ao usar um valor fixo de 0,1, especificamos que o valor da correlação
+não pode ser estimado, mas deve ser limitado a 0,1.
+
+
+## Comparando os Modelos
+
+O pacote semTools fornece uma função para comparar modelos CFA: `compareFit(MODEL1, MODEL2, ...)`. 
+
+Essa função reporta medidas individuais da qualidade do ajuste para cada 
+modelo juntamente com comparações de modelos aos pares. 
+
+```{r}
+summary(semTools::compareFit(pies.fit.NH1, pies.fit.NH3, pies.fit))
+```
+
+Para interpretar as comparações, começamos inspecionando a segunda metade do relatório: "Model Fit Indices".
+
+O modelo não hierárquico de três fatores (PIES 3)
+(pies.fit.NH3), apresentou bom ajuste: CFI=0,994, RMSEA=0,019. 
+
+Mas quando comparamos PIES 3 COM o modelo PIES 3+1 (pies.fit), os índices da qualidade do ajuste são um melhores (CFI = 1,000, RMSEA = 0,000).
+
+O modelo PIES 3+1 é melhor que o modelo PIES 3? Passamos para a parte 
+superior do relatório para examinar a comparação dos modelos: "Nested Modelo 
+Comparison".
+
+Os resultados do teste de $\chi^2$ indicam que nào há 
+diferença estatisticamente significativa entre os modelos PIES 3 + 1 E 
+PIES 3, mas que ambos apresentam ajuste melhor que o modelo com 
+fator único, PIES 1. 
+
+Entretanto, o modelo PIES 3 + 1 apresentou critérios de 
+informação de Akaike e Bayesino melhores que os modelos PIES 3 e PIES 1.
+
+Portanto, o modelo hierárquico fatorial PIES apresentou um ajuste 
+marginalment superior aos dois modelos alternativos.
+
+
+
+

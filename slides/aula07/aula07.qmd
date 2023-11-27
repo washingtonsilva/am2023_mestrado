@@ -138,9 +138,9 @@ Este modelo de fatores hierárquicos é exibido na @fig-piessem.
 ## PIES: Modelo Estrutural 
 
 - Os 3 fatores de envolvimento e o fator PIE de ordem superior são modelados 
-como variáveis latentes (fatores )que não são diretamente observadas. 
+como variáveis latentes (fatores) que não são diretamente observadas. 
 
-- Mas são concebidas para influenciar os itens da pesquisa que os manifestam. 
+- Mas são concebidos para influenciar os itens da pesquisa que os manifestam. 
 
 - Na pesquisa, cada fator é representado por um subescala composta por vários 
 itens, conforme mostrado na @fig-piestab.
@@ -200,11 +200,13 @@ Também abordaremos uma questão intimamente relacionada:
 1. Defina seu modelo hipotético: relações das  **variáveis latentes** com 
 as **variáveis manifestas**.
 
-2. Defina um ou mais **modelos alternativos** que sejam razoáveis, mas que você acredita serem inferiores.
+2. Defina um ou mais **modelos alternativos** que sejam razoáveis, mas que 
+você acredita serem inferiores.
 
 3. Ajuste os modelos aos dados.
 
-4. Determine se o seu modelo é bom o suficiente (analise as **medidas de qualidade do ajuste**).
+4. Determine se o seu modelo é bom o suficiente (analise as 
+**medidas de qualidade do ajuste**).
 
 5. Determine se o seu modelo é melhor que as alternativas.
 
@@ -227,11 +229,11 @@ da comparação de modelos para a CFA.
 
 ## Simulando dados
 
-- Utilizaremos o pacote lavaan para CFA (e SEM), incluindo a simulação de dados
-e ajuste de modelos 
+- Utilizaremos o pacote `lavaan` para CFA (e SEM), incluindo a simulação de 
+dados e ajuste de modelos 
 
 - Ampliaremos os recursos do pacote lavaan para comparação e visualização de 
-modelos usando dois outros pacotes, semTools e semPlot.
+modelos usando dois outros pacotes, `semTools` e `semPlot`.
 
 
 
@@ -247,7 +249,8 @@ library(semTools)
 library(semPlot)
 ```
 
-Com o pacote lavaan, um modelo estrutural pode ser especificado usando uma sintaxe similar às fórmulas de um modelo linear de R. 
+Com o pacote lavaan, um modelo estrutural pode ser especificado usando uma 
+sintaxe similar às fórmulas de um modelo linear de R. 
 
 Vamos especificar dois modelos: 
 
@@ -272,7 +275,8 @@ piesModel <- "General =~ i1 + i2 + i3
               PIES =~ General + Feature + Image"
 ```
 
-- Em código SEM, lemos o símbolo `=∼` como `é manifestado por`, o que significa que é estimado como uma única variável que é composta pelos itens.
+- Em código SEM, lemos o símbolo `=∼` como `é manifestado por`, o que significa 
+que é estimado como uma única variável que é composta pelos itens.
 
 - Cada linha nesta fórmula define uma nova variável latente: `General`, 
 `Feature` e assim por diante – que não aparece no conjunto de dados
@@ -289,7 +293,8 @@ vez, com as outras variáveis latentes `General`,
 SEM e a modelagem linear regular.
 
 - As fórmulas `piesModel` dizem que `PIES` se manifesta por três fatores: 
-`General`, `Feature` e `Image`, e cada um deles é manifestado por 3 ou 4 dos itens `i1` a `i11`, conforme definido na @fig-piestab.
+`General`, `Feature` e `Image`, e cada um deles é manifestado por 3 ou 4 dos 
+itens `i1` a `i11`, conforme definido na @fig-piestab.
 
 
 ## Simulando Dados {.scrollable}
@@ -317,8 +322,8 @@ Simulamos dados com essa estrutura fatorial:
 ```{r}
 #| echo: true 
 if (getRversion() >= "3.6.0") suppressWarnings(RNGversion("3.5.0"))
-set.seed(10001) # another island Zip code
-piesSimData.norm <- simulateData(piesDataModel, sample.nobs = 3600)
+set.seed(10001) 
+piesSimData.norm <- lavaan::simulateData(piesDataModel, sample.nobs = 3600)
 print(head(piesSimData.norm), digits = 2)
 ```
 
@@ -328,7 +333,8 @@ print(head(piesSimData.norm), digits = 2)
 
 - Cada linha representa um conjunto de respostas hipotéticas da pesquisa de um entrevistado.
 
-- Observe que os dados gerados são contínuos (extraídos de uma distribuição normal com valores decimais), portanto ainda não são apropriados para PIES; 
+- Observe que os dados gerados são contínuos (extraídos de uma distribuição 
+normal com valores decimais), portanto ainda não são apropriados para PIES; 
 
 - Porque itens PIES são pontuações do tipo Likert entre 1 e 7.
 
@@ -347,12 +353,15 @@ mas é mais eficiente fazê-lo de uma forma que seja generalizável.
 piesSimData <- data.frame(lapply(piesSimData.norm, function(x) {
   cut(x, breaks = 7, labels = FALSE)
 }))
+
+head(piesSimData)
 ```
 
 - Usamos `cut()` para converter um vetor de dados numéricos contínuos em 7 intervalos, usamos `labels = FALSE` para manter o resultado como números 
 inteiros em vez de valores nominais rotulados.
 
-- Em seguida, incluímos isso em uma função anônima que pode ser usada repetidamente por lapply(). 
+- Em seguida, incluímos isso em uma função anônima que pode ser usada 
+repetidamente por `lapply()`. 
 
 - Aplicamos essa função de recodificação anônima a cada uma das colunas do 
 do conjunto de dados usando `lapply()` e armazenamos o resultado em uma nova 
@@ -400,7 +409,8 @@ PerformanceAnalytics::chart.Correlation(piesSimData[, c(1, 2, 4, 5, 8, 9)])
 
 Analisando os gráficos de dispersão, vemos o esperado: 
 
-- os itens são discretos, conforme mostrado nos gráficos de densidade na diagonal, e;
+- os itens são discretos, conforme mostrado nos gráficos de densidade na 
+diagonal, e;
 
 - os itens têm maior correlação dentro de uma subescala, como entre 
 `i1` vs. `i2`, do que entre as subescalas, como `i1` vs. `i4`.
@@ -412,7 +422,8 @@ Analisando os gráficos de dispersão, vemos o esperado:
 Como são dados simulados de um modelo fatorial, também podemos fazer uma 
 rápida inspeção da estrutura fatorial aparente. 
 
-Embora usemos CFA para fazer um teste forte de estrutura fatorial, é útil realizar uma breve verificação usando a função `factanal()` para realizar 
+Embora usemos CFA para fazer um teste forte de estrutura fatorial, é útil 
+realizar uma breve verificação usando a função `factanal()` para realizar 
 uma EFA
 
 ```{r}
@@ -420,7 +431,8 @@ factanal(piesSimData, factors = 3)
 ```
 
 Vemos três fatores plausíveis compreendendo os itens `i8–i11`, `i4–i7` e 
-`i1–i3`, respectivamente, como seria de esperar (a ordem dos fatores é irrelevante).
+`i1–i3`, respectivamente, como seria de esperar (a ordem dos fatores é 
+irrelevante).
 
 - Para recapitular, os dados simulados – criados usando poucas 
 funções em R – têm o tipo de estrutura que se poderia esperar de uma 
@@ -437,7 +449,8 @@ pesquisa que utilizou o instrumento (@fig-piestab) proposto pelo modelo PIES.
 - Nesse caso, modelamos os três fatores PIES (variáveis latentes): `General`, 
 `Feature` e `Image` como manifestados pelos itens i1–i11.
 
-- Em seguida, modelamos a variável latente PIES geral como a combinação dos outros três fatores.
+- Em seguida, modelamos a variável latente PIES geral como a combinação 
+dos outros três fatores.
 
 ```{r}
 library(lavaan)
@@ -460,6 +473,113 @@ summary(pies.fit, fit.measures = TRUE)
 ```
 
 
+
+## Índices de Qualidade do Ajuste {.scrollable}
+
+### Teste de $\chi^2$
+
+Em geral, o objetivo é estimar parâmetros que levam a uma matriz de 
+variância-covariância implícita do modelo,$\Sigma$, minimizando:
+
+$$
+F_{ML} = \text{traço}(S\Sigma^{-1}) - \ln|S\Sigma^{-1}| - p
+$$
+
+Esta expressão é proporcional à razão de log-verossimilhança
+entre o modelo testado e o modelo *baseline*, otimizando esta expressão 
+obtemos das estimativas de máxima verossimilhança dos parâmetros.
+
+O pacote `lavaan` reporta $fmin$, que é igual a $FML/2$. Se n é o
+tamanho da amostra, então podemos definir:
+
+$$
+T = nF_{ML}
+$$
+
+Se $V(X) = \Sigma$ (o modelo é verdadeiro), então $T \sim \chi^2(df)$
+
+
+```{r}
+# Matrizes do Modelo
+n <- nrow(piesSimData)
+S <- (n - 1)/n * cov(piesSimData[,c("i1","i2","i3","i4","i5", "i6","i7","i8","i9","i10","i11")])
+Sigma <- lavaan::lavInspect(pies.fit, "sigma")
+
+# fmin = F_ml / 2:
+F_ml <- sum(diag(S %*% solve(Sigma))) - log(det(S %*% solve(Sigma))) - ncol(S)
+F_ml
+
+# Chi-quadrado reportado pelo lavaan:
+nrow(piesSimData) * F_ml
+
+fitMeasures(pies.fit)['chisq']
+```
+
+- O teste $\chi^2$ indica a diferença entre as matrizes de covariância 
+observadas e esperadas. 
+
+$$
+\begin{cases}
+H_0: & V(X) = \Sigma, \\
+H_A: & V(X) \neq \Sigma,
+\end{cases}
+$$
+
+- Não queremos rejeitar $H_0$, desejamos $valor-p \geq 0.05$
+
+- Mas, caso $valor-p \leq 0.05$, rejeitamos $H_0$, ou seja, rejeitamos 
+o modelo proposto como um modelo adequado para a estrutura de 
+correlação entre os itens.
+
+- Uma dificuldade com o teste qui-quadrado de ajuste do modelo, no entanto, é
+que os pesquisadores podem deixar de rejeitar um modelo inadequado com
+amostras pequenas e rejeitar um modelo apropriado com amostras grandes.
+
+- Como resultado, outras medidas de ajuste foram desenvolvidas.
+
+
+### Comparative Fit Index
+
+- O *Comparative Fit Index* (CFI) mede o ajuste do modelo examinando a 
+discrepância entre os dados e o modelo hipotético, mas ajusta para as questões 
+de tamanho da amostra inerentes ao teste qui-quadrado. 
+
+- Os valores de CFI variam de 0 a 1, com valores maiores indicando melhor ajuste.
+
+- Um valor $CFI \geq .95$ é atualmente aceito como um indicador 
+de bom ajuste.
+
+$$
+\hat{CFI} = \frac{\max(\chi^2_0 - df_0, 0) - \max(\chi^2_k - df_k, 0)}{\max(\chi^2_0 - df_0, 0)}
+$$
+Cálculo manual:
+
+```{r}
+((9001.774 - 55) - (34.709 - 41))/(9001.774 - 55)
+```
+
+
+
+### Root Mean Square Error of Approximation (RMSEA)
+
+- O **RMSEA** evita problemas de tamanho da amostra analisando a discrepância 
+entre o modelo hipotético, com estimativas de parâmetros escolhidas de forma otimizada. 
+
+- O RMSEA varia de 0 a 1, com valores menores indicando melhor ajuste do modelo. 
+
+- Um $RMSEA \leq 0,06$ é um indicativo de ajuste aceitável do modelo.
+
+$$
+\hat{RMSEA} = \sqrt{\frac{T_{M} - df_{M}}{n df(n)}}
+$$
+
+
+```{r}
+fitMeasures(pies.fit)['rmsea']
+```
+
+
+
 ## Modelo CFA Estimado para PIES: Resultado {.scrollable}
 
 - Os resultados da estimação do Modelo da CFA indicam que modelo PIES se ajusta 
@@ -468,22 +588,25 @@ bem aos dados.
 - os índices de qualidade do ajuste são bons (por exemplo,
 CFI = 1,00) e os resíduos são baixos (RMSEA = 0,000). 
 
-- A parte inferior dos resultados mostra que os parâmetros do modelo para os caminhos dos fatores para os itens, e para o fator PIES de nível superior aos três subfatores, são todos estatisticamente significativos (“P(>|z|)”
+- A parte inferior dos resultados mostra que os parâmetros do modelo para os caminhos dos fatores para os itens, e para o fator PIES de nível superior aos 
+três subfatores, são todos estatisticamente significativos (“P(>|z|)”
 = 0). 
 
-- Além disso, os parâmetros são semelhantes entre si em magnitude (variando de 0,838 a 1,218) e estão próximos de 1,0, uma coisa boa segundo @chapman2014pies, porque os itens são destinados a serem usados em subescalas aditivas simples.
+- Além disso, os parâmetros são semelhantes entre si em magnitude (variando de 
+0,838 a 1,218) e estão próximos de 1,0, uma coisa boa segundo @chapman2014pies, porque os itens são destinados a serem usados em subescalas aditivas simples.
 
 - Se fossem dados reais, a CFA estabeleceria que o modelo hierárquico PIES
-se ajusta bem e – como as cargas fatoriais dos itens estão em torno de 1,0 – é razoável somar os itens como uma soma simples para formar pontuações de subescalas, como é comum para tais pesquisas.
+se ajusta bem e – como as cargas fatoriais dos itens estão em torno de 1,0 – é razoável somar os itens como uma soma simples para formar pontuações de 
+subescalas, como é comum para tais pesquisas.
 
 
 
 ## Visualizando o Modelo CFA Estimado {.scrollable}
 
-- O modelo final com as estimativas de parâmetros é plotado pela 
+- O modelo final com as estimativas de parâmetros pode ser visualizado com a 
 função `semPlot::semPaths()`.
 
-- Esta figura expressa algumas das informações cruciais
+- Este gráfico expressa algumas das informações cruciais
 da saída da estimacão do modelo CFA de uma forma mais legível. 
 
 - A versão gráfica facilita ver as relações entre as variáveis latentes e m
@@ -501,7 +624,8 @@ semPaths(pies.fit, what = "est", fade = FALSE, residuals = FALSE, edge.label.cex
 
 - O modelo PIES ajusta-se muito bem aos dados. Se fossem dados reais, estaríamos satifeitos, certo?
 
-- Não! Um erro comum com SEM é propor um modelo, ajustar aos dados e depois afirmar, com base em índices de ajuste, que o modelo é “bom”. 
+- Não! Um erro comum com CFA/EM é propor um modelo, ajustar aos dados e depois 
+afirmar, com base em índices de ajuste, que o modelo é “bom”. 
 
 - O problema é que algum outro modelo, e talvez mais razoável, pode ser tão 
 bom ou até melhor. Assim, há uma segunda etapa importante: **avaliar se o modelo proposto se ajusta melhor do que um modelo alternativo razoável**.
@@ -512,9 +636,10 @@ bom ou até melhor. Assim, há uma segunda etapa importante: **avaliar se o mode
 subjacente se manifesta em todos os itens, chamaremos este modelo de
 "PIES 1".
 
-É um bom modelo alternativo ao hierárquico tanto por ser mais simples
+É um bom modelo alternativo ao hierárquico, por ser mais simples
 e porque se concentra no fator superior da hierarquia, avaliando se é
 vantajoso adicionar as complicações dos subfatores do  "PIES 3+1".
+
 
 
 ## PIES 1
@@ -526,11 +651,11 @@ vantajoso adicionar as complicações dos subfatores do  "PIES 3+1".
 ## Avaliando o modelo CFA PIES
 
 2. O segundo é um modelo de três fatores correlacionados, onde
-três fatores são manifestados nos três respectivos conjuntos de itens, 
+os 3 fatores são manifestados nos três respectivos conjuntos de itens, 
 chamaremos este modelo de "PIES 3".
 
-- PIES 3 omite o nível superior, o fator geral da hierarquia e concentra-se nos três subfatores, perguntando se eles são melhor concebidos como sendo
-separados em vez de se relacionarem em um modelo hierárquico. 
+- PIES 3 omite o nível superior, o fator geral da hierarquia e concentra-se nos 
+três subfatores. 
 
 - Se o modelo PIES 3 se ajustasse tão bem quanto PIES 3+1, poderíamos 
 rejeitar a complicação do modelo hierárquico.
@@ -603,7 +728,8 @@ summary(semTools::compareFit(pies.fit.NH1, pies.fit.NH3, pies.fit))
 
 - Mas quando comparamos PIES 3 COM o modelo PIES 3+1 (pies.fit), os índices da qualidade do ajuste são melhores (CFI = 1,000, RMSEA = 0,000).
 
-- O modelo PIES 3+1 é melhor que o modelo PIES 3? Passamos para a parte superior do relatório para examinar a comparação dos modelos: "Nested Modelo 
+- O modelo PIES 3+1 é melhor que o modelo PIES 3? Passamos para a parte 
+superior do relatório para examinar a comparação dos modelos: "Nested Modelo 
 Comparison".
 
 - Os resultados do teste de $\chi^2$ indicam que nào há 
@@ -612,20 +738,24 @@ PIES 3, mas que ambos apresentam ajuste melhor que o modelo com
 fator único, PIES 1. 
 
 - Entretanto, o modelo PIES 3 + 1 apresentou critérios de 
-informação de Akaike e Bayesino melhores que os modelos PIES 3 e PIES 1.
+informação de Akaike (`aic`) e Bayesiano (`bic`) um pouquinho melhores que os 
+modelos PIES 3 e PIES 1.
 
 - Portanto, o modelo hierárquico fatorial PIES apresentou um ajuste 
-marginalment superior aos dois modelos alternativos. 
+**marginalmente** superior aos dois modelos alternativos.
+
+- **Mas, há alguma coisa errada ou com o modelo ou, mais provavelmente, com a simulação de dados para testar o modelo realizada por @chapman2014pies.**
 
 
 
 # Pontos Principais {.scrollable}
 
-- Se você usa escalas com vários itens, verifique-as com EFA e CFA! Não apenas
-presuma que sua escala está correta ou que os itens são carregados onde 
-você espera.
+- Se você pretende usar escalas com vários itens, verifique-as com EFA 
+e CFA! Não apenas presuma que sua escala está correta ou que os itens 
+são carregados onde você espera.
 
-- Se você propor um modelo complexo, prove com a CFA que ele é melhor que as alternativas.
+- Se você propor um modelo complexo, prove com a CFA que ele é melhor 
+que as alternativas.
 
 - Esta área tem muito jargão, mas não é intrinsecamente difícil... ! SPSS, 
 R, SAS e Stata todos possuem ferramentas para análise fatorial.
@@ -634,14 +764,14 @@ R, SAS e Stata todos possuem ferramentas para análise fatorial.
 
 ## Workflow para Desenvolvimento de Escalas {.scrollable}
 
-1. Identifique os fatores de possível interesse
+1. Identifique os fatores de possível interesse.
 
-2. Escreva itens para esses fatores e implemente uma (ou mais) pesquisa.
+2. Escreva itens para esses fatores e implemente uma (ou mais) pesquisa(s).
 
 3. Use a EFA para identificar se os fatores se sustentam e quais itens 
-são correlacionados com os fatores.
+são correlacionados com quais fatores.
 
-4. Repita 1-3 até ter evidências de que os fatores são confiáveis e os 
+4. Repita 1-3 até ter evidências de que os fatores são robustos e os 
 itens são bons.
 
 5. Use a CFA para demonstrar que os fatores e itens se mantêm em uma 
@@ -651,13 +781,13 @@ itens são bons.
 
 ## Aprendendo mais: Livros
 
-1. Brown (2015), *Confirmatory Factor Analysis for Applied Research*. Um
+1. Brown (2015), **Confirmatory Factor Analysis for Applied Research**. Um
 texto bom e prático sobre CFA para as ciências sociais.
 
-2. Kline (2015), *Principles and Practice of Structural Equation Modeling*. O
-guia definitivo para o uso de CFA e SEM em ciências sociais.
+2. Kline (2015), **Principles and Practice of Structural Equation Modeling**. 
+Um guia muito apreciado sobre  o uso da CFA e SEM em ciências sociais.
 
-3. DeVellis (2011), *Scale Development*. Um guia muito prático e legível
+3. DeVellis (2011), **Scale Development**. Um guia muito prático e legível
 para construir boas escalas de pesquisa.
 
 
@@ -669,8 +799,8 @@ fácil de usar. Altamente recomendado.
 
 - [**OpenMX**](https://openmx.ssri.psu.edu){target="_blank"} fornece opções avançadas para SEM, como modelos de efeitos mistos.
 
-- `semPlot` cria diagramas de caminho SEM/CFA básicos conforme mostrado 
-nestes slides.
+- [**semPlot**](http://www.sachaepskamp.com/files/semPlot.pdf) cria diagramas 
+de caminho SEM/CFA básicos conforme mostrado nestes slides.
 
 - `psych` tem muitas opções para análise fatorial exploratória e outras
 aplicações psicométricas (pesquisa/teste).
@@ -678,9 +808,18 @@ aplicações psicométricas (pesquisa/teste).
 - `corrplot` é útil para explorar matrizes de correlação com vistas 
 a uma análise fatorial.
 
-- `DiagrammeR` cria diagramas de caminho de qualidade de publicação. Isso requer especificação manual --- tediosa, mas não difícil --- para diagramas EFA/CFA/SEM.
+- `DiagrammeR` cria diagramas de caminho de qualidade de publicação. Isso 
+requer especificação manual --- tediosa, mas não difícil --- para diagramas EFA/CFA/SEM.
 
 
+
+## Fim
+
+>> "Far better an approximate answer to the right question...than an exact answer to the wrong question."
+
+>> "The combination of some data and an aching desire for an answer does not ensure that a reasonable answer can be extracted from a given body of data"
+
+<div style="text-align: right"> John Tukey </div>
 
 
 

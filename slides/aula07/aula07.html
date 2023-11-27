@@ -484,8 +484,8 @@ Prof.&nbsp;Washington Santos da Silva
 </div>
 </section><section id="pies-modelo-estrutural-2" class="slide level2"><h2>PIES: Modelo Estrutural</h2>
 <ul>
-<li><p>Os 3 fatores de envolvimento e o fator PIE de ordem superior são modelados como variáveis latentes (fatores )que não são diretamente observadas.</p></li>
-<li><p>Mas são concebidas para influenciar os itens da pesquisa que os manifestam.</p></li>
+<li><p>Os 3 fatores de envolvimento e o fator PIE de ordem superior são modelados como variáveis latentes (fatores) que não são diretamente observadas.</p></li>
+<li><p>Mas são concebidos para influenciar os itens da pesquisa que os manifestam.</p></li>
 <li><p>Na pesquisa, cada fator é representado por um subescala composta por vários itens, conforme mostrado na <a href="#/pies-instrumento"><strong>Fig.</strong>&nbsp;1</a>.</p></li>
 </ul></section><section id="pies-modelo-estrutural-completo" class="slide level2"><h2>PIES: Modelo Estrutural Completo</h2>
 <ul>
@@ -531,8 +531,8 @@ Prof.&nbsp;Washington Santos da Silva
 <li><p>Em seguida, avaliaremos modelos alternativos e discutiremos a importância da comparação de modelos para a CFA.</p></li>
 </ul></section><section id="simulando-dados-1" class="slide level2"><h2>Simulando dados</h2>
 <ul>
-<li><p>Utilizaremos o pacote lavaan para CFA (e SEM), incluindo a simulação de dados e ajuste de modelos</p></li>
-<li><p>Ampliaremos os recursos do pacote lavaan para comparação e visualização de modelos usando dois outros pacotes, semTools e semPlot.</p></li>
+<li><p>Utilizaremos o pacote <code>lavaan</code> para CFA (e SEM), incluindo a simulação de dados e ajuste de modelos</p></li>
+<li><p>Ampliaremos os recursos do pacote lavaan para comparação e visualização de modelos usando dois outros pacotes, <code>semTools</code> e <code>semPlot</code>.</p></li>
 </ul></section><section id="simulando-dados-2" class="slide level2 scrollable"><h2>Simulando dados</h2>
 <p>O primeiro passo é instalar os pacotes e disponibilizá-los em R:</p>
 <div class="cell">
@@ -579,8 +579,8 @@ Prof.&nbsp;Washington Santos da Silva
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="cf">if</span> (<span class="fu">getRversion</span>() <span class="sc">&gt;=</span> <span class="st">"3.6.0"</span>) <span class="fu">suppressWarnings</span>(<span class="fu">RNGversion</span>(<span class="st">"3.5.0"</span>))</span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="fu">set.seed</span>(<span class="dv">10001</span>) <span class="co"># another island Zip code</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a>piesSimData.norm <span class="ot">&lt;-</span> <span class="fu">simulateData</span>(piesDataModel, <span class="at">sample.nobs =</span> <span class="dv">3600</span>)</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="fu">set.seed</span>(<span class="dv">10001</span>) </span>
+<span id="cb4-3"><a href="#cb4-3"></a>piesSimData.norm <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">simulateData</span>(piesDataModel, <span class="at">sample.nobs =</span> <span class="dv">3600</span>)</span>
 <span id="cb4-4"><a href="#cb4-4"></a><span class="fu">print</span>(<span class="fu">head</span>(piesSimData.norm), <span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     i1    i2     i3    i4    i5    i6    i7     i8    i9    i10    i11
@@ -603,11 +603,22 @@ Prof.&nbsp;Washington Santos da Silva
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>piesSimData <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">lapply</span>(piesSimData.norm, <span class="cf">function</span>(x) {</span>
 <span id="cb6-2"><a href="#cb6-2"></a>  <span class="fu">cut</span>(x, <span class="at">breaks =</span> <span class="dv">7</span>, <span class="at">labels =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb6-3"><a href="#cb6-3"></a>}))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-3"><a href="#cb6-3"></a>}))</span>
+<span id="cb6-4"><a href="#cb6-4"></a></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="fu">head</span>(piesSimData)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  i1 i2 i3 i4 i5 i6 i7 i8 i9 i10 i11
+1  5  4  4  2  2  3  3  5  4   4   4
+2  4  5  4  4  4  4  5  4  5   3   4
+3  3  2  4  5  3  4  3  4  4   4   4
+4  4  3  5  3  3  5  2  3  4   3   3
+5  3  3  3  4  4  4  4  4  3   3   4
+6  3  4  4  4  3  3  4  6  5   5   6</code></pre>
+</div>
 </div>
 <ul>
 <li><p>Usamos <code><a href="https://rdrr.io/r/base/cut.html">cut()</a></code> para converter um vetor de dados numéricos contínuos em 7 intervalos, usamos <code>labels = FALSE</code> para manter o resultado como números inteiros em vez de valores nominais rotulados.</p></li>
-<li><p>Em seguida, incluímos isso em uma função anônima que pode ser usada repetidamente por lapply().</p></li>
+<li><p>Em seguida, incluímos isso em uma função anônima que pode ser usada repetidamente por <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code>.</p></li>
 <li><p>Aplicamos essa função de recodificação anônima a cada uma das colunas do do conjunto de dados usando <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code> e armazenamos o resultado em uma nova data frame chamada <code>piesSimData</code>.</p></li>
 </ul></section><section id="dados-simulados" class="slide level2 scrollable"><h2>Dados Simulados</h2>
 <p>Vamos verificar a qualidade dos dados simulados.</p>
@@ -615,7 +626,7 @@ Prof.&nbsp;Washington Santos da Silva
 <li>Vamos selecionar aleatoriamente 10 observações de <code>piesSimData</code> usando a função <code>some()</code> do pacote <code>car</code>:</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>car<span class="sc">::</span><span class="fu">some</span>(piesSimData)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>car<span class="sc">::</span><span class="fu">some</span>(piesSimData)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     i1 i2 i3 i4 i5 i6 i7 i8 i9 i10 i11
 11    3  2  5  4  3  4  2  4  4   2   4
@@ -634,7 +645,7 @@ Prof.&nbsp;Washington Santos da Silva
 <li>Analisando estatísticas descritivas usano a função <code>describe()</code> do pacote <code>psych</code>:</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>psych<span class="sc">::</span><span class="fu">describe</span>(piesSimData)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>psych<span class="sc">::</span><span class="fu">describe</span>(piesSimData)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    vars    n mean   sd median trimmed  mad min max range  skew kurtosis   se
 i1     1 3600 3.73 0.97      4    3.75 1.48   1   7     6  0.01    -0.08 0.02
@@ -655,7 +666,7 @@ i11   11 3600 3.92 0.98      4    3.92 1.48   1   7     6  0.04    -0.01 0.02</c
 </ul></section><section id="dados-simulados-1" class="slide level2 scrollable"><h2>Dados Simulados</h2>
 <p>Podemos Visualizar as relações entre os itens usando a função <code><a href="https://rdrr.io/pkg/PerformanceAnalytics/man/chart.Correlation.html">PerformanceAnalytics::chart.Correlation</a></code>, selecionando um subconjunto dos itens – dois itens de cada fator – para tornar a inspeção mais fácil:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>PerformanceAnalytics<span class="sc">::</span><span class="fu">chart.Correlation</span>(piesSimData[, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">9</span>)])</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>PerformanceAnalytics<span class="sc">::</span><span class="fu">chart.Correlation</span>(piesSimData[, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">9</span>)])</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 <p>Analisando os gráficos de dispersão, vemos o esperado:</p>
@@ -673,7 +684,7 @@ i11   11 3600 3.92 0.98      4    3.92 1.48   1   7     6  0.04    -0.01 0.02</c
 <p>Como são dados simulados de um modelo fatorial, também podemos fazer uma rápida inspeção da estrutura fatorial aparente.</p>
 <p>Embora usemos CFA para fazer um teste forte de estrutura fatorial, é útil realizar uma breve verificação usando a função <code><a href="https://rdrr.io/r/stats/factanal.html">factanal()</a></code> para realizar uma EFA</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">factanal</span>(piesSimData, <span class="at">factors =</span> <span class="dv">3</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="fu">factanal</span>(piesSimData, <span class="at">factors =</span> <span class="dv">3</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -718,18 +729,18 @@ The p-value is 0.994 </code></pre>
 <li><p>Em seguida, modelamos a variável latente PIES geral como a combinação dos outros três fatores.</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">library</span>(lavaan)</span>
-<span id="cb14-2"><a href="#cb14-2"></a>piesModel <span class="ot">&lt;-</span> <span class="st">"General =~ i1 + i2 + i3</span></span>
-<span id="cb14-3"><a href="#cb14-3"></a><span class="st">              Feature =~ i4 + i5 + i6 + i7</span></span>
-<span id="cb14-4"><a href="#cb14-4"></a><span class="st">              Image =~ i8 + i9 + i10 + i11 </span></span>
-<span id="cb14-5"><a href="#cb14-5"></a><span class="st">              PIES =~ General + Feature + Image"</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">library</span>(lavaan)</span>
+<span id="cb15-2"><a href="#cb15-2"></a>piesModel <span class="ot">&lt;-</span> <span class="st">"General =~ i1 + i2 + i3</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="st">              Feature =~ i4 + i5 + i6 + i7</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a><span class="st">              Image =~ i8 + i9 + i10 + i11 </span></span>
+<span id="cb15-5"><a href="#cb15-5"></a><span class="st">              PIES =~ General + Feature + Image"</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Ajustamos este modelo aos dados usando <code>cfa(MODEL, data=DATA)</code> e inspecionamos o resultado com <code>summary(FIT, fit.measures=TRUE)</code>.</li>
 </ul></section><section id="estimando-o-modelo-cfa-para-pies-1" class="slide level2 scrollable"><h2>Estimando o Modelo CFA para PIES</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>pies.fit <span class="ot">&lt;-</span> <span class="fu">cfa</span>(piesModel , <span class="at">data =</span> piesSimData)</span>
-<span id="cb15-2"><a href="#cb15-2"></a><span class="fu">summary</span>(pies.fit, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>pies.fit <span class="ot">&lt;-</span> <span class="fu">cfa</span>(piesModel , <span class="at">data =</span> piesSimData)</span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="fu">summary</span>(pies.fit, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan 0.6.16 ended normally after 43 iterations
 
@@ -823,6 +834,88 @@ Variances:
     PIES              0.157    0.017    9.118    0.000</code></pre>
 </div>
 </div>
+</section><section id="índices-de-qualidade-do-ajuste" class="slide level2 scrollable"><h2>Índices de Qualidade do Ajuste</h2>
+<h3 id="teste-de-chi2">Teste de <span class="math inline">\(\chi^2\)</span>
+</h3>
+<p>Em geral, o objetivo é estimar parâmetros que levam a uma matriz de variância-covariância implícita do modelo,<span class="math inline">\(\Sigma\)</span>, minimizando:</p>
+<p><span class="math display">\[
+F_{ML} = \text{traço}(S\Sigma^{-1}) - \ln|S\Sigma^{-1}| - p
+\]</span></p>
+<p>Esta expressão é proporcional à razão de log-verossimilhança entre o modelo testado e o modelo <em>baseline</em>, otimizando esta expressão obtemos das estimativas de máxima verossimilhança dos parâmetros.</p>
+<p>O pacote <code>lavaan</code> reporta <span class="math inline">\(fmin\)</span>, que é igual a <span class="math inline">\(FML/2\)</span>. Se n é o tamanho da amostra, então podemos definir:</p>
+<p><span class="math display">\[
+T = nF_{ML}
+\]</span></p>
+<p>Se <span class="math inline">\(V(X) = \Sigma\)</span> (o modelo é verdadeiro), então <span class="math inline">\(T \sim \chi^2(df)\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="co"># Matrizes do Modelo</span></span>
+<span id="cb18-2"><a href="#cb18-2"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(piesSimData)</span>
+<span id="cb18-3"><a href="#cb18-3"></a>S <span class="ot">&lt;-</span> (n <span class="sc">-</span> <span class="dv">1</span>)<span class="sc">/</span>n <span class="sc">*</span> <span class="fu">cov</span>(piesSimData[,<span class="fu">c</span>(<span class="st">"i1"</span>,<span class="st">"i2"</span>,<span class="st">"i3"</span>,<span class="st">"i4"</span>,<span class="st">"i5"</span>, <span class="st">"i6"</span>,<span class="st">"i7"</span>,<span class="st">"i8"</span>,<span class="st">"i9"</span>,<span class="st">"i10"</span>,<span class="st">"i11"</span>)])</span>
+<span id="cb18-4"><a href="#cb18-4"></a>Sigma <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">lavInspect</span>(pies.fit, <span class="st">"sigma"</span>)</span>
+<span id="cb18-5"><a href="#cb18-5"></a></span>
+<span id="cb18-6"><a href="#cb18-6"></a><span class="co"># fmin = F_ml / 2:</span></span>
+<span id="cb18-7"><a href="#cb18-7"></a>F_ml <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">diag</span>(S <span class="sc">%*%</span> <span class="fu">solve</span>(Sigma))) <span class="sc">-</span> <span class="fu">log</span>(<span class="fu">det</span>(S <span class="sc">%*%</span> <span class="fu">solve</span>(Sigma))) <span class="sc">-</span> <span class="fu">ncol</span>(S)</span>
+<span id="cb18-8"><a href="#cb18-8"></a>F_ml</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.009641314</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="co"># Chi-quadrado reportado pelo lavaan:</span></span>
+<span id="cb20-2"><a href="#cb20-2"></a><span class="fu">nrow</span>(piesSimData) <span class="sc">*</span> F_ml</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 34.70873</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="fu">fitMeasures</span>(pies.fit)[<span class="st">'chisq'</span>]</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   chisq 
+34.70873 </code></pre>
+</div>
+</div>
+<ul>
+<li>O teste <span class="math inline">\(\chi^2\)</span> indica a diferença entre as matrizes de covariância observadas e esperadas.</li>
+</ul>
+<p><span class="math display">\[
+\begin{cases}
+H_0: &amp; V(X) = \Sigma, \\
+H_A: &amp; V(X) \neq \Sigma,
+\end{cases}
+\]</span></p>
+<ul>
+<li><p>Não queremos rejeitar <span class="math inline">\(H_0\)</span>, desejamos <span class="math inline">\(valor-p \geq 0.05\)</span></p></li>
+<li><p>Mas, caso <span class="math inline">\(valor-p \leq 0.05\)</span>, rejeitamos <span class="math inline">\(H_0\)</span>, ou seja, rejeitamos o modelo proposto como um modelo adequado para a estrutura de correlação entre os itens.</p></li>
+<li><p>Uma dificuldade com o teste qui-quadrado de ajuste do modelo, no entanto, é que os pesquisadores podem deixar de rejeitar um modelo inadequado com amostras pequenas e rejeitar um modelo apropriado com amostras grandes.</p></li>
+<li><p>Como resultado, outras medidas de ajuste foram desenvolvidas.</p></li>
+</ul>
+<h3 id="comparative-fit-index">Comparative Fit Index</h3>
+<ul>
+<li><p>O <em>Comparative Fit Index</em> (CFI) mede o ajuste do modelo examinando a discrepância entre os dados e o modelo hipotético, mas ajusta para as questões de tamanho da amostra inerentes ao teste qui-quadrado.</p></li>
+<li><p>Os valores de CFI variam de 0 a 1, com valores maiores indicando melhor ajuste.</p></li>
+<li><p>Um valor <span class="math inline">\(CFI \geq .95\)</span> é atualmente aceito como um indicador de bom ajuste.</p></li>
+</ul>
+<p><span class="math display">\[
+\hat{CFI} = \frac{\max(\chi^2_0 - df_0, 0) - \max(\chi^2_k - df_k, 0)}{\max(\chi^2_0 - df_0, 0)}
+\]</span> Cálculo manual:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>((<span class="fl">9001.774</span> <span class="sc">-</span> <span class="dv">55</span>) <span class="sc">-</span> (<span class="fl">34.709</span> <span class="sc">-</span> <span class="dv">41</span>))<span class="sc">/</span>(<span class="fl">9001.774</span> <span class="sc">-</span> <span class="dv">55</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.000703</code></pre>
+</div>
+</div>
+<h3 id="root-mean-square-error-of-approximation-rmsea">Root Mean Square Error of Approximation (RMSEA)</h3>
+<ul>
+<li><p>O <strong>RMSEA</strong> evita problemas de tamanho da amostra analisando a discrepância entre o modelo hipotético, com estimativas de parâmetros escolhidas de forma otimizada.</p></li>
+<li><p>O RMSEA varia de 0 a 1, com valores menores indicando melhor ajuste do modelo.</p></li>
+<li><p>Um <span class="math inline">\(RMSEA \leq 0,06\)</span> é um indicativo de ajuste aceitável do modelo.</p></li>
+</ul>
+<p><span class="math display">\[
+\hat{RMSEA} = \sqrt{\frac{T_{M} - df_{M}}{n df(n)}}
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="fu">fitMeasures</span>(pies.fit)[<span class="st">'rmsea'</span>]</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>rmsea 
+    0 </code></pre>
+</div>
+</div>
 </section><section id="modelo-cfa-estimado-para-pies-resultado" class="slide level2 scrollable"><h2>Modelo CFA Estimado para PIES: Resultado</h2>
 <ul>
 <li><p>Os resultados da estimação do Modelo da CFA indicam que modelo PIES se ajusta bem aos dados.</p></li>
@@ -832,61 +925,61 @@ Variances:
 <li><p>Se fossem dados reais, a CFA estabeleceria que o modelo hierárquico PIES se ajusta bem e – como as cargas fatoriais dos itens estão em torno de 1,0 – é razoável somar os itens como uma soma simples para formar pontuações de subescalas, como é comum para tais pesquisas.</p></li>
 </ul></section><section id="visualizando-o-modelo-cfa-estimado" class="slide level2 scrollable"><h2>Visualizando o Modelo CFA Estimado</h2>
 <ul>
-<li><p>O modelo final com as estimativas de parâmetros é plotado pela função <code><a href="https://rdrr.io/pkg/semPlot/man/semPaths.html">semPlot::semPaths()</a></code>.</p></li>
-<li><p>Esta figura expressa algumas das informações cruciais da saída da estimacão do modelo CFA de uma forma mais legível.</p></li>
+<li><p>O modelo final com as estimativas de parâmetros pode ser visualizado com a função <code><a href="https://rdrr.io/pkg/semPlot/man/semPaths.html">semPlot::semPaths()</a></code>.</p></li>
+<li><p>Este gráfico expressa algumas das informações cruciais da saída da estimacão do modelo CFA de uma forma mais legível.</p></li>
 <li><p>A versão gráfica facilita ver as relações entre as variáveis latentes e m anifestas e para navegar pelos valores dos coeficientes</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="fu">library</span>(semPlot)</span>
-<span id="cb17-2"><a href="#cb17-2"></a><span class="fu">semPaths</span>(pies.fit, <span class="at">what =</span> <span class="st">"est"</span>, <span class="at">fade =</span> <span class="cn">FALSE</span>, <span class="at">residuals =</span> <span class="cn">FALSE</span>, <span class="at">edge.label.cex =</span> <span class="fl">0.75</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="fu">library</span>(semPlot)</span>
+<span id="cb28-2"><a href="#cb28-2"></a><span class="fu">semPaths</span>(pies.fit, <span class="at">what =</span> <span class="st">"est"</span>, <span class="at">fade =</span> <span class="cn">FALSE</span>, <span class="at">residuals =</span> <span class="cn">FALSE</span>, <span class="at">edge.label.cex =</span> <span class="fl">0.75</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 </section><section id="visualizando-o-modelo-cfa-estimado-output" class="slide level2 scrollable output-location-slide"><h2>Visualizando o Modelo CFA Estimado</h2><div class="cell output-location-slide">
 <div class="cell-output-display">
-<p><img data-src="aula07_files/figure-revealjs/unnamed-chunk-12-1.png" width="960"></p>
+<p><img data-src="aula07_files/figure-revealjs/unnamed-chunk-15-1.png" width="960"></p>
 </div>
 </div></section><section id="avaliando-o-modelo-cfa-pies" class="slide level2 scrollable"><h2>Avaliando o modelo CFA PIES</h2>
 <ul>
 <li><p>O modelo PIES ajusta-se muito bem aos dados. Se fossem dados reais, estaríamos satifeitos, certo?</p></li>
-<li><p>Não! Um erro comum com SEM é propor um modelo, ajustar aos dados e depois afirmar, com base em índices de ajuste, que o modelo é “bom”.</p></li>
+<li><p>Não! Um erro comum com CFA/EM é propor um modelo, ajustar aos dados e depois afirmar, com base em índices de ajuste, que o modelo é “bom”.</p></li>
 <li><p>O problema é que algum outro modelo, e talvez mais razoável, pode ser tão bom ou até melhor. Assim, há uma segunda etapa importante: <strong>avaliar se o modelo proposto se ajusta melhor do que um modelo alternativo razoável</strong>.</p></li>
 <li><p>Testaremos o modelo PIES hierárquico (“PIES 3+1”) contra duas alternativas.</p></li>
 </ul>
 <ol type="1">
 <li>O primeiro é um modelo de fator único onde um fator de envolvimento subjacente se manifesta em todos os itens, chamaremos este modelo de “PIES 1”.</li>
 </ol>
-<p>É um bom modelo alternativo ao hierárquico tanto por ser mais simples e porque se concentra no fator superior da hierarquia, avaliando se é vantajoso adicionar as complicações dos subfatores do “PIES 3+1”.</p>
+<p>É um bom modelo alternativo ao hierárquico, por ser mais simples e porque se concentra no fator superior da hierarquia, avaliando se é vantajoso adicionar as complicações dos subfatores do “PIES 3+1”.</p>
 </section><section id="pies-1" class="slide level2"><h2>PIES 1</h2>
 
 <img data-src="img/pies1.jpeg" style="width:65.0%" class="r-stretch quarto-figure-center"><p class="caption"><strong>Figura</strong>&nbsp;4<strong>.</strong> Modelo Alternativo: PIES 1 (Fonte: <span class="citation" data-cites="chapman2014pies">CHAPMAN et al. (<a href="#/referências" role="doc-biblioref" onclick="">2014</a>)</span>)</p></section><section id="avaliando-o-modelo-cfa-pies-1" class="slide level2"><h2>Avaliando o modelo CFA PIES</h2>
 <ol start="2" type="1">
-<li>O segundo é um modelo de três fatores correlacionados, onde três fatores são manifestados nos três respectivos conjuntos de itens, chamaremos este modelo de “PIES 3”.</li>
+<li>O segundo é um modelo de três fatores correlacionados, onde os 3 fatores são manifestados nos três respectivos conjuntos de itens, chamaremos este modelo de “PIES 3”.</li>
 </ol>
 <ul>
-<li><p>PIES 3 omite o nível superior, o fator geral da hierarquia e concentra-se nos três subfatores, perguntando se eles são melhor concebidos como sendo separados em vez de se relacionarem em um modelo hierárquico.</p></li>
+<li><p>PIES 3 omite o nível superior, o fator geral da hierarquia e concentra-se nos três subfatores.</p></li>
 <li><p>Se o modelo PIES 3 se ajustasse tão bem quanto PIES 3+1, poderíamos rejeitar a complicação do modelo hierárquico.</p></li>
 </ul></section><section id="pies-3" class="slide level2"><h2>PIES 3</h2>
 
 <img data-src="img/pies3.jpeg" style="width:65.0%" class="r-stretch quarto-figure-center"><p class="caption"><strong>Figura</strong>&nbsp;5<strong>.</strong> Modelo Alternativo: PIES 3 (Fonte: <span class="citation" data-cites="chapman2014pies">CHAPMAN et al. (<a href="#/referências" role="doc-biblioref" onclick="">2014</a>)</span>)</p></section><section id="estimando-pies-1-e-pies-3" class="slide level2"><h2>Estimando PIES 1 e PIES 3</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="co"># Modelo 1-fator:</span></span>
-<span id="cb18-2"><a href="#cb18-2"></a>piesModelNH1 <span class="ot">&lt;-</span> <span class="st">"PIES =~ i1 + i2 + i3 + i4 + i5 + i6 + </span></span>
-<span id="cb18-3"><a href="#cb18-3"></a><span class="st">                         i7 + i8 + i9 + i10 + i11"</span></span>
-<span id="cb18-4"><a href="#cb18-4"></a></span>
-<span id="cb18-5"><a href="#cb18-5"></a><span class="co"># Estimacao</span></span>
-<span id="cb18-6"><a href="#cb18-6"></a>pies.fit.NH1 <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">cfa</span>(piesModelNH1, <span class="at">data =</span> piesSimData)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="co"># Modelo 1-fator:</span></span>
+<span id="cb29-2"><a href="#cb29-2"></a>piesModelNH1 <span class="ot">&lt;-</span> <span class="st">"PIES =~ i1 + i2 + i3 + i4 + i5 + i6 + </span></span>
+<span id="cb29-3"><a href="#cb29-3"></a><span class="st">                         i7 + i8 + i9 + i10 + i11"</span></span>
+<span id="cb29-4"><a href="#cb29-4"></a></span>
+<span id="cb29-5"><a href="#cb29-5"></a><span class="co"># Estimacao</span></span>
+<span id="cb29-6"><a href="#cb29-6"></a>pies.fit.NH1 <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">cfa</span>(piesModelNH1, <span class="at">data =</span> piesSimData)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="co"># Modelo 3-fatores:</span></span>
-<span id="cb19-2"><a href="#cb19-2"></a>piesModelNH3 <span class="ot">&lt;-</span> <span class="st">"General =~ i1 + i2 + i3</span></span>
-<span id="cb19-3"><a href="#cb19-3"></a><span class="st">                 Feature =~ i4 + i5 + i6  + i7</span></span>
-<span id="cb19-4"><a href="#cb19-4"></a><span class="st">                 Image   =~ i8 + i9 + i10 + i11</span></span>
-<span id="cb19-5"><a href="#cb19-5"></a><span class="st">                 General ~~ 0.1*Feature</span></span>
-<span id="cb19-6"><a href="#cb19-6"></a><span class="st">                 General ~~ 0.1*Image</span></span>
-<span id="cb19-7"><a href="#cb19-7"></a><span class="st">                 Feature ~~ 0.1*Image"</span></span>
-<span id="cb19-8"><a href="#cb19-8"></a></span>
-<span id="cb19-9"><a href="#cb19-9"></a><span class="co"># Estimacao</span></span>
-<span id="cb19-10"><a href="#cb19-10"></a>pies.fit.NH3 <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">cfa</span>(piesModelNH3, <span class="at">data =</span> piesSimData)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="co"># Modelo 3-fatores:</span></span>
+<span id="cb30-2"><a href="#cb30-2"></a>piesModelNH3 <span class="ot">&lt;-</span> <span class="st">"General =~ i1 + i2 + i3</span></span>
+<span id="cb30-3"><a href="#cb30-3"></a><span class="st">                 Feature =~ i4 + i5 + i6  + i7</span></span>
+<span id="cb30-4"><a href="#cb30-4"></a><span class="st">                 Image   =~ i8 + i9 + i10 + i11</span></span>
+<span id="cb30-5"><a href="#cb30-5"></a><span class="st">                 General ~~ 0.1*Feature</span></span>
+<span id="cb30-6"><a href="#cb30-6"></a><span class="st">                 General ~~ 0.1*Image</span></span>
+<span id="cb30-7"><a href="#cb30-7"></a><span class="st">                 Feature ~~ 0.1*Image"</span></span>
+<span id="cb30-8"><a href="#cb30-8"></a></span>
+<span id="cb30-9"><a href="#cb30-9"></a><span class="co"># Estimacao</span></span>
+<span id="cb30-10"><a href="#cb30-10"></a>pies.fit.NH3 <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">cfa</span>(piesModelNH3, <span class="at">data =</span> piesSimData)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li><p>O operador <code>∼∼</code> especifica uma correlação entre variáveis.</p></li>
@@ -898,7 +991,7 @@ Variances:
 <li><p>Os modelos PIES são aninhados (<em>nested</em>).</p></li>
 </ul></section><section id="comparando-os-modelos-1" class="slide level2"><h2>Comparando os Modelos</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">summary</span>(semTools<span class="sc">::</span><span class="fu">compareFit</span>(pies.fit.NH1, pies.fit.NH3, pies.fit))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="fu">summary</span>(semTools<span class="sc">::</span><span class="fu">compareFit</span>(pies.fit.NH1, pies.fit.NH3, pies.fit))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>################### Nested Model Comparison #########################
 
@@ -938,34 +1031,49 @@ pies.fit.NH3 - pies.fit.NH1  0 -0.127  0.370  0.463 -0.063 -3311.381 -3311.381</
 <li><p>Mas quando comparamos PIES 3 COM o modelo PIES 3+1 (pies.fit), os índices da qualidade do ajuste são melhores (CFI = 1,000, RMSEA = 0,000).</p></li>
 <li><p>O modelo PIES 3+1 é melhor que o modelo PIES 3? Passamos para a parte superior do relatório para examinar a comparação dos modelos: “Nested Modelo Comparison”.</p></li>
 <li><p>Os resultados do teste de <span class="math inline">\(\chi^2\)</span> indicam que nào há diferença estatisticamente significativa entre os modelos PIES 3 + 1 E PIES 3, mas que ambos apresentam ajuste melhor que o modelo com fator único, PIES 1.</p></li>
-<li><p>Entretanto, o modelo PIES 3 + 1 apresentou critérios de informação de Akaike e Bayesino melhores que os modelos PIES 3 e PIES 1.</p></li>
-<li><p>Portanto, o modelo hierárquico fatorial PIES apresentou um ajuste marginalment superior aos dois modelos alternativos.</p></li>
+<li><p>Entretanto, o modelo PIES 3 + 1 apresentou critérios de informação de Akaike (<code>aic</code>) e Bayesiano (<code>bic</code>) um pouquinho melhores que os modelos PIES 3 e PIES 1.</p></li>
+<li><p>Portanto, o modelo hierárquico fatorial PIES apresentou um ajuste <strong>marginalmente</strong> superior aos dois modelos alternativos.</p></li>
+<li><p><strong>Mas, há alguma coisa errada ou com o modelo ou, mais provavelmente, com a simulação de dados para testar o modelo realizada por <span class="citation" data-cites="chapman2014pies">CHAPMAN et al. (<a href="#/referências" role="doc-biblioref" onclick="">2014</a>)</span>.</strong></p></li>
 </ul></section><section><section id="pontos-principais" class="title-slide slide level1 scrollable center"><h1>Pontos Principais</h1>
 <ul>
-<li><p>Se você usa escalas com vários itens, verifique-as com EFA e CFA! Não apenas presuma que sua escala está correta ou que os itens são carregados onde você espera.</p></li>
+<li><p>Se você pretende usar escalas com vários itens, verifique-as com EFA e CFA! Não apenas presuma que sua escala está correta ou que os itens são carregados onde você espera.</p></li>
 <li><p>Se você propor um modelo complexo, prove com a CFA que ele é melhor que as alternativas.</p></li>
 <li><p>Esta área tem muito jargão, mas não é intrinsecamente difícil… ! SPSS, R, SAS e Stata todos possuem ferramentas para análise fatorial.</p></li>
 </ul></section><section id="workflow-para-desenvolvimento-de-escalas" class="slide level2 scrollable"><h2>Workflow para Desenvolvimento de Escalas</h2>
 <ol type="1">
-<li><p>Identifique os fatores de possível interesse</p></li>
-<li><p>Escreva itens para esses fatores e implemente uma (ou mais) pesquisa.</p></li>
-<li><p>Use a EFA para identificar se os fatores se sustentam e quais itens são correlacionados com os fatores.</p></li>
-<li><p>Repita 1-3 até ter evidências de que os fatores são confiáveis e os itens são bons.</p></li>
+<li><p>Identifique os fatores de possível interesse.</p></li>
+<li><p>Escreva itens para esses fatores e implemente uma (ou mais) pesquisa(s).</p></li>
+<li><p>Use a EFA para identificar se os fatores se sustentam e quais itens são correlacionados com quais fatores.</p></li>
+<li><p>Repita 1-3 até ter evidências de que os fatores são robustos e os itens são bons.</p></li>
 <li><p>Use a CFA para demonstrar que os fatores e itens se mantêm em uma nova amostra.</p></li>
 </ol></section><section id="aprendendo-mais-livros" class="slide level2"><h2>Aprendendo mais: Livros</h2>
 <ol type="1">
-<li><p>Brown (2015), <em>Confirmatory Factor Analysis for Applied Research</em>. Um texto bom e prático sobre CFA para as ciências sociais.</p></li>
-<li><p>Kline (2015), <em>Principles and Practice of Structural Equation Modeling</em>. O guia definitivo para o uso de CFA e SEM em ciências sociais.</p></li>
-<li><p>DeVellis (2011), <em>Scale Development</em>. Um guia muito prático e legível para construir boas escalas de pesquisa.</p></li>
+<li><p>Brown (2015), <strong>Confirmatory Factor Analysis for Applied Research</strong>. Um texto bom e prático sobre CFA para as ciências sociais.</p></li>
+<li><p>Kline (2015), <strong>Principles and Practice of Structural Equation Modeling</strong>. Um guia muito apreciado sobre o uso da CFA e SEM em ciências sociais.</p></li>
+<li><p>DeVellis (2011), <strong>Scale Development</strong>. Um guia muito prático e legível para construir boas escalas de pesquisa.</p></li>
 </ol></section><section id="notas-sobre-software-pacotes-r" class="slide level2 scrollable"><h2>Notas sobre software: pacotes R</h2>
 <ul>
 <li><p><a href="https://lavaan.ugent.be" target="_blank"><strong>lavaan</strong></a> é um pacote SEM/CFA fácil de usar. Altamente recomendado.</p></li>
 <li><p><a href="https://openmx.ssri.psu.edu" target="_blank"><strong>OpenMX</strong></a> fornece opções avançadas para SEM, como modelos de efeitos mistos.</p></li>
-<li><p><code>semPlot</code> cria diagramas de caminho SEM/CFA básicos conforme mostrado nestes slides.</p></li>
+<li><p><a href="http://www.sachaepskamp.com/files/semPlot.pdf"><strong>semPlot</strong></a> cria diagramas de caminho SEM/CFA básicos conforme mostrado nestes slides.</p></li>
 <li><p><code>psych</code> tem muitas opções para análise fatorial exploratória e outras aplicações psicométricas (pesquisa/teste).</p></li>
 <li><p><code>corrplot</code> é útil para explorar matrizes de correlação com vistas a uma análise fatorial.</p></li>
 <li><p><code>DiagrammeR</code> cria diagramas de caminho de qualidade de publicação. Isso requer especificação manual — tediosa, mas não difícil — para diagramas EFA/CFA/SEM.</p></li>
-</ul></section><section id="referências" class="slide level2 smaller scrollable"><h2>Referências</h2>
+</ul></section><section id="fim" class="slide level2"><h2>Fim</h2>
+<blockquote>
+<blockquote>
+<p>“Far better an approximate answer to the right question…than an exact answer to the wrong question.”</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>“The combination of some data and an aching desire for an answer does not ensure that a reasonable answer can be extracted from a given body of data”</p>
+</blockquote>
+</blockquote>
+<div style="text-align: right">
+John Tukey
+</div>
+</section><section id="referências" class="slide level2 smaller scrollable"><h2>Referências</h2>
 <div id="refs" class="references csl-bib-body" data-entry-spacing="1" role="list">
 <div id="ref-chapman2014pies" class="csl-entry" role="listitem">
 CHAPMAN, C. et al. The development of a hierarchical and universal scale for product involvement: The product involvement and engagement scale (<span>«PIES»</span>). <strong>available from first author</strong>, 2014.
