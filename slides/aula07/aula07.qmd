@@ -13,7 +13,7 @@ format:
     incremental: false
     transition: slide
     code-link: true
-    self-contained: false
+    self-contained: true
     preview-links: false
     chalkboard: false
     overview: true

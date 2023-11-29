@@ -1,0 +1,216 @@
+---
+title: "Exame Final"
+subtitle: "Análise Multivariada"
+author: "Prof. Dr. Washington S. da Silva"
+title-block-banner: "#27445C"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-location: left
+    code-copy: true
+    css: styles.css
+editor: source
+crossref:
+  fig-title: '**Figura**'
+  fig-labels: arabic
+  title-delim: "**.**"
+  fig-prefix: '**Fig.**'
+  tbl-prefix: '**Tab.**'
+bibliography: referencias.bib
+csl: associacao-brasileira-de-normas-tecnicas.csl
+lang: "pt"
+date: today
+execute: 
+  warning: false
+  message: false
+  echo: true
+---
+
+
+## Questão 1
+
+Muitos modelos econômicos e financeiros utilizam taxas de juros como variáveis preditoras, ou idependentes. Os analistas podem querer incluir taxas de juros sobre um grande número de ativos diferentes, a fim de refletir a variedade de oportunidades de investimento abertas aos investidores.
+
+Contudo, pode-se argumentar que as taxas de juros de mercado não são suficientemente independentes umas das outras para tornar estatisticamente 
+sensata a inclusão de várias séries de taxas de juro em um modelo econométrico. Como estas séries tendem a ser fortemente correlacionadas, incluí-las em um 
+modelo de regressão, por exemplo, pode implicar em multicolinearidade 
+substancial.
+
+Uma abordagem para esta questão seria aplicar a Análise de Componentes 
+Principais (PCA) em diversas séries de taxas de juros relacionadas 
+para determinar reduzir a dimensão dos dados. Assim, neste caso, utilizar um ou mais componentes principais como variáveis preditoras, ao invés das diveras 
+taxas de juros correlacionadas faria sentido.
+
+@brooks4ed disponibilizou o arquivo `fred.xls` que contém 
+seis séries mensais de taxas de juros de notas e títulos do Tesouro dos EUA 
+com diferentes vencimentos. As séries abrangem o período entre janeiro de 1982 
+e maio de 2018. Um dicionário doarquivo de dados é apresentado na @tbl-series.
+
+| variável | descrição                                          |
+| :------- | :------------------------------------------------- |
+| Date     | data/mês da observação                             |
+| GS3M     | Rendimento da nota do Tesouro dos EUA de 3 meses   |
+| GS6M     | Rendimento da nota do Tesouro dos EUA de 6 meses   |
+| GS1      | Rendimento do título do Tesouro dos EUA de 1 ano   |
+| GS3      | Rendimento do título do Tesouro dos EUA de 3 anos  |
+| GS5      | Rendimento do título do Tesouro dos EUA de 5 anos  |
+| GS10     | Rendimento do título do Tesouro dos EUA de 10 anos |
+: Séries de Taxas de Juros: Jan/1982 - Mai/2018. {#tbl-series}
+
+
+**1.** Baixe o arquivo `fred.xls` e coloque esse arquivo na pasta 
+`data_raw`. Utilize a função `here::here()` e a função 
+`readxl::read_xls()` para importar o arquivo e armazene os dados 
+importados no objeto `taxas_juros`, analise a estrutura dos 
+dados importados com `dplyr::glimpse()`. A primeira coluna 
+do objeto contém a data/mês das séries, elimine esta 
+primeira coluna usando `taxas_juros[,-1]` e armazene o 
+resultado no objeto `taxas_juros`, verifique se a estrutura 
+dos dados está adequada para a PCA com `dplyr::glimpse()`.
+
+
+**2.** Elabore uma matriz de gráficos de dispersão utilizando a função `PerformanceAnalytics::chart.Correlation()` e o objeto `taxas_juros`. Inspecionando os gráficos, podemos dizer que as séries de taxas de juros apresentem correlação significativa que justifique a aplicação da PCA? 
+
+
+**3.** Execute a PCA utilizando a função `FactoMineR::PCA()`, armazene os 
+resultado no objeto `pca_juros`, exiba os resultados. Faça um 
+Scree Plot usando a função `factoextra::fviz_screeplot()`. Analisando 
+os resultados, quantos componentes você utilizaria como 
+variáveis preditoras, ao invés das seis séries originais?
+
+
+**4.** Exiba os vetores das cargas dos componentes usando `pca_juros$rotation`. 
+Além disso, escreva o vetor de cargas dos componentes que você utilizaria, conforme a resposta da questão anterior.
+
+
+**5.** Se o primeiro componente compreende cargas aproximadamente iguais 
+para todas as seis séries (independentemente do sinal), e o segundo componente 
+atribui cargas negativas maiores às séries com vencimento mais longos e as 
+cargas aumentam gradualmente para as séries com vencimentos mais curtos, é 
+comum interpretar o primeiro componente como aquele que captura o nível das 
+taxas de juros e o segundo componente como o que captura a inclinação da 
+Estrutura a Termo da taxa de juros. Os resultados são compatíveis com esta 
+interpretação?
+
+
+
+## Questão 2
+
+O setor imobiliário representa um investimento popular não somente entre os 
+grandes investidores, mas também entre os pequenos e médios. Devido a este 
+interesse generalizado, a análise de dados imobiliários é particularmente 
+interessante.
+
+Suponha que o conselho de administração de uma empresa de investimentos 
+buscou sua experiência como analista de dados. Sua tarefa é analisar 
+um conjunto de dados sobre 90 cidades semelhantes em um grande estado dos 
+EUA. 
+
+Você precisará ajustar um modelo de regressão, analisar o modelo, 
+interpretar os coeficientes e testar uma afirmação feita por um político 
+local. 
+
+O arquivo `HousePrices.csv` contém dados sobre 5 variáveis referentes a 150 
+cidades similares em um grande estado. Um dicionário dos dados do 
+arquivo está na @tbl-house.
+
+| variável      | descrição                                          |
+| :------------ | :------------------------------------------------- |
+| `Price`       | preço médio (em dólares) de uma casa em uma cidade |
+| `Rooms`       | número médio de quartos das casas em uma cidade    |
+| `Income`      | renda média anual (em dólares) da cidade           |
+| `Tax rate`    | taxa de imposto (porcentagem) sobre a propriedade  |
+| `Commercial`  | porcentagem de imóveis commerciais da cidade       |
+: Dicionário dos dados. {#tbl-house}
+
+**1.** Baixe o arquivo `HousePrices.csv` e coloque esse arquivo na pasta 
+`data_raw`. Utilize a função `here::here()` e a função 
+`readr::read_csv()` para importar o arquivo e armazene os dados 
+importados no objeto `house_prices`, analise a estrutura dos 
+dados importados com `dplyr::glimpse()`.
+
+
+É possível verificar que os nomes das variáveis não são adequados, aplique 
+a função `janitor::clean_names()` no objeto `house_prices` para tentar 
+obter nomes adequados para as variáveis, armazene o resultado no 
+objeto `house_prices`. 
+
+
+**2.** Elabore uma matriz de gráficos de dispersão utilizando a função `PerformanceAnalytics::chart.Correlation()` e o objeto `house_prices`. 
+Qual variável apresenta menor correlação (r de Pearson) com a variável 
+`house_prices`?
+
+
+**3.** Estime quatro modelos de regressão linear simples tendo como 
+variável resposta `price_in_usd` e cada uma das 4 possíveis 
+variáveis preditoras: `rooms`, `income`, `tax_rate` e `percent_commercial`.
+
+Utilize o seguinte código para estimar os 4 modelos:
+
+```{r}
+#| eval: false
+reg1 = lm(price_in_usd ~ rooms, data = house_prices) 
+...
+...
+...
+```
+
+Analise o $R^2$-adj desses 4 modelos. Você pode visualizar somente 
+o $R^2$-adj de um modelo estimado com, por exemplo `reg1$adj.r.squared`. 
+Faça isso para todos os 4 modelos.
+
+Agora estime o modelo de regressão linear múltipla com todas as 
+variáveis preditoras e veja os resultados da estimação:
+
+Qual foi a estimativa do $R^2$-adj para o modelo de regressão linear 
+múltipla estimado? Qual a interpretacão da estimativa $R^2$-adj? 
+Analisando a estimativa do $R^2$-adj do modelo de regressão linear múltipla, 
+o modelo completo tem maior capacidade explicativa do que os modelos 
+de regressão linear simples estimados anteriormente? Explique.
+
+
+**4.** Forneça uma interpretação da estimativa de cada coeficiente do modelo 
+de regressão linear múltipla estimado.
+
+
+**5.** Escreva o modelo de regressão linear múltipla estimado na forma de 
+uma equação.
+
+
+**6.** Para quais preditores, você rejeita a seguinte hipótese 
+nula: $H_0: \beta_j = 0$?
+
+
+**7.** Utilize a função `confint()` para obter estimativas por intervalo, 
+com 95% de confiança, para as estimativas pontuais dos coeficientes do modelo 
+de regressão linear múltipla. 
+
+
+**8.** Outra tarefa dada pelos diretores da empresa de investimento: 
+você deve testar a afirmação de um político local. O político afirma que, 
+para cada redução de 1% por cento do imposto imobiliário, o valor de uma 
+casa taumenta em US\$ 5.000. Esta afirmação pode ser refutada? (Dica: 
+É possível responder a esta pergunta analisando a estimativa por intervalo de 
+confiança do coeficiente da variável `tax_rate`.). Entretanto, qual 
+a estimativa fornecida pelo modelo de regressão múltipla, da redução 
+média do preço de um imóvel devida a uma reduçào na taxa de imposto sobre 
+a propriedade?
+
+
+
+## Referências
+
+::: {#refs}
+:::
+
+
+
+
+
+
+
+
+
+
+
