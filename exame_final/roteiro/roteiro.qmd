@@ -1,0 +1,81 @@
+---
+title: "Roteiro de Estudos para o Exame Final"
+subtitle: "Análise Multivariada"
+author: "Prof. Dr. Washington S. da Silva"
+title-block-banner: "#27445C"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-location: left
+    code-copy: true
+    css: styles.css
+editor: source
+crossref:
+  fig-title: '**Figura**'
+  fig-labels: arabic
+  title-delim: "**.**"
+  fig-prefix: '**Fig.**'
+  tbl-prefix: '**Tab.**'
+bibliography: referencias.bib
+csl: associacao-brasileira-de-normas-tecnicas.csl
+lang: "pt"
+date: today
+execute: 
+  warning: false
+  message: false
+  echo: true
+---
+
+Dicas:
+
+1. A prova consistirá de duas questões com subitens: uma sobre a **Análise de Componentes Principais** (PCA) e outra sobre **Modelos de Regressão Linear**. **Não** 
+haverá questões sobre Análise Fatoria Exploratória e Confirmatória.
+
+2. Interpretar os principais resultados de uma Análise de Componentes 
+Principais: porcentagem da variância explicada, Scree Plot, 
+identificar e escrever vetores de cargas.
+
+3. Interpretar os principais resultados da estimação de Modelos 
+de Regressão Linear:
+
+    - Interpretar o coeficiente de determinação ajustado $R^2$-adj de um modelo 
+    de regressão linear estimado.
+    - Interpretar os coeficientes ou parâmetros estimados
+    - Interpretar testes de hipóteses da saída da função `lm()` e estimativas por  
+    intervalo de confiança.
+    
+4. Será útil ter o projeto RStudio que criamos no início do curso 
+minimamente organizado, `analise_multivariada_2023.Rproj`.
+
+5. Importar arquivos `.xls` e `.csv` usando `here::here()`, 
+`readxl::read_xls()` e  `readr::read_csv()`
+
+6. Usar e interpretar a função `PerformanceAnalytics::chart.Correlation()`.
+
+7. Utilizar a função `prcomp()` para PCA, exibir os resultados e a 
+matriz de rotação. 
+
+8. Utilizar a função `lm()` para estimar modelos de regressão linear, exibir 
+e interpretar os resultados.
+
+9. Aplicar a função `confint()` sobre o resultado de um modelo de regressão 
+linear estimado e interpretar o resultado.
+
+10. Estudar a interpretação de testes de hipóteses com base no 
+valor-p e a interpretação de estimativas por intervalo de 
+confiança será importante.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

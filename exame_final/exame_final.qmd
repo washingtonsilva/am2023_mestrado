@@ -38,14 +38,15 @@ modelo de regressão, por exemplo, pode implicar em multicolinearidade
 substancial.
 
 Uma abordagem para esta questão seria aplicar a Análise de Componentes 
-Principais (PCA) em diversas séries de taxas de juros relacionadas 
-para determinar reduzir a dimensão dos dados. Assim, neste caso, utilizar um ou mais componentes principais como variáveis preditoras, ao invés das diveras 
+Principais em diversas séries de taxas de juros relacionadas 
+para reduzir a dimensão dos dados. Assim, utilizar um ou mais 
+componentes principais como variáveis preditoras, ao invés das diveras 
 taxas de juros correlacionadas faria sentido.
 
 @brooks4ed disponibilizou o arquivo `fred.xls` que contém 
-seis séries mensais de taxas de juros de notas e títulos do Tesouro dos EUA 
+seis séries mensais de taxas de juros de notas e títulos do Tesouro dos EUA,  
 com diferentes vencimentos. As séries abrangem o período entre janeiro de 1982 
-e maio de 2018. Um dicionário doarquivo de dados é apresentado na @tbl-series.
+e maio de 2018. Um dicionário dos dados é apresentado na @tbl-series.
 
 | variável | descrição                                          |
 | :------- | :------------------------------------------------- |
@@ -73,7 +74,7 @@ dos dados está adequada para a PCA com `dplyr::glimpse()`.
 **2.** Elabore uma matriz de gráficos de dispersão utilizando a função `PerformanceAnalytics::chart.Correlation()` e o objeto `taxas_juros`. Inspecionando os gráficos, podemos dizer que as séries de taxas de juros apresentem correlação significativa que justifique a aplicação da PCA? 
 
 
-**3.** Execute a PCA utilizando a função `FactoMineR::PCA()`, armazene os 
+**3.** Execute a PCA utilizando a função `prcomp()`, armazene os 
 resultado no objeto `pca_juros`, exiba os resultados. Faça um 
 Scree Plot usando a função `factoextra::fviz_screeplot()`. Analisando 
 os resultados, quantos componentes você utilizaria como 

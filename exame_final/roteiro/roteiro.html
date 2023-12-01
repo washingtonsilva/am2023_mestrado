@@ -8,7 +8,7 @@
 
 <meta name="author" content="Prof. Dr. Washington S. da Silva">
 
-<title>Exame Final</title>
+<title>Roteiro de Estudos para o Exame Final</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,61 +20,7 @@ ul.task-list li input[type="checkbox"] {
 width: 0.8em;
 margin: 0 0.8em 0.2em -1em;  vertical-align: middle;
 }
-
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-{ counter-reset: source-line 0; }
-pre.numberSource code > span
-{ position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-{ content: counter(source-line);
-position: relative; left: -1em; text-align: right; vertical-align: baseline;
-border: none; display: inline-block;
--webkit-touch-callout: none; -webkit-user-select: none;
--khtml-user-select: none; -moz-user-select: none;
--ms-user-select: none; user-select: none;
-padding: 0 4px; width: 4em;
-}
-pre.numberSource { margin-left: 3em; padding-left: 4px; }
-div.sourceCode
-{ }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-
-div.csl-bib-body { }
-div.csl-entry {
-clear: both;
-margin-bottom: 1em;
-}
-.hanging-indent div.csl-entry {
-margin-left:2em;
-text-indent:-2em;
-}
-div.csl-left-margin {
-min-width:2em;
-float:left;
-}
-div.csl-right-inline {
-margin-left:2em;
-padding-left:1em;
-}
-div.csl-indent {
-margin-left: 2em;
-}</style>
+</style>
 
 
 <script>/*!
@@ -3170,7 +3116,7 @@ background-origin: content-box;
 <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Exame Final</h1>
+      <h1 class="title">Roteiro de Estudos para o Exame Final</h1>
             <p class="subtitle lead">Análise Multivariada</p>
                       </div>
   </div>
@@ -3198,15 +3144,7 @@ background-origin: content-box;
   
   </header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
 <div id="quarto-sidebar-toc-left" class="sidebar toc-left">
-  <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Índice</h2>
-   
-  <ul>
-  <li><a href="#questão-1" id="toc-questão-1" class="nav-link active" data-scroll-target="#questão-1">Questão 1</a></li>
-  <li><a href="#questão-2" id="toc-questão-2" class="nav-link" data-scroll-target="#questão-2">Questão 2</a></li>
-  <li><a href="#referências" id="toc-referências" class="nav-link" data-scroll-target="#referências">Referências</a></li>
-  </ul>
-</nav>
+  
 </div>
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
 </div>
@@ -3215,127 +3153,25 @@ background-origin: content-box;
 
 
 
-<section id="questão-1" class="level2">
-<h2 class="anchored" data-anchor-id="questão-1">Questão 1</h2>
-<p>Muitos modelos econômicos e financeiros utilizam taxas de juros como variáveis preditoras, ou idependentes. Os analistas podem querer incluir taxas de juros sobre um grande número de ativos diferentes, a fim de refletir a variedade de oportunidades de investimento abertas aos investidores.</p>
-<p>Contudo, pode-se argumentar que as taxas de juros de mercado não são suficientemente independentes umas das outras para tornar estatisticamente sensata a inclusão de várias séries de taxas de juro em um modelo econométrico. Como estas séries tendem a ser fortemente correlacionadas, incluí-las em um modelo de regressão, por exemplo, pode implicar em multicolinearidade substancial.</p>
-<p>Uma abordagem para esta questão seria aplicar a Análise de Componentes Principais em diversas séries de taxas de juros relacionadas para reduzir a dimensão dos dados. Assim, utilizar um ou mais componentes principais como variáveis preditoras, ao invés das diveras taxas de juros correlacionadas faria sentido.</p>
-<p><span class="citation" data-cites="brooks4ed">BROOKS (<a href="#ref-brooks4ed" role="doc-biblioref">2019</a>)</span> disponibilizou o arquivo <code>fred.xls</code> que contém seis séries mensais de taxas de juros de notas e títulos do Tesouro dos EUA,<br>
-com diferentes vencimentos. As séries abrangem o período entre janeiro de 1982 e maio de 2018. Um dicionário dos dados é apresentado na <a href="#tbl-series"><strong>Tab.</strong> 1</a>.</p>
-<div id="tbl-series" class="anchored">
-<table class="table">
-<caption>Tabela 1<strong>.</strong> Séries de Taxas de Juros: Jan/1982 - Mai/2018.</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;">variável</th>
-<th style="text-align: left;">descrição</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Date</td>
-<td style="text-align: left;">data/mês da observação</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">GS3M</td>
-<td style="text-align: left;">Rendimento da nota do Tesouro dos EUA de 3 meses</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">GS6M</td>
-<td style="text-align: left;">Rendimento da nota do Tesouro dos EUA de 6 meses</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">GS1</td>
-<td style="text-align: left;">Rendimento do título do Tesouro dos EUA de 1 ano</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">GS3</td>
-<td style="text-align: left;">Rendimento do título do Tesouro dos EUA de 3 anos</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">GS5</td>
-<td style="text-align: left;">Rendimento do título do Tesouro dos EUA de 5 anos</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">GS10</td>
-<td style="text-align: left;">Rendimento do título do Tesouro dos EUA de 10 anos</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p><strong>1.</strong> Baixe o arquivo <code>fred.xls</code> e coloque esse arquivo na pasta <code>data_raw</code>. Utilize a função <code>here::here()</code> e a função <code>readxl::read_xls()</code> para importar o arquivo e armazene os dados importados no objeto <code>taxas_juros</code>, analise a estrutura dos dados importados com <code>dplyr::glimpse()</code>. A primeira coluna do objeto contém a data/mês das séries, elimine esta primeira coluna usando <code>taxas_juros[,-1]</code> e armazene o resultado no objeto <code>taxas_juros</code>, verifique se a estrutura dos dados está adequada para a PCA com <code>dplyr::glimpse()</code>.</p>
-<p><strong>2.</strong> Elabore uma matriz de gráficos de dispersão utilizando a função <code>PerformanceAnalytics::chart.Correlation()</code> e o objeto <code>taxas_juros</code>. Inspecionando os gráficos, podemos dizer que as séries de taxas de juros apresentem correlação significativa que justifique a aplicação da PCA?</p>
-<p><strong>3.</strong> Execute a PCA utilizando a função <code>prcomp()</code>, armazene os resultado no objeto <code>pca_juros</code>, exiba os resultados. Faça um Scree Plot usando a função <code>factoextra::fviz_screeplot()</code>. Analisando os resultados, quantos componentes você utilizaria como variáveis preditoras, ao invés das seis séries originais?</p>
-<p><strong>4.</strong> Exiba os vetores das cargas dos componentes usando <code>pca_juros$rotation</code>. Além disso, escreva o vetor de cargas dos componentes que você utilizaria, conforme a resposta da questão anterior.</p>
-<p><strong>5.</strong> Se o primeiro componente compreende cargas aproximadamente iguais para todas as seis séries (independentemente do sinal), e o segundo componente atribui cargas negativas maiores às séries com vencimento mais longos e as cargas aumentam gradualmente para as séries com vencimentos mais curtos, é comum interpretar o primeiro componente como aquele que captura o nível das taxas de juros e o segundo componente como o que captura a inclinação da Estrutura a Termo da taxa de juros. Os resultados são compatíveis com esta interpretação?</p>
-</section>
-<section id="questão-2" class="level2">
-<h2 class="anchored" data-anchor-id="questão-2">Questão 2</h2>
-<p>O setor imobiliário representa um investimento popular não somente entre os grandes investidores, mas também entre os pequenos e médios. Devido a este interesse generalizado, a análise de dados imobiliários é particularmente interessante.</p>
-<p>Suponha que o conselho de administração de uma empresa de investimentos buscou sua experiência como analista de dados. Sua tarefa é analisar um conjunto de dados sobre 90 cidades semelhantes em um grande estado dos EUA.</p>
-<p>Você precisará ajustar um modelo de regressão, analisar o modelo, interpretar os coeficientes e testar uma afirmação feita por um político local.</p>
-<p>O arquivo <code>HousePrices.csv</code> contém dados sobre 5 variáveis referentes a 150 cidades similares em um grande estado. Um dicionário dos dados do arquivo está na <a href="#tbl-house"><strong>Tab.</strong> 2</a>.</p>
-<div id="tbl-house" class="anchored">
-<table class="table">
-<caption>Tabela 2<strong>.</strong> Dicionário dos dados.</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;">variável</th>
-<th style="text-align: left;">descrição</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><code>Price</code></td>
-<td style="text-align: left;">preço médio (em dólares) de uma casa em uma cidade</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>Rooms</code></td>
-<td style="text-align: left;">número médio de quartos das casas em uma cidade</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>Income</code></td>
-<td style="text-align: left;">renda média anual (em dólares) da cidade</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>Tax rate</code></td>
-<td style="text-align: left;">taxa de imposto (porcentagem) sobre a propriedade</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>Commercial</code></td>
-<td style="text-align: left;">porcentagem de imóveis commerciais da cidade</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p><strong>1.</strong> Baixe o arquivo <code>HousePrices.csv</code> e coloque esse arquivo na pasta <code>data_raw</code>. Utilize a função <code>here::here()</code> e a função <code>readr::read_csv()</code> para importar o arquivo e armazene os dados importados no objeto <code>house_prices</code>, analise a estrutura dos dados importados com <code>dplyr::glimpse()</code>.</p>
-<p>É possível verificar que os nomes das variáveis não são adequados, aplique a função <code>janitor::clean_names()</code> no objeto <code>house_prices</code> para tentar obter nomes adequados para as variáveis, armazene o resultado no objeto <code>house_prices</code>.</p>
-<p><strong>2.</strong> Elabore uma matriz de gráficos de dispersão utilizando a função <code>PerformanceAnalytics::chart.Correlation()</code> e o objeto <code>house_prices</code>. Qual variável apresenta menor correlação (r de Pearson) com a variável <code>house_prices</code>?</p>
-<p><strong>3.</strong> Estime quatro modelos de regressão linear simples tendo como variável resposta <code>price_in_usd</code> e cada uma das 4 possíveis variáveis preditoras: <code>rooms</code>, <code>income</code>, <code>tax_rate</code> e <code>percent_commercial</code>.</p>
-<p>Utilize o seguinte código para estimar os 4 modelos:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>reg1 <span class="ot">=</span> <span class="fu">lm</span>(price_in_usd <span class="sc">~</span> rooms, <span class="at">data =</span> house_prices) </span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>...</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>...</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>...</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Analise o <span class="math inline">\(R^2\)</span>-adj desses 4 modelos. Você pode visualizar somente o <span class="math inline">\(R^2\)</span>-adj de um modelo estimado com, por exemplo <code>reg1$adj.r.squared</code>. Faça isso para todos os 4 modelos.</p>
-<p>Agora estime o modelo de regressão linear múltipla com todas as variáveis preditoras e veja os resultados da estimação:</p>
-<p>Qual foi a estimativa do <span class="math inline">\(R^2\)</span>-adj para o modelo de regressão linear múltipla estimado? Qual a interpretacão da estimativa <span class="math inline">\(R^2\)</span>-adj? Analisando a estimativa do <span class="math inline">\(R^2\)</span>-adj do modelo de regressão linear múltipla, o modelo completo tem maior capacidade explicativa do que os modelos de regressão linear simples estimados anteriormente? Explique.</p>
-<p><strong>4.</strong> Forneça uma interpretação da estimativa de cada coeficiente do modelo de regressão linear múltipla estimado.</p>
-<p><strong>5.</strong> Escreva o modelo de regressão linear múltipla estimado na forma de uma equação.</p>
-<p><strong>6.</strong> Para quais preditores, você rejeita a seguinte hipótese nula: <span class="math inline">\(H_0: \beta_j = 0\)</span>?</p>
-<p><strong>7.</strong> Utilize a função <code>confint()</code> para obter estimativas por intervalo, com 95% de confiança, para as estimativas pontuais dos coeficientes do modelo de regressão linear múltipla.</p>
-<p><strong>8.</strong> Outra tarefa dada pelos diretores da empresa de investimento: você deve testar a afirmação de um político local. O político afirma que, para cada redução de 1% por cento do imposto imobiliário, o valor de uma casa taumenta em US$ 5.000. Esta afirmação pode ser refutada? (Dica: É possível responder a esta pergunta analisando a estimativa por intervalo de confiança do coeficiente da variável <code>tax_rate</code>.). Entretanto, qual a estimativa fornecida pelo modelo de regressão múltipla, da redução média do preço de um imóvel devida a uma reduçào na taxa de imposto sobre a propriedade?</p>
-</section>
-<section id="referências" class="level2">
-<h2 class="anchored" data-anchor-id="referências">Referências</h2>
-<div id="refs" class="references csl-bib-body" data-entry-spacing="1" role="list">
-<div id="ref-brooks4ed" class="csl-entry" role="listitem">
-BROOKS, C. <strong>Introductory Econometrics for Finance</strong>. 4. ed. [s.l.] Cambridge University Press, 2019.
-</div>
-</div>
-</section>
+<p>Dicas:</p>
+<ol type="1">
+<li><p>A prova consistirá de duas questões com subitens: uma sobre a <strong>Análise de Componentes Principais</strong> (PCA) e outra sobre <strong>Modelos de Regressão Linear</strong>. <strong>Não</strong> haverá questões sobre Análise Fatoria Exploratória e Confirmatória.</p></li>
+<li><p>Interpretar os principais resultados de uma Análise de Componentes Principais: porcentagem da variância explicada, Scree Plot, identificar e escrever vetores de cargas.</p></li>
+<li><p>Interpretar os principais resultados da estimação de Modelos de Regressão Linear:</p>
+<ul>
+<li>Interpretar o coeficiente de determinação ajustado <span class="math inline">\(R^2\)</span>-adj de um modelo de regressão linear estimado.</li>
+<li>Interpretar os coeficientes ou parâmetros estimados</li>
+<li>Interpretar testes de hipóteses da saída da função <code>lm()</code> e estimativas por<br>
+intervalo de confiança.</li>
+</ul></li>
+<li><p>Será útil ter o projeto RStudio que criamos no início do curso minimamente organizado, <code>analise_multivariada_2023.Rproj</code>.</p></li>
+<li><p>Importar arquivos <code>.xls</code> e <code>.csv</code> usando <code>here::here()</code>, <code>readxl::read_xls()</code> e <code>readr::read_csv()</code></p></li>
+<li><p>Usar e interpretar a função <code>PerformanceAnalytics::chart.Correlation()</code>.</p></li>
+<li><p>Utilizar a função <code>prcomp()</code> para PCA, exibir os resultados e a matriz de rotação.</p></li>
+<li><p>Utilizar a função <code>lm()</code> para estimar modelos de regressão linear, exibir e interpretar os resultados.</p></li>
+<li><p>Aplicar a função <code>confint()</code> sobre o resultado de um modelo de regressão linear estimado e interpretar o resultado.</p></li>
+<li><p>Estudar a interpretação de testes de hipóteses com base no valor-p e a interpretação de estimativas por intervalo de confiança será importante.</p></li>
+</ol>
 
 </main>
 <!-- /main column -->
