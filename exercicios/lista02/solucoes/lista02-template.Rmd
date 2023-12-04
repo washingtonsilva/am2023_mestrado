@@ -1,8 +1,15 @@
 ---
-title: "R Notebook"
-author: "Seu Nome"
+title: "Resolução da Lista de Exercícios 2"
+author: "Prof. Washington Santos da Silva"
 output: html_notebook
 ---
+
+<style type="text/css">
+  body{
+  font-size: 13pt;
+  text-align: justify
+      }
+</style>
 
 ```{r setup}
 library(here)
@@ -91,6 +98,9 @@ factoextra::fviz_pca_var(happy_pca, col.var = "red", repel = TRUE)
 
 ### 4.1 
 
+Em um R Notebook, é possível visualizar adequadamente o gráfico clicando 
+no botão acima da figura que a expande.
+
 ```{r}
 factoextra::fviz_pca_ind(happy_pca,
                          col.ind = "cos2",
@@ -101,16 +111,27 @@ factoextra::fviz_pca_ind(happy_pca,
 
 ### 4.2 
 
+- Bolívia
+- Paraguai
+- Líbia
+- El Salvador
+- Chipre
+
+Note que esses países estão próximos da origem dos eixos e seus nomes 
+possuem uma tom bastante escuro, conforme a escala do `cos2` exibida.
+
 
 
 ## Questão 5
 
 ### 5.1 
 
+Da mesma forma, é importante destacar que em um R Notebook, é possível visualizar adequadamente o biplot clicando no botão acima da figura que a expande.
+
 ```{r}
 factoextra::fviz_pca_biplot(
   happy_pca,
-  label = "var",
+  label = "all",
   col.var = "red",
   col.ind = "blue",
   repel = TRUE
@@ -120,6 +141,48 @@ factoextra::fviz_pca_biplot(
 
 
 ## Questão 6
+
+Os vetores de cargas dos dois primeiros componentes principais são:
+
+PC1 = 0.825(`Social`) + 0.862(`Health`) + 0.764(`Freedom`) - 0.007(`Generosity`) - 0.584(`Corruption`) 
+      
+PC2 = -0.295(`Social`) - 0.269(`Health`) + 0.285(`Freedom`) + 0.884(`Generosity`) -   0.451(`Corruption`)
+      
+
+Embora seja a interpretação espacial com respeito às direções das variáveis 
+que seja mais importante, é muitas vezes possível, como neste caso, interpretar
+as próprias direções dos componentes (ou seja, as dimensões, também chamadas 
+de eixos principais). 
+
+O primeiro componente é claramente uma escala de negativa para positiva em 
+termos das quatro variáveis à exceção de `Generosity`, enquanto `Generosity` 
+é o principal motor da segunda dimensão, opondo-se principalmente a 
+`Corruption`.
+
+Por exemplo, olhando para o posições do Reino Unido, Malta, Alemanha e 
+França no biplot, eles estão todos na mesma posição no primeiro componente, 
+mas dispersos verticalmente em relação ao segundo. Assim, eles 
+têm a mesma posição em seu “tamanho” geral na primeira dimensão, mas a composição
+de suas classificações, sua “forma”, é diferente entre os quatro países. 
+
+O Reino Unido tende a ser superior à média em `Generosity` e abaixo da média 
+em `Corruption`, e também inferior em `Life` e `Social`, mas ainda assim mais 
+alto do que a média. Por outro lado, a França é superior nas três 
+variáveis que apontam para baixo (`Health`, `Life` and `Corruption`) e inferior 
+do que a média em `Generosity`.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
