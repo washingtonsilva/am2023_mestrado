@@ -93,7 +93,7 @@ PerformanceAnalytics::chart.Correlation(taxas_juros)
 ```
 
 
-**3.** Execute a PCA utilizando a função `FactoMineR::PCA()`, armazene os 
+**3.** Execute a PCA utilizando a função `prcomp()`, armazene os 
 resultado no objeto `pca_juros`, exiba os resultados. Faça um 
 Scree Plot usando a função `factoextra::fviz_screeplot()`. Analisando 
 os resultados, quantos componentes você utilizaria como 
@@ -245,12 +245,11 @@ de regressão linear múltipla.
 **8.** Outra tarefa dada pelos diretores da empresa de investimento: 
 você deve testar a afirmação de um político local. O político afirma que, 
 para cada redução de 1% por cento do imposto imobiliário, o valor de uma 
-casa taumenta em US\$ 5.000. Esta afirmação pode ser refutada? (Dica: 
+casa aumenta em US\$ 5.000. Esta afirmação pode ser refutada? Dica: 
 É possível responder a esta pergunta analisando a estimativa por intervalo de 
-confiança do coeficiente da variável `tax_rate`.). Entretanto, qual 
-a estimativa fornecida pelo modelo de regressão múltipla, da redução 
-média do preço de um imóvel devida a uma reduçào na taxa de imposto sobre 
-a propriedade?
+confiança do coeficiente da variável `tax_rate`.
+
+
 
 
 ## Referências

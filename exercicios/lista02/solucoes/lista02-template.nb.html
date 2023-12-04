@@ -1819,24 +1819,67 @@ names(happy)</code></pre>
 <h2>Questão 2</h2>
 <div id="section-3" class="section level3">
 <h3>2.1</h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaGFwcHlfcGNhIDwtIEZhY3RvTWluZVI6OlBDQShoYXBweSwgbmNwID0gNSwgZ3JhcGggPSBGQUxTRSlcbmBgYCJ9 -->
+<pre class="r"><code>happy_pca &lt;- FactoMineR::PCA(happy, ncp = 5, graph = FALSE)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
 <div id="section-4" class="section level3">
 <h3>2.2</h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3VtbWFyeShoYXBweV9wY2EpXG5gYGAifQ== -->
+<pre class="r"><code>summary(happy_pca)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
 <div id="section-5" class="section level3">
 <h3>2.3</h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZmFjdG9leHRyYTo6ZnZpel9zY3JlZXBsb3QoXG4gIGhhcHB5X3BjYSxcbiAgY2hvaWNlID0gXCJ2YXJpYW5jZVwiLFxuICBhZGRsYWJlbHMgPSBUUlVFLFxuICB5bGltID0gYygwLCAxMDApXG4pXG5gYGAifQ== -->
+<pre class="r"><code>factoextra::fviz_screeplot(
+  happy_pca,
+  choice = &quot;variance&quot;,
+  addlabels = TRUE,
+  ylim = c(0, 100)
+)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
 </div>
 <div id="questão-3" class="section level2">
 <h2>Questão 3</h2>
 <div id="section-6" class="section level3">
 <h3>3.1</h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZmFjdG9leHRyYTo6ZnZpel9wY2FfdmFyKGhhcHB5X3BjYSwgY29sLnZhciA9IFwicmVkXCIsIHJlcGVsID0gVFJVRSlcbmBgYCJ9 -->
+<pre class="r"><code>factoextra::fviz_pca_var(happy_pca, col.var = &quot;red&quot;, repel = TRUE)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
 </div>
 <div id="questão-4" class="section level2">
 <h2>Questão 4</h2>
 <div id="section-7" class="section level3">
 <h3>4.1</h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZmFjdG9leHRyYTo6ZnZpel9wY2FfaW5kKGhhcHB5X3BjYSxcbiAgICAgICAgICAgICAgICAgICAgICAgICBjb2wuaW5kID0gXCJjb3MyXCIsXG4gICAgICAgICAgICAgICAgICAgICAgICAgcmVwZWwgPSBUUlVFLFxuICAgICAgICAgICAgICAgICAgICAgICAgIGxhYmVsID0gXCJpbmRcIikgXG5gYGAifQ== -->
+<pre class="r"><code>factoextra::fviz_pca_ind(happy_pca,
+                         col.ind = &quot;cos2&quot;,
+                         repel = TRUE,
+                         label = &quot;ind&quot;) </code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
 <div id="section-8" class="section level3">
 <h3>4.2</h3>
@@ -1846,6 +1889,19 @@ names(happy)</code></pre>
 <h2>Questão 5</h2>
 <div id="section-9" class="section level3">
 <h3>5.1</h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZmFjdG9leHRyYTo6ZnZpel9wY2FfYmlwbG90KFxuICBoYXBweV9wY2EsXG4gIGxhYmVsID0gXCJ2YXJcIixcbiAgY29sLnZhciA9IFwicmVkXCIsXG4gIGNvbC5pbmQgPSBcImJsdWVcIixcbiAgcmVwZWwgPSBUUlVFXG4pXG5gYGAifQ== -->
+<pre class="r"><code>factoextra::fviz_pca_biplot(
+  happy_pca,
+  label = &quot;var&quot;,
+  col.var = &quot;red&quot;,
+  col.ind = &quot;blue&quot;,
+  repel = TRUE
+)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
 </div>
 <div id="questão-6" class="section level2">
@@ -1853,7 +1909,7 @@ names(happy)</code></pre>
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKYXV0aG9yOiAiU2V1IE5vbWUiCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KCmBgYHtyIHNldHVwfQpsaWJyYXJ5KGhlcmUpCmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KEZhY3RvTWluZVIpCmxpYnJhcnkoZmFjdG9leHRyYSkKYGBgCgoKIyMgUXVlc3TDo28gMQoKIyMjIDEuMSAKCmBgYHtyfQpwYXRoX2hhcHB5IDwtIGhlcmU6OmhlcmUoImRhdGFfcmF3IiwgIndvcmxkLWhhcHBpbmVzcy1yZXBvcnQtMjAyMS5jc3YiKQpIQVBQWSA8LSByZWFkLmNzdihwYXRoX2hhcHB5LCBjaGVjay5uYW1lcyA9IEZBTFNFKQpgYGAKCnZlcmlmaWNhbmRvIG9zIGRhZG9zIGltcG9ydGFkb3M6CgpgYGB7cn0KZHBseXI6OmdsaW1wc2UoSEFQUFkpCmBgYAoKCiMjIyAxLjIgCgpgYGB7cn0KaGFwcHkgPC0gSEFQUFlbICw4OjEyXQpuYW1lcyhoYXBweSkKYGBgCgoKIyMjIDEuMyAKCmBgYHtyfQpyb3duYW1lcyhoYXBweSkgPC0gSEFQUFlbICwxXQpgYGAKCnZlcmlmaWNhbmRvIG9zIGRhZG9zOgoKYGBge3J9CmhlYWQoaGFwcHkpCmBgYAoKCgojIyBRdWVzdMOjbyAyCgojIyMgMi4xIAoKCiMjIyAyLjIgCgoKIyMjIDIuMwoKCgojIyBRdWVzdMOjbyAzCgojIyMgMy4xIAoKCgojIyBRdWVzdMOjbyA0CgojIyMgNC4xIAoKCiMjIyA0LjIgCgoKCiMjIFF1ZXN0w6NvIDUKCiMjIyA1LjEgCgoKCiMjIFF1ZXN0w6NvIDYKCgoKCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKYXV0aG9yOiAiU2V1IE5vbWUiCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KCmBgYHtyIHNldHVwfQpsaWJyYXJ5KGhlcmUpCmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KEZhY3RvTWluZVIpCmxpYnJhcnkoZmFjdG9leHRyYSkKYGBgCgoKIyMgUXVlc3TDo28gMQoKIyMjIDEuMSAKCmBgYHtyfQpwYXRoX2hhcHB5IDwtIGhlcmU6OmhlcmUoImRhdGFfcmF3IiwgIndvcmxkLWhhcHBpbmVzcy1yZXBvcnQtMjAyMS5jc3YiKQpIQVBQWSA8LSByZWFkLmNzdihwYXRoX2hhcHB5LCBjaGVjay5uYW1lcyA9IEZBTFNFKQpgYGAKCnZlcmlmaWNhbmRvIG9zIGRhZG9zIGltcG9ydGFkb3M6CgpgYGB7cn0KZHBseXI6OmdsaW1wc2UoSEFQUFkpCmBgYAoKCiMjIyAxLjIgCgpgYGB7cn0KaGFwcHkgPC0gSEFQUFlbICw4OjEyXQpuYW1lcyhoYXBweSkKYGBgCgoKIyMjIDEuMyAKCmBgYHtyfQpyb3duYW1lcyhoYXBweSkgPC0gSEFQUFlbICwxXQpgYGAKCnZlcmlmaWNhbmRvIG9zIGRhZG9zOgoKYGBge3J9CmhlYWQoaGFwcHkpCmBgYAoKCgojIyBRdWVzdMOjbyAyCgojIyMgMi4xIAoKYGBge3J9CmhhcHB5X3BjYSA8LSBGYWN0b01pbmVSOjpQQ0EoaGFwcHksIG5jcCA9IDUsIGdyYXBoID0gRkFMU0UpCmBgYAoKIyMjIDIuMiAKCmBgYHtyfQpzdW1tYXJ5KGhhcHB5X3BjYSkKYGBgCgoKIyMjIDIuMwoKYGBge3J9CmZhY3RvZXh0cmE6OmZ2aXpfc2NyZWVwbG90KAogIGhhcHB5X3BjYSwKICBjaG9pY2UgPSAidmFyaWFuY2UiLAogIGFkZGxhYmVscyA9IFRSVUUsCiAgeWxpbSA9IGMoMCwgMTAwKQopCmBgYAoKCiMjIFF1ZXN0w6NvIDMKCiMjIyAzLjEgCgpgYGB7cn0KZmFjdG9leHRyYTo6ZnZpel9wY2FfdmFyKGhhcHB5X3BjYSwgY29sLnZhciA9ICJyZWQiLCByZXBlbCA9IFRSVUUpCmBgYAoKCgojIyBRdWVzdMOjbyA0CgojIyMgNC4xIAoKYGBge3J9CmZhY3RvZXh0cmE6OmZ2aXpfcGNhX2luZChoYXBweV9wY2EsCiAgICAgICAgICAgICAgICAgICAgICAgICBjb2wuaW5kID0gImNvczIiLAogICAgICAgICAgICAgICAgICAgICAgICAgcmVwZWwgPSBUUlVFLAogICAgICAgICAgICAgICAgICAgICAgICAgbGFiZWwgPSAiaW5kIikgCmBgYAoKCiMjIyA0LjIgCgoKCiMjIFF1ZXN0w6NvIDUKCiMjIyA1LjEgCgpgYGB7cn0KZmFjdG9leHRyYTo6ZnZpel9wY2FfYmlwbG90KAogIGhhcHB5X3BjYSwKICBsYWJlbCA9ICJ2YXIiLAogIGNvbC52YXIgPSAicmVkIiwKICBjb2wuaW5kID0gImJsdWUiLAogIHJlcGVsID0gVFJVRQopCmBgYAoKCgojIyBRdWVzdMOjbyA2CgoKCgo=</div>
 
 
 

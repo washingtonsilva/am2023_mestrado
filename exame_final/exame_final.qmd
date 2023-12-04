@@ -28,7 +28,7 @@ execute:
 ---
 
 
-## Questão 1
+## Questão 1 - 20,0 pts
 
 Muitos modelos econômicos e financeiros utilizam taxas de juros como variáveis preditoras, ou idependentes. Os analistas podem querer incluir taxas de juros sobre um grande número de ativos diferentes, a fim de refletir a variedade de oportunidades de investimento abertas aos investidores.
 
@@ -40,13 +40,12 @@ substancial.
 Uma abordagem para esta questão seria aplicar a Análise de Componentes 
 Principais em diversas séries de taxas de juros relacionadas 
 para reduzir a dimensão dos dados. Assim, utilizar um ou mais 
-componentes principais como variáveis preditoras, ao invés das diveras 
+componentes principais como variáveis preditoras, ao invés das diversas 
 taxas de juros correlacionadas faria sentido.
 
-@brooks4ed disponibilizou o arquivo `fred.xls` que contém 
-seis séries mensais de taxas de juros de notas e títulos do Tesouro dos EUA,  
-com diferentes vencimentos. As séries abrangem o período entre janeiro de 1982 
-e maio de 2018. Um dicionário dos dados é apresentado na @tbl-series.
+@brooks4ed disponibilizou o arquivo `fred.xls` que contém seis séries mensais 
+de taxas de juros de notas e títulos do Tesouro dos EUA,  com diferentes vencimentos. As séries abrangem o período entre janeiro de 1982 e maio de 
+2018. Um dicionário dos dados é apresentado na @tbl-series.
 
 | variável | descrição                                          |
 | :------- | :------------------------------------------------- |
@@ -76,7 +75,7 @@ dos dados está adequada para a PCA com `dplyr::glimpse()`.
 
 **3.** Execute a PCA utilizando a função `prcomp()`, armazene os 
 resultado no objeto `pca_juros`, exiba os resultados. Faça um 
-Scree Plot usando a função `factoextra::fviz_screeplot()`. Analisando 
+*Scree Plot* usando a função `factoextra::fviz_screeplot()`. Analisando 
 os resultados, quantos componentes você utilizaria como 
 variáveis preditoras, ao invés das seis séries originais?
 
@@ -96,7 +95,7 @@ interpretação?
 
 
 
-## Questão 2
+## Questão 2 - 20,0 pts
 
 O setor imobiliário representa um investimento popular não somente entre os 
 grandes investidores, mas também entre os pequenos e médios. Devido a este 
@@ -157,12 +156,12 @@ reg1 = lm(price_in_usd ~ rooms, data = house_prices)
 ...
 ```
 
-Analise o $R^2$-adj desses 4 modelos. Você pode visualizar somente 
-o $R^2$-adj de um modelo estimado com, por exemplo `reg1$adj.r.squared`. 
-Faça isso para todos os 4 modelos.
+Obtenha o $R^2$-adj desses 4 modelos. Você pode visualizar somente 
+o $R^2$-adj de um modelo de regressão linear estimado com `reg1$adj.r.squared`. 
+Faça isso para os 4 modelos.
 
-Agora estime o modelo de regressão linear múltipla com todas as 
-variáveis preditoras e veja os resultados da estimação:
+Agora, estime o modelo de regressão linear múltipla com todas as 
+variáveis preditoras e mostre os resultados da estimação.
 
 Qual foi a estimativa do $R^2$-adj para o modelo de regressão linear 
 múltipla estimado? Qual a interpretacão da estimativa $R^2$-adj? 
@@ -172,7 +171,7 @@ de regressão linear simples estimados anteriormente? Explique.
 
 
 **4.** Forneça uma interpretação da estimativa de cada coeficiente do modelo 
-de regressão linear múltipla estimado.
+de regressão linear múltipla.
 
 
 **5.** Escreva o modelo de regressão linear múltipla estimado na forma de 
@@ -191,13 +190,9 @@ de regressão linear múltipla.
 **8.** Outra tarefa dada pelos diretores da empresa de investimento: 
 você deve testar a afirmação de um político local. O político afirma que, 
 para cada redução de 1% por cento do imposto imobiliário, o valor de uma 
-casa taumenta em US\$ 5.000. Esta afirmação pode ser refutada? (Dica: 
+casa taumenta em US\$ 5.000. Esta afirmação pode ser refutada? (*Dica*: 
 É possível responder a esta pergunta analisando a estimativa por intervalo de 
-confiança do coeficiente da variável `tax_rate`.). Entretanto, qual 
-a estimativa fornecida pelo modelo de regressão múltipla, da redução 
-média do preço de um imóvel devida a uma reduçào na taxa de imposto sobre 
-a propriedade?
-
+confiança do coeficiente da variável `tax_rate`).
 
 
 ## Referências

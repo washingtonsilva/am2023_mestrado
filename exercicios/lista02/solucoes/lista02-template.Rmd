@@ -54,23 +54,49 @@ head(happy)
 
 ### 2.1 
 
+```{r}
+happy_pca <- FactoMineR::PCA(happy, ncp = 5, graph = FALSE)
+```
 
 ### 2.2 
+
+```{r}
+summary(happy_pca)
+```
 
 
 ### 2.3
 
+```{r}
+factoextra::fviz_screeplot(
+  happy_pca,
+  choice = "variance",
+  addlabels = TRUE,
+  ylim = c(0, 100)
+)
+```
 
 
 ## Questão 3
 
 ### 3.1 
 
+```{r}
+factoextra::fviz_pca_var(happy_pca, col.var = "red", repel = TRUE)
+```
+
 
 
 ## Questão 4
 
 ### 4.1 
+
+```{r}
+factoextra::fviz_pca_ind(happy_pca,
+                         col.ind = "cos2",
+                         repel = TRUE,
+                         label = "ind") 
+```
 
 
 ### 4.2 
@@ -80,6 +106,16 @@ head(happy)
 ## Questão 5
 
 ### 5.1 
+
+```{r}
+factoextra::fviz_pca_biplot(
+  happy_pca,
+  label = "var",
+  col.var = "red",
+  col.ind = "blue",
+  repel = TRUE
+)
+```
 
 
 

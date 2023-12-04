@@ -3188,7 +3188,7 @@ background-origin: content-box;
       <div>
       <div class="quarto-title-meta-heading">Data de Publicação</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">1 de dezembro de 2023</p>
+        <p class="date">3 de dezembro de 2023</p>
       </div>
     </div>
     
@@ -3202,8 +3202,8 @@ background-origin: content-box;
     <h2 id="toc-title">Índice</h2>
    
   <ul>
-  <li><a href="#questão-1" id="toc-questão-1" class="nav-link active" data-scroll-target="#questão-1">Questão 1</a></li>
-  <li><a href="#questão-2" id="toc-questão-2" class="nav-link" data-scroll-target="#questão-2">Questão 2</a></li>
+  <li><a href="#questão-1---200-pts" id="toc-questão-1---200-pts" class="nav-link active" data-scroll-target="#questão-1---200-pts">Questão 1 - 20,0 pts</a></li>
+  <li><a href="#questão-2---200-pts" id="toc-questão-2---200-pts" class="nav-link" data-scroll-target="#questão-2---200-pts">Questão 2 - 20,0 pts</a></li>
   <li><a href="#referências" id="toc-referências" class="nav-link" data-scroll-target="#referências">Referências</a></li>
   </ul>
 </nav>
@@ -3215,13 +3215,12 @@ background-origin: content-box;
 
 
 
-<section id="questão-1" class="level2">
-<h2 class="anchored" data-anchor-id="questão-1">Questão 1</h2>
+<section id="questão-1---200-pts" class="level2">
+<h2 class="anchored" data-anchor-id="questão-1---200-pts">Questão 1 - 20,0 pts</h2>
 <p>Muitos modelos econômicos e financeiros utilizam taxas de juros como variáveis preditoras, ou idependentes. Os analistas podem querer incluir taxas de juros sobre um grande número de ativos diferentes, a fim de refletir a variedade de oportunidades de investimento abertas aos investidores.</p>
 <p>Contudo, pode-se argumentar que as taxas de juros de mercado não são suficientemente independentes umas das outras para tornar estatisticamente sensata a inclusão de várias séries de taxas de juro em um modelo econométrico. Como estas séries tendem a ser fortemente correlacionadas, incluí-las em um modelo de regressão, por exemplo, pode implicar em multicolinearidade substancial.</p>
-<p>Uma abordagem para esta questão seria aplicar a Análise de Componentes Principais em diversas séries de taxas de juros relacionadas para reduzir a dimensão dos dados. Assim, utilizar um ou mais componentes principais como variáveis preditoras, ao invés das diveras taxas de juros correlacionadas faria sentido.</p>
-<p><span class="citation" data-cites="brooks4ed">BROOKS (<a href="#ref-brooks4ed" role="doc-biblioref">2019</a>)</span> disponibilizou o arquivo <code>fred.xls</code> que contém seis séries mensais de taxas de juros de notas e títulos do Tesouro dos EUA,<br>
-com diferentes vencimentos. As séries abrangem o período entre janeiro de 1982 e maio de 2018. Um dicionário dos dados é apresentado na <a href="#tbl-series"><strong>Tab.</strong> 1</a>.</p>
+<p>Uma abordagem para esta questão seria aplicar a Análise de Componentes Principais em diversas séries de taxas de juros relacionadas para reduzir a dimensão dos dados. Assim, utilizar um ou mais componentes principais como variáveis preditoras, ao invés das diversas taxas de juros correlacionadas faria sentido.</p>
+<p><span class="citation" data-cites="brooks4ed">BROOKS (<a href="#ref-brooks4ed" role="doc-biblioref">2019</a>)</span> disponibilizou o arquivo <code>fred.xls</code> que contém seis séries mensais de taxas de juros de notas e títulos do Tesouro dos EUA, com diferentes vencimentos. As séries abrangem o período entre janeiro de 1982 e maio de 2018. Um dicionário dos dados é apresentado na <a href="#tbl-series"><strong>Tab.</strong> 1</a>.</p>
 <div id="tbl-series" class="anchored">
 <table class="table">
 <caption>Tabela 1<strong>.</strong> Séries de Taxas de Juros: Jan/1982 - Mai/2018.</caption>
@@ -3265,12 +3264,12 @@ com diferentes vencimentos. As séries abrangem o período entre janeiro de 1982
 </div>
 <p><strong>1.</strong> Baixe o arquivo <code>fred.xls</code> e coloque esse arquivo na pasta <code>data_raw</code>. Utilize a função <code>here::here()</code> e a função <code>readxl::read_xls()</code> para importar o arquivo e armazene os dados importados no objeto <code>taxas_juros</code>, analise a estrutura dos dados importados com <code>dplyr::glimpse()</code>. A primeira coluna do objeto contém a data/mês das séries, elimine esta primeira coluna usando <code>taxas_juros[,-1]</code> e armazene o resultado no objeto <code>taxas_juros</code>, verifique se a estrutura dos dados está adequada para a PCA com <code>dplyr::glimpse()</code>.</p>
 <p><strong>2.</strong> Elabore uma matriz de gráficos de dispersão utilizando a função <code>PerformanceAnalytics::chart.Correlation()</code> e o objeto <code>taxas_juros</code>. Inspecionando os gráficos, podemos dizer que as séries de taxas de juros apresentem correlação significativa que justifique a aplicação da PCA?</p>
-<p><strong>3.</strong> Execute a PCA utilizando a função <code>prcomp()</code>, armazene os resultado no objeto <code>pca_juros</code>, exiba os resultados. Faça um Scree Plot usando a função <code>factoextra::fviz_screeplot()</code>. Analisando os resultados, quantos componentes você utilizaria como variáveis preditoras, ao invés das seis séries originais?</p>
+<p><strong>3.</strong> Execute a PCA utilizando a função <code>prcomp()</code>, armazene os resultado no objeto <code>pca_juros</code>, exiba os resultados. Faça um <em>Scree Plot</em> usando a função <code>factoextra::fviz_screeplot()</code>. Analisando os resultados, quantos componentes você utilizaria como variáveis preditoras, ao invés das seis séries originais?</p>
 <p><strong>4.</strong> Exiba os vetores das cargas dos componentes usando <code>pca_juros$rotation</code>. Além disso, escreva o vetor de cargas dos componentes que você utilizaria, conforme a resposta da questão anterior.</p>
 <p><strong>5.</strong> Se o primeiro componente compreende cargas aproximadamente iguais para todas as seis séries (independentemente do sinal), e o segundo componente atribui cargas negativas maiores às séries com vencimento mais longos e as cargas aumentam gradualmente para as séries com vencimentos mais curtos, é comum interpretar o primeiro componente como aquele que captura o nível das taxas de juros e o segundo componente como o que captura a inclinação da Estrutura a Termo da taxa de juros. Os resultados são compatíveis com esta interpretação?</p>
 </section>
-<section id="questão-2" class="level2">
-<h2 class="anchored" data-anchor-id="questão-2">Questão 2</h2>
+<section id="questão-2---200-pts" class="level2">
+<h2 class="anchored" data-anchor-id="questão-2---200-pts">Questão 2 - 20,0 pts</h2>
 <p>O setor imobiliário representa um investimento popular não somente entre os grandes investidores, mas também entre os pequenos e médios. Devido a este interesse generalizado, a análise de dados imobiliários é particularmente interessante.</p>
 <p>Suponha que o conselho de administração de uma empresa de investimentos buscou sua experiência como analista de dados. Sua tarefa é analisar um conjunto de dados sobre 90 cidades semelhantes em um grande estado dos EUA.</p>
 <p>Você precisará ajustar um modelo de regressão, analisar o modelo, interpretar os coeficientes e testar uma afirmação feita por um político local.</p>
@@ -3319,14 +3318,14 @@ com diferentes vencimentos. As séries abrangem o período entre janeiro de 1982
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>...</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>...</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Analise o <span class="math inline">\(R^2\)</span>-adj desses 4 modelos. Você pode visualizar somente o <span class="math inline">\(R^2\)</span>-adj de um modelo estimado com, por exemplo <code>reg1$adj.r.squared</code>. Faça isso para todos os 4 modelos.</p>
-<p>Agora estime o modelo de regressão linear múltipla com todas as variáveis preditoras e veja os resultados da estimação:</p>
+<p>Obtenha o <span class="math inline">\(R^2\)</span>-adj desses 4 modelos. Você pode visualizar somente o <span class="math inline">\(R^2\)</span>-adj de um modelo de regressão linear estimado com <code>reg1$adj.r.squared</code>. Faça isso para os 4 modelos.</p>
+<p>Agora, estime o modelo de regressão linear múltipla com todas as variáveis preditoras e mostre os resultados da estimação.</p>
 <p>Qual foi a estimativa do <span class="math inline">\(R^2\)</span>-adj para o modelo de regressão linear múltipla estimado? Qual a interpretacão da estimativa <span class="math inline">\(R^2\)</span>-adj? Analisando a estimativa do <span class="math inline">\(R^2\)</span>-adj do modelo de regressão linear múltipla, o modelo completo tem maior capacidade explicativa do que os modelos de regressão linear simples estimados anteriormente? Explique.</p>
-<p><strong>4.</strong> Forneça uma interpretação da estimativa de cada coeficiente do modelo de regressão linear múltipla estimado.</p>
+<p><strong>4.</strong> Forneça uma interpretação da estimativa de cada coeficiente do modelo de regressão linear múltipla.</p>
 <p><strong>5.</strong> Escreva o modelo de regressão linear múltipla estimado na forma de uma equação.</p>
 <p><strong>6.</strong> Para quais preditores, você rejeita a seguinte hipótese nula: <span class="math inline">\(H_0: \beta_j = 0\)</span>?</p>
 <p><strong>7.</strong> Utilize a função <code>confint()</code> para obter estimativas por intervalo, com 95% de confiança, para as estimativas pontuais dos coeficientes do modelo de regressão linear múltipla.</p>
-<p><strong>8.</strong> Outra tarefa dada pelos diretores da empresa de investimento: você deve testar a afirmação de um político local. O político afirma que, para cada redução de 1% por cento do imposto imobiliário, o valor de uma casa taumenta em US$ 5.000. Esta afirmação pode ser refutada? (Dica: É possível responder a esta pergunta analisando a estimativa por intervalo de confiança do coeficiente da variável <code>tax_rate</code>.). Entretanto, qual a estimativa fornecida pelo modelo de regressão múltipla, da redução média do preço de um imóvel devida a uma reduçào na taxa de imposto sobre a propriedade?</p>
+<p><strong>8.</strong> Outra tarefa dada pelos diretores da empresa de investimento: você deve testar a afirmação de um político local. O político afirma que, para cada redução de 1% por cento do imposto imobiliário, o valor de uma casa taumenta em US$ 5.000. Esta afirmação pode ser refutada? (<em>Dica</em>: É possível responder a esta pergunta analisando a estimativa por intervalo de confiança do coeficiente da variável <code>tax_rate</code>).</p>
 </section>
 <section id="referências" class="level2">
 <h2 class="anchored" data-anchor-id="referências">Referências</h2>

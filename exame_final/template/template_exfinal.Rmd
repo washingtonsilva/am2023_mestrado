@@ -1,0 +1,97 @@
+---
+title: "Análise Multivariada - Exame Final"
+author: "Seu nome"
+output: html_notebook
+---
+
+<style type="text/css">
+  body{
+  font-size: 13pt;
+  text-align: justify
+      }
+</style>
+
+
+## Setup
+
+```{r setup}
+library(here)
+library(readxl)
+library(readr)
+library(dplyr)
+library(PerformanceAnalytics)
+library(factoextra)
+library(janitor)
+```
+
+
+## Questão 1
+
+
+### 1.1
+
+
+
+
+### 1.2
+
+
+
+
+### 1.3
+
+
+
+
+### 1.4
+
+
+
+
+### 1.5
+
+
+
+## Questão 2
+
+### 2.1
+
+
+
+
+### 2.2
+
+
+
+
+### 2.3
+
+
+
+
+### 2.4
+
+
+
+
+### 2.5
+
+
+
+
+### 2.6
+
+
+
+
+### 2.7
+
+
+
+
+### 2.8
+
+
+
+
+
