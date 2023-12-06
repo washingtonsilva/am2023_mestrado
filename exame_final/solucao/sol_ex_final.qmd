@@ -10,6 +10,9 @@ format:
     toc-location: left
     code-copy: true
     css: styles.css
+    html-math-method: 
+      method: mathjax
+      url: https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML
 editor: source
 crossref:
   fig-title: '**Figura**'
@@ -30,44 +33,8 @@ execute:
 
 ## Questão 1
 
-Muitos modelos econômicos e financeiros utilizam taxas de juros como variáveis preditoras, ou idependentes. Os analistas podem querer incluir taxas de juros sobre um grande número de ativos diferentes, a fim de refletir a variedade de oportunidades de investimento abertas aos investidores.
 
-Contudo, pode-se argumentar que as taxas de juros de mercado não são suficientemente independentes umas das outras para tornar estatisticamente 
-sensata a inclusão de várias séries de taxas de juro em um modelo econométrico. Como estas séries tendem a ser fortemente correlacionadas, incluí-las em um 
-modelo de regressão, por exemplo, pode implicar em multicolinearidade 
-substancial.
-
-Uma abordagem para esta questão seria aplicar a Análise de Componentes 
-Principais (PCA) em diversas séries de taxas de juros relacionadas 
-para determinar reduzir a dimensão dos dados. Assim, neste caso, utilizar um ou mais componentes principais como variáveis preditoras, ao invés das diveras 
-taxas de juros correlacionadas faria sentido.
-
-@brooks4ed disponibilizou o arquivo `fred.xls` que contém 
-seis séries mensais de taxas de juros de notas e títulos do Tesouro dos EUA 
-com diferentes vencimentos. As séries abrangem o período entre janeiro de 1982 
-e maio de 2018. Um dicionário doarquivo de dados é apresentado na @tbl-series.
-
-| variável | descrição                                          |
-| :------- | :------------------------------------------------- |
-| Date     | data/mês da observação                             |
-| GS3M     | Rendimento da nota do Tesouro dos EUA de 3 meses   |
-| GS6M     | Rendimento da nota do Tesouro dos EUA de 6 meses   |
-| GS1      | Rendimento do título do Tesouro dos EUA de 1 ano   |
-| GS3      | Rendimento do título do Tesouro dos EUA de 3 anos  |
-| GS5      | Rendimento do título do Tesouro dos EUA de 5 anos  |
-| GS10     | Rendimento do título do Tesouro dos EUA de 10 anos |
-: Séries de Taxas de Juros: Jan/1982 - Mai/2018. {#tbl-series}
-
-
-**1.** Baixe o arquivo `fred.xls` e coloque esse arquivo na pasta 
-`data_raw`. Utilize a função `here::here()` e a função 
-`readxl::read_xls()` para importar o arquivo e armazene os dados 
-importados no objeto `taxas_juros`, analise a estrutura dos 
-dados importados com `dplyr::glimpse()`. A primeira coluna 
-do objeto contém a data/mês das séries, elimine esta 
-primeira coluna usando `taxas_juros[,-1]` e armazene o 
-resultado no objeto `taxas_juros`, verifique se a estrutura 
-dos dados está adequada para a PCA com `dplyr::glimpse()`.
+### 1.1
 
 ```{r}
 # define o caminho do arquivo
@@ -85,19 +52,20 @@ dplyr::glimpse(taxas_juros)
 ```
 
 
-**2.** Elabore uma matriz de gráficos de dispersão utilizando a função `PerformanceAnalytics::chart.Correlation()` e o objeto `taxas_juros`. Inspecionando os gráficos, podemos dizer que as séries de taxas de juros apresentem correlação significativa que justifique a aplicação da PCA? 
+### 1.2
 
 ```{r}
 #| out-width: 100%
 PerformanceAnalytics::chart.Correlation(taxas_juros)
 ```
 
+As séries das taxas de juros apresentam correlação positiva muito forte 
+(como esperado), todas superiores a 90%. Isto posto, certamente, a magnitude 
+das correlações observadas justificam a aplicação da Análise de Componentes 
+Principais.
 
-**3.** Execute a PCA utilizando a função `prcomp()`, armazene os 
-resultado no objeto `pca_juros`, exiba os resultados. Faça um 
-Scree Plot usando a função `factoextra::fviz_screeplot()`. Analisando 
-os resultados, quantos componentes você utilizaria como 
-variáveis preditoras, ao invés das seis séries originais?
+
+### 1.3
 
 ```{r}
 pca_juros <- prcomp(taxas_juros, scale = TRUE)
@@ -111,58 +79,48 @@ factoextra::fviz_screeplot(pca_juros,
 )
 ```
 
-**4.** Exiba os vetores das cargas dos componentes usando `pca_juros$rotation`. 
-Além disso, escreva o vetor de cargas dos componentes que você utilizaria, conforme a resposta da questão anterior.
+Como vimos em aula, não há uma resposta exata para esta questão, a qual 
+depende principalmente dos objetivos da análise. Entretanto, sem 
+informações adicionais, 2 componentes principais parecem adequados, 
+pois capturam 99,89% da variabilidade total das séries de taxas de juros e 
+considerando que o objetivo da PCA é reduzir a dimensão dos dados.
+
+
+### 1.4
+
+A função `?round` arredonda os resultados para o número de casas 
+decimais utilizadas no segundo argumento, no caso, utilizaremos duas:
 
 ```{r}
-pca_juros$rotation
+round(pca_juros$rotation, 2)
 ```
 
-**5.** Se o primeiro componente compreende cargas aproximadamente iguais 
-para todas as seis séries (independentemente do sinal), e o segundo componente 
-atribui cargas negativas maiores às séries com vencimento mais longos e as 
-cargas aumentam gradualmente para as séries com vencimentos mais curtos, é 
-comum interpretar o primeiro componente como aquele que captura o nível das 
-taxas de juros e o segundo componente como o que captura a inclinação da 
-Estrutura a Termo da taxa de juros. Os resultados são compatíveis com esta 
-interpretação?
+
+$$
+\begin{aligned}
+PC1 &= -0,41(GS3)  - 0,41(GS1) - 0,40(GS10) - 0,41(GS5) - 0,41(GS3M) - 0,41(GS6M)\\
+PC2 &= -0,12(GS3)  + 0,26(GS1) - 0,64(GS10) - 0,37(GS5) + 0,46(GS3M) + 0,39(GS6M)
+\end{aligned}
+$$
+
+
+
+### 1.5
+
+As séries de taxasa de juros analisadas fornecem evidências favoráveis a 
+esta interpretação, pois, observando os vetores de cargas dos dois 
+primeiros componentes, verifica-se que o primeiro componente compreende 
+cargas aproximadamente iguais para todas as seis séries, e que o segundo 
+componente atribui cargas negativas maiores às séries com vencimento mais 
+longos, sendo que as cargas aumentam gradualmente para as séries com 
+vencimentos mais curtos.
 
 
 
 ## Questão 2
 
-O setor imobiliário representa um investimento popular não somente entre os 
-grandes investidores, mas também entre os pequenos e médios. Devido a este 
-interesse generalizado, a análise de dados imobiliários é particularmente 
-interessante.
 
-Suponha que o conselho de administração de uma empresa de investimentos 
-buscou sua experiência como analista de dados. Sua tarefa é analisar 
-um conjunto de dados sobre 90 cidades semelhantes em um grande estado dos 
-EUA. 
-
-Você precisará ajustar um modelo de regressão, analisar o modelo, 
-interpretar os coeficientes e testar uma afirmação feita por um político 
-local. 
-
-O arquivo `HousePrices.csv` contém dados sobre 5 variáveis referentes a 150 
-cidades similares em um grande estado. Um dicionário dos dados do 
-arquivo está na @tbl-house.
-
-| variável      | descrição                                          |
-| :------------ | :------------------------------------------------- |
-| `Price`       | preço médio (em dólares) de uma casa em uma cidade |
-| `Rooms`       | número médio de quartos das casas em uma cidade    |
-| `Income`      | renda média anual (em dólares) da cidade           |
-| `Tax rate`    | taxa de imposto (porcentagem) sobre a propriedade  |
-| `Commercial`  | porcentagem de imóveis commerciais da cidade       |
-: Dicionário dos dados. {#tbl-house}
-
-**1.** Baixe o arquivo `HousePrices.csv` e coloque esse arquivo na pasta 
-`data_raw`. Utilize a função `here::here()` e a função 
-`readr::read_csv()` para importar o arquivo e armazene os dados 
-importados no objeto `house_prices`, analise a estrutura dos 
-dados importados com `dplyr::glimpse()`.
+### 2.1 
 
 ```{r}
 # define o caminho do arquivo
@@ -175,10 +133,8 @@ house_prices <- readr::read_csv(path_csv)
 dplyr::glimpse(house_prices)
 ```
 
-É possível verificar que os nomes das variáveis não são adequados, aplique 
-a função `janitor::clean_names()` no objeto `house_prices` para tentar 
-obter nomes adequados para as variáveis, armazene o resultado no 
-objeto `house_prices`. 
+Utilizando `janitor::clean_names()` para obter nomes adequados para as 
+variáveis:
 
 ```{r}
 house_prices <- janitor::clean_names(house_prices)
@@ -186,76 +142,164 @@ dplyr::glimpse(house_prices)
 ```
 
 
-**2.** Elabore uma matriz de gráficos de dispersão utilizando a função `PerformanceAnalytics::chart.Correlation()` e o objeto `house_prices`. 
-Qual variável apresenta menor correlação (r de Pearson) com a variável 
-`house_prices`? 
+### 2.2
 
 ```{r}
 #| out-width: 100%
 PerformanceAnalytics::chart.Correlation(house_prices)
 ```
 
+Inspecioando o gráfico, vê-se claramente que a variável que apresenta 
+a menor correlação com a variável `price_in_usd` é a variável 
+`percent_commercial` que representa a porcentagem de imóveis commerciais 
+em cada cidade constante nos dados, sendo que o coeficiente de 
+correlação de Pearson estimado foi $\hat{r} = -0,14 = -14\%$.
 
-**3.** Estime quatro modelos de regressão linear simples tendo como 
-variável resposta `price_in_usd` e cada uma das 4 possíveis 
-variáveis preditoras: `rooms`, `income`, `tax_rate` e `percent_commercial`.
-
-Utilize o seguinte código para estimar os 4 modelos:
+### 2.3
 
 ```{r}
-#| eval: false
-reg1 = lm(price_in_usd ~ rooms, data = house_prices) 
-...
-...
-...
+reg1 <- lm(price_in_usd ~ rooms, data = house_prices) 
+reg2 <-  lm(price_in_usd ~ income, data = house_prices) 
+reg3 <- lm(price_in_usd ~ tax_rate, data = house_prices) 
+reg4 <- lm(price_in_usd ~ percent_commercial, data = house_prices) 
 ```
 
-Analise o $R^2$-adj desses 4 modelos. Você pode visualizar somente 
-o $R^2$-adj de um modelo estimado com, por exemplo `reg1$adj.r.squared`. 
-Faça isso para todos os 4 modelos.
+Obtendo o $R^2-$adj em porcentagem:
 
-Agora estime o modelo de regressão linear múltipla com todas as 
-variáveis preditoras e veja os resultados da estimação:
+::: {.callout-important}
+Como vocês podem verificar, o comando correto para obter somente 
+o $R^2-$adj de um objeto que contém os resultados da 
+estimação de um modelo linear é `summary(reg1)$adj.r.squared` e 
+não `reg1$adj.r.squared`. Isto posto, considerei este erro na correção.
+:::
 
 ```{r}
-reg_mult <- lm(price_in_usd ~ rooms + income + tax_rate + percent_commercial,
-   data = house_prices) 
+(summary(reg1)$adj.r.squared)*100
+(summary(reg2)$adj.r.squared)*100
+(summary(reg3)$adj.r.squared)*100
+(summary(reg4)$adj.r.squared)*100
+```
+
+
+```{r}
+reg_mult <-
+  lm(price_in_usd ~ rooms + income + tax_rate + percent_commercial,
+     data = house_prices)
 summary(reg_mult)
 ```
 
-Qual foi a estimativa do $R^2$-adj para o modelo de regressão linear 
-múltipla estimado? Qual a interpretacão da estimativa $R^2$-adj? 
-Analisando a estimativa do $R^2$-adj do modelo de regressão linear múltipla, 
-o modelo completo tem maior capacidade explicativa do que os modelos 
-de regressão linear simples estimados anteriormente? Explique.
+A estimativa do $R^2-$adj para o modelo de regressão linear múltipla estimado 
+foi 42,36%. O $R^2-$adj é uma medida da qualidade do ajuste de um 
+modelo de regressão linear, que assume valores entre 0 e 1 (100%), e 
+quantifica a porcentagem da variabilidade da variável resposta `price_in_usd` explicada pelo modelo estimado, ou seja, 42,36% da variabilidade da 
+variável resposta `price_in_usd`, é explicada por um modelo contendo as 
+variáveis preditoras `rooms`, `income`, `tax_rate` e `percent_commercial`.
 
-**4.** Forneça uma interpretação da estimativa de cada coeficiente do modelo 
-de regressão linear múltipla estimado.
-
-**5.** Escreva o modelo de regressão linear múltipla estimado na forma de 
-uma equação.
-
-**6.** Para quais preditores, você rejeita a seguinte hipótese 
-nula: $H_0: \beta_j = 0$?
-
-**7.** Utilize a função `confint()` para obter estimativas por intervalo, 
-com 95% de confiança, para as estimativas pontuais dos coeficientes do modelo 
-de regressão linear múltipla. 
-
-**8.** Outra tarefa dada pelos diretores da empresa de investimento: 
-você deve testar a afirmação de um político local. O político afirma que, 
-para cada redução de 1% por cento do imposto imobiliário, o valor de uma 
-casa aumenta em US\$ 5.000. Esta afirmação pode ser refutada? Dica: 
-É possível responder a esta pergunta analisando a estimativa por intervalo de 
-confiança do coeficiente da variável `tax_rate`.
+Comparando as estimativas dos $R^2-$adj  do modelo de regressão linear 
+múltipla com as estimativas dos quatro modelos de regressão linear simples, 
+claramente, o modelo de regressão linear múltipla tem maior capacidade 
+explicativa da variável resposta (`price_in_usd`). O maior estimativa 
+de $R^2-$adj entre os modelos simples foi a produzida pelo modelo `reg1`, 
+que foi igual a 24,264%, assim, o modelo de regressão linear múltipla 
+que incluir as demais variáveis preditoras em um modelo único, apresentou 
+maior capacidade explicativa, com $R^2-$adj = 42,36%.
 
 
+### 2.4 
+
+- $\hat{\beta}_0 = Intercept = 20083.5355$: A estimativa do intercepto, 
+implica que se todas as variáveis preditivas forem iguais a zero, uma casa 
+em uma cidade analisada, apresentaria preço médio igual a 
+U$ 20.083,54. É usual que a estimativa do intercepto em 
+um modelo de regressão linear não possua uma interpretação 
+válida, como neste caso, é preciso analisar com rigor 
+se sua interpretação faz sentido em uma determinada análise.
+
+- $\hat{\beta}_1$  = $\hat{\beta}_{rooms} = 16937.6420$: Um aumento de um 
+quarto em uma casa, aumenta o valor do imóvel, em média, em U$ 16.937,64, 
+mantidas as demais variáveis constantes.
+
+- $\hat{\beta}_2$ = $\hat{\beta}_{income} = 0.3910$: O aumento de 1 dólar 
+na renda médida anual de uma cidade, aumenta, em média, o valor de uma casa 
+em U$ 0,391, mantidas as demais variáveis constantes.
+
+- $\hat{\beta}_3 = \hat{\beta}_{\text{tax_rate}} = -3801.8121$: 
+O aumento de 1% na alíquota do imposto sobre a propriedade, tende a reduzir o 
+preço de um imóvel, em média, em U$ 3.801,81, mantidas as demais variáveis constantes. 
+
+- $\hat{\beta}_4$ = $\hat{\beta}_{\text{percent_commercial}} = -85.7450$: O 
+aumento de 1% na porcentagem de imóveis commerciais de uma cidade, tende a 
+reduzir o preço de um imóvel, em média, em U$ 85.745,00, mantidas as demais 
+variáveis constantes.   
 
 
-## Referências
+### 2.5 
 
-::: {#refs}
-:::
+Não há uma única forma de escrever o modelo de regressão estimado, uma 
+possibilidade é:
+
+$$
+\widehat{\text{price_in_usd}} = 20083,54 + 16937,64(rooms) + 
+                                0,39(income) - 3801,81(\text{tax_rate}) 
+                                - 85,75(\text{percent_commercial})
+$$
+
+
+### 2.6
+
+Utilizando o nívei usual de significância para um teste de hipóteses, 
+$\alpha = 5% = 0,05$ e obervando o resultado de `summary(reg_mult)`, 
+podemos concluir que os dados fornecem evidências de que os 
+parâmetros $\hat{\beta}_{rooms}$, $\hat{\beta}_{income}$ e 
+$\hat{\beta}_{\text{tax_rate}}$ são estatiscamente diferentes de zero, 
+pois os valores-p do teste t da hipótese nula ($H_0: \beta_j = 0$) são 
+menores que 0,05, isto é, é improvável obtermos as estatísticas 
+do teste calculadas, se a hipótese nula fosse "verdadeira" em 
+cada um dos três testes.
+
+
+### 2.7 
+
+Por padrão, o nível de confiança é 95% (`level = 0.95`), escrevemos 
+o argumento para ilustrar como definir o nível de confiança 
+desejado:
+
+```{r}
+confint(reg_mult, level = 0.95)
+```
+
+
+### 2.8
+
+Observando o intervalo estimado para o coeficiente associado a 
+`tax_rate`, verificamos que $ 5.000,00 está dentro do intervalo 
+estimado, assim, não podemos rejeitar a afirmação do político 
+local ao nível de confiança de 95% (ou ao nível de 
+significância de 5%).
+
+Entretanto, veja que $ 5.000,00 está bastante próximo do limite 
+inferior do intervalo, o que aumenta a incerteza sobre a afirmativa 
+do político.
+
+```{r}
+confint(reg_mult)
+```
+
+
+Analisando o valor-p do teste, os dados fornecem evidências de que 
+não devemos rejeitar a hipótese nula de que a redução é igual a $ 5.000,00, 
+mas observe que rejeitaríamos a hipótese nula se fossem adotados um 
+nível de signficância de 7% ou 10%. 
+
+```{r}
+car::linearHypothesis(reg_mult, c("tax_rate = -5000"))
+```
+
+Entretanto, a melhor estimativa pontual da redução média no preço de um imóvel 
+para cada 1% de aumento na alíquota do imposto sobre a propriedade é a fornecida 
+pelo modelo, isto é, $\hat{\beta}_{\text{tax_rate}} = $ U$ 3.801,81, a qual 
+incorporando a incerteza da estimativa, pode variar entre - $5.069,66 e 
+- $ 2.533,97.
 
 
 

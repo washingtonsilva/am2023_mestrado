@@ -10,6 +10,9 @@ format:
     toc-location: left
     code-copy: true
     css: styles.css
+    html-math-method: 
+      method: mathjax
+      url: https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML
 editor: source
 crossref:
   fig-title: '**Figura**'
@@ -161,7 +164,8 @@ o $R^2$-adj de um modelo de regressão linear estimado com `reg1$adj.r.squared`.
 Faça isso para os 4 modelos.
 
 Agora, estime o modelo de regressão linear múltipla com todas as 
-variáveis preditoras e mostre os resultados da estimação.
+variáveis preditoras, armazene os resultados da estimação no objeto `reg_mult`
+e mostre os resultados.
 
 Qual foi a estimativa do $R^2$-adj para o modelo de regressão linear 
 múltipla estimado? Qual a interpretacão da estimativa $R^2$-adj? 
@@ -190,16 +194,41 @@ de regressão linear múltipla.
 **8.** Outra tarefa dada pelos diretores da empresa de investimento: 
 você deve testar a afirmação de um político local. O político afirma que, 
 para cada redução de 1% por cento do imposto imobiliário, o valor de uma 
-casa taumenta em US\$ 5.000. Esta afirmação pode ser refutada? (*Dica*: 
-É possível responder a esta pergunta analisando a estimativa por intervalo de 
-confiança do coeficiente da variável `tax_rate`).
+casa taumenta em US\$ 5.000. Esta afirmação pode ser refutada? 
+
+::: {.callout-tip}
+## Dica
+
+Esta questão pode ser respondida de duas formas:
+
+1. Simplesmente inspecionando a estimativa por intervalo de confiança (95%) do coeficiente da variável `tax_rate`.
+
+2. Ou e
+fetuando um teste de hipóteses em relação ao coeficiente 
+estimado da variável `tax_rate`:
+
+$$
+\begin{aligned}
+H_0: \beta_{\text{tax_rate}} &= - 5.000 \\
+H_A: \beta_{\text{tax_rate}} &\neq - 5.000
+\end{aligned}
+$$
+
+Este teste pode ser realizado usando a função `linearHypothesis` do pacote 
+`car`, caso opte por esta opção, utilize $\alpha=$5%.
+
+```{r}
+#| eval: false
+car::linearHypothesis(reg_mult, c("tax_rate = -5000"))
+```
+
+:::
 
 
-## Referências
+## Referência
 
 ::: {#refs}
 :::
-
 
 
 
